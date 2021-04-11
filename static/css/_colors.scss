@@ -1,0 +1,10 @@
+// global colors
+// @use this file for access to colors
+
+// ex: @use 'colors' -> background-color: $color.main-bg
+// ex: @use 'colors' as * -> background-color: $main-bg (no namespacing)
+$main-bg: #FFF9F0;
+$accent-dark: #37454F;
+$text-dark: #333;
+$secondary-bg: #FFEFD6;
+$tertiary-bg: #8C7E68;

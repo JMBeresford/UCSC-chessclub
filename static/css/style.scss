@@ -1,0 +1,71 @@
+// IMPORTS START HERE
+
+@use "colors" as *;
+@use "sizingutils";
+@use "header/header";
+@use "landing/landing";
+
+// END OF IMPORTS
+
+
+// The following is global styling options. Additional .scss files can be created with
+// additional style rules for other components of the site and included using the above syntax.
+// This will help modularize our project so that each individual can work on their own portions
+// without interfering with each other. If you create new style rules, simply come here and include
+// them in the above section. Also take note of the global styles so you aren't confused as to why
+// certain things are behaving the way they are (for example the animations on <a>'s)
+// This functionality specifically requires using Dart Sass (rather than node-sass)
+// The popular VS Code extension "Live Sass Compiler" uses node-sass, so use the alternative
+// "dartsass" extension while working on this
+
+// read more about it here: https://sass-lang.com/documentation/at-rules/use
+// more on the path parameter for @use : https://sass-lang.com/documentation/at-rules/use#finding-the-module
+
+
+// GLOBAL LAYOUT CONFIG START
+body {
+  height: 100vh;
+  font-size: 16px;
+
+  /*The following addresses a bug in how iOS handles the vh unit*/
+  height: stretch;
+
+  background-color: $main-bg;
+  font-family: "Poppins", sans-serif;
+}
+
+/*This also is needed to address the iOS issue*/
+html {
+  height: stretch;
+}
+
+a {
+  position: relative;
+  color: $text-dark;
+}
+
+a::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: $text-dark;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.15s ease-out;
+}
+
+a:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.layout-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+

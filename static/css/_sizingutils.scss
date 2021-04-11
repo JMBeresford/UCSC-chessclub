@@ -1,0 +1,16 @@
+// This file will contain reusable sizing utilities that should be consistent across the project.
+
+/// This utility 'clamps' an element's width to a min of 100px, and a max of 1000px
+/// but when in between, maintains 'width: 80%;'. This is useful to maintain consistent margins
+/// across the entire project.
+///
+/// ex: 
+/// 
+/// body {
+///   width: $span-center; -> width: clamp(100px, 80%, 1000px);
+/// }
+$span-center: clamp(100px, 80%, 1500px);
+
+
+/// In case we require padding to push things down below the header (which is absolutely positioned)
+$header-height: clamp(100px, 10%, 20px);

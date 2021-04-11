@@ -1,0 +1,28 @@
+@use "../sizingutils";
+
+header.header {
+  position: absolute;
+  width: 100%;
+  display: grid;
+  grid-template-areas: ". content .";
+  grid-template-columns: 1fr sizingutils.$span-center 1fr;
+  grid-template-rows: 100%;
+
+  height: sizingutils.$header-height;
+}
+
+.navcontent {
+  grid-area: content;
+  align-self: center;
+  justify-self: end;
+
+  .buttons {
+    height: 100%;
+    width: auto;
+
+    > a {
+      margin: 0 1rem;
+      font-size: 1.2rem;
+    }
+  }
+}
