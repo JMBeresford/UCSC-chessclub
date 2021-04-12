@@ -1,0 +1,75 @@
+@use "../colors" as *;
+@use "../fonts";
+@use "sass:color";
+
+#auth-container {
+  background-color: $secondary-bg;
+  font-family: fonts.$sans-serif;
+  z-index: 10;
+  
+  max-width: 80%;
+  min-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid $border-dark;
+  border-radius: 10px;
+  padding: 20px;
+
+  .disabled {
+    display: none;
+  }
+
+  label.label {
+    font-weight: 500;
+  }
+
+  .button {
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  input.button {
+    background-color: $accent-dark;
+    color: $text-light;
+    border: 1px solid $accent-dark;
+
+    &:hover {
+      background-color: rgba($color: #fff, $alpha: 0);
+      font-weight: 500;
+      color: $accent-dark;
+    }
+
+    transition: all linear 0.2s;
+  }
+
+  .button:not(input)  {
+    background-color: $tertiary-bg;
+    color: $text-light;
+    border: 1px solid $tertiary-bg;
+    
+    &:hover {
+      background-color: rgba($color: #fff, $alpha: 0);
+      color: $tertiary-bg;
+      font-weight: 500;
+    }
+
+    transition: all linear 0.1s;
+  }
+
+  input.input {
+    background-color: color.adjust($secondary-bg, $lightness: -5, $saturation: -40);
+    border: none;
+
+    &:focus, &:active {
+      outline: none;
+      border: solid 1px $tertiary-bg;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+
+      background-color: $secondary-bg;
+    }
+
+    transition: all linear 0.1s;
+  }
+
+}

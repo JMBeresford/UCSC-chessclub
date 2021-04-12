@@ -5,6 +5,9 @@
 // ex: @use 'colors' as * -> background-color: $main-bg (no namespacing)
 $main-bg: #FFF9F0;
 $accent-dark: #37454F;
+$accent-light: #DD8281;
 $text-dark: #333;
+$text-light: $main-bg;
 $secondary-bg: #FFEFD6;
 $tertiary-bg: #8C7E68;
+$border-dark: $tertiary-bg;

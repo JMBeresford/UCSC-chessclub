@@ -85,21 +85,22 @@ auth = Auth(session, db, define_tables=False)
 
 # Fixes the messages.
 auth_messages = copy.deepcopy(auth.MESSAGES)
-auth_messages['buttons']['sign-in'] = "Log in"
-auth_messages['buttons']['sign-up'] = "Sign up"
+auth_messages['buttons']['sign-in'] = "Sign in"
+auth_messages['buttons']['sign-up'] = "Register"
 auth_messages['buttons']['lost-password'] = "Lost password"
 
 # And button classes.
 auth_button_classes = {
-    "lost-password": "button is-danger is-light",
+    "lost-password": "button is-danger is-light disabled",
     "register": "button is-info is-light",
     "request": "button is-primary",
-    "sign-in": "button is-primary",
-    "sign-up": "button is-success",
+    "sign-in": "button signin",
+    "sign-up": "button signup",
     "submit": "button is-primary",
 }
 
-auth.use_username = False
+auth.use_username = True
+auth.param.messages = auth_messages
 auth.param.button_classes = auth_button_classes
 auth.param.registration_requires_confirmation = False
 auth.param.registration_requires_approval = False

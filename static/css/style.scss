@@ -4,6 +4,7 @@
 @use "sizingutils";
 @use "header/header";
 @use "landing/landing";
+@use "auth/auth";
 
 // END OF IMPORTS
 
@@ -13,7 +14,7 @@
 // This will help modularize our project so that each individual can work on their own portions
 // without interfering with each other. If you create new style rules, simply come here and include
 // them in the above section. Also take note of the global styles so you aren't confused as to why
-// certain things are behaving the way they are (for example the animations on <a>'s)
+// certain things are behaving the way they are (for example the color on <a>'s)
 // This functionality specifically requires using Dart Sass (rather than node-sass)
 // The popular VS Code extension "Live Sass Compiler" uses node-sass, so use the alternative
 // "dartsass" extension while working on this
@@ -26,6 +27,7 @@
 body {
   height: 100vh;
   font-size: 16px;
+  overflow-y: hidden;
 
   /*The following addresses a bug in how iOS handles the vh unit*/
   height: stretch;
@@ -37,29 +39,16 @@ body {
 /*This also is needed to address the iOS issue*/
 html {
   height: stretch;
+  overflow-y: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 a {
   position: relative;
   color: $text-dark;
-}
-
-a::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background-color: $text-dark;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.15s ease-out;
-}
-
-a:hover::before {
-  transform: scaleX(1);
-  transform-origin: bottom left;
 }
 
 .layout-wrap {
@@ -69,3 +58,6 @@ a:hover::before {
   height: 100%;
 }
 
+.button, .btn {
+  border-radius: 10px;
+}

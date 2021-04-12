@@ -35,6 +35,15 @@
       [[include]]
       <!-- end of HTML inserted by extending template -->
     </div>
+
+    <!-- A bit hacky, but enables us to define noboard on routes that are not in controllers.py (auth routes) -->
+    [[try:]]
+      [[if (noboard):]]
+      [[pass]]
+    [[except NameError:]]
+      [[ noboard = False ]]
+    [[pass]]
+    
     [[if not noboard:]]
       <div class="background">
         <div id="board-wrap">
@@ -250,6 +259,7 @@
   var vm = new Vue({
     el: '#board',
     methods: {
+      // functions to animate the board on hover
       handleOut: function(e) {
         let elem = e.target.parentElement;
 

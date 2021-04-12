@@ -21,6 +21,22 @@ header.header {
   margin: 0 1rem;
   font-size: 1.2rem;
 }
+.navcontent .buttons > a::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.15s ease-out;
+}
+.navcontent .buttons > a:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
 
 .landing {
   display: grid;
@@ -31,18 +47,10 @@ header.header {
 
 .hero {
   z-index: 3;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
   grid-column: 2/3;
   grid-row: 2/3;
 }
@@ -73,22 +81,14 @@ header.header {
   left: 0;
   width: 100%;
   max-height: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 #board-wrap {
-  -ms-flex-item-align: center;
-      align-self: center;
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
+  align-self: center;
+  transform: scale(1.05);
   position: relative;
 }
 
@@ -99,30 +99,84 @@ header.header {
   top: -2px;
   pointer-events: none;
   background: #fff9f0;
-  background: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 249, 240, 0)), color-stop(20%, rgba(255, 255, 255, 0)), color-stop(50%, rgba(255, 249, 240, 0.7483368347)), to(#fff9f0));
+  background: -moz-linear-gradient(0deg, rgba(255, 249, 240, 0) 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 249, 240, 0.7483368347) 50%, #fff9f0 100%);
+  background: -webkit-linear-gradient(0deg, rgba(255, 249, 240, 0) 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 249, 240, 0.7483368347) 50%, #fff9f0 100%);
   background: linear-gradient(0deg, rgba(255, 249, 240, 0) 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 249, 240, 0.7483368347) 50%, #fff9f0 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fff9f0",endColorstr="#fff9f0",GradientType=1);
 }
 
 #board g {
-  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 #board .lift {
   z-index: 5;
   border: 1px solid #37454F;
-  -webkit-transform: translatey(-30px);
-          transform: translatey(-30px);
+  transform: translatey(-30px);
+}
+
+#auth-container {
+  background-color: #FFEFD6;
+  font-family: "Poppins", sans-serif;
+  z-index: 10;
+  max-width: 80%;
+  min-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #8C7E68;
+  border-radius: 10px;
+  padding: 20px;
+}
+#auth-container .disabled {
+  display: none;
+}
+#auth-container label.label {
+  font-weight: 500;
+}
+#auth-container .button {
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+}
+#auth-container input.button {
+  background-color: #37454F;
+  color: #FFF9F0;
+  border: 1px solid #37454F;
+  transition: all linear 0.2s;
+}
+#auth-container input.button:hover {
+  background-color: rgba(255, 255, 255, 0);
+  font-weight: 500;
+  color: #37454F;
+}
+#auth-container .button:not(input) {
+  background-color: #8C7E68;
+  color: #FFF9F0;
+  border: 1px solid #8C7E68;
+  transition: all linear 0.1s;
+}
+#auth-container .button:not(input):hover {
+  background-color: rgba(255, 255, 255, 0);
+  color: #8C7E68;
+  font-weight: 500;
+}
+#auth-container input.input {
+  background-color: #f2e2ca;
+  border: none;
+  transition: all linear 0.1s;
+}
+#auth-container input.input:focus, #auth-container input.input:active {
+  outline: none;
+  border: solid 1px #8C7E68;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #FFEFD6;
 }
 
 body {
   height: 100vh;
   font-size: 16px;
+  overflow-y: hidden;
   /*The following addresses a bug in how iOS handles the vh unit*/
-  height: -webkit-fill-available;
-  height: -moz-available;
   height: stretch;
   background-color: #FFF9F0;
   font-family: "Poppins", sans-serif;
@@ -130,9 +184,12 @@ body {
 
 /*This also is needed to address the iOS issue*/
 html {
-  height: -webkit-fill-available;
-  height: -moz-available;
   height: stretch;
+  overflow-y: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 a {
@@ -140,42 +197,15 @@ a {
   color: #333;
 }
 
-a::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background-color: #333;
-  -webkit-transform: scaleX(0);
-          transform: scaleX(0);
-  -webkit-transform-origin: bottom right;
-          transform-origin: bottom right;
-  -webkit-transition: -webkit-transform 0.15s ease-out;
-  transition: -webkit-transform 0.15s ease-out;
-  transition: transform 0.15s ease-out;
-  transition: transform 0.15s ease-out, -webkit-transform 0.15s ease-out;
-}
-
-a:hover::before {
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
-  -webkit-transform-origin: bottom left;
-          transform-origin: bottom left;
-}
-
 .layout-wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
 }
+
+.button, .btn {
+  border-radius: 10px;
+}
+
 /*# sourceMappingURL=style.css.map */
