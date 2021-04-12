@@ -1,5 +1,6 @@
 @use "../colors" as *;
 @use "../sizingutils";
+@use "sass:color";
 
 .landing {
   display: grid;
@@ -27,11 +28,11 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: -5%;
+      bottom: -1rem;
       left: 0;
       width: 100%;
-      height: 2px;
-      background-color: $text-dark;
+      height: 1px;
+      background-color: color.adjust($text-dark, $lightness: 50);
     }
   }
 
