@@ -38,3 +38,13 @@ url_signer = URLSigner(session)
 def index():
     print("User:", get_user_email())
     return {"noboard": False}
+
+@action('auth/login')
+@action.uses(db, auth, 'signin.html')
+def login():
+  return {"noboard": False}
+
+@action('auth/register')
+@action.uses(db, auth, 'register.html')
+def register():
+  return {"noboard": False}

@@ -21,22 +21,6 @@ header.header {
   margin: 0 1rem;
   font-size: 1.2rem;
 }
-.navcontent .buttons > a::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background-color: #333;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.15s ease-out;
-}
-.navcontent .buttons > a:hover::before {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
 
 .landing {
   display: grid;
@@ -119,49 +103,56 @@ header.header {
   background-color: #FFEFD6;
   font-family: "Poppins", sans-serif;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: solid 1px #b9b0a1;
   max-width: 80%;
   min-width: 400px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #8C7E68;
   border-radius: 10px;
-  padding: 20px;
+  padding: 2rem;
 }
 #auth-container .disabled {
   display: none;
 }
-#auth-container label.label {
+#auth-container h1 {
+  font-size: 2rem;
   font-weight: 500;
 }
-#auth-container .button {
+#auth-container label.label:nth-of-type(1) {
   margin-top: 1rem;
-  margin-right: 0.5rem;
 }
-#auth-container input.button {
+#auth-container label.label {
+  font-weight: 500;
+  font-size: 1.125rem;
+}
+#auth-container .button.primary {
+  margin-top: 2rem;
+  width: 100%;
   background-color: #37454F;
   color: #FFF9F0;
   border: 1px solid #37454F;
   transition: all linear 0.2s;
 }
-#auth-container input.button:hover {
-  background-color: rgba(255, 255, 255, 0);
-  font-weight: 500;
-  color: #37454F;
+#auth-container .button.primary:hover {
+  background-color: #566c7c;
 }
-#auth-container .button:not(input) {
+#auth-container .button.secondary {
+  width: 100%;
   background-color: #8C7E68;
   color: #FFF9F0;
   border: 1px solid #8C7E68;
-  transition: all linear 0.1s;
+  margin: 0;
+  transition: all linear 0.2s;
 }
-#auth-container .button:not(input):hover {
-  background-color: rgba(255, 255, 255, 0);
-  color: #8C7E68;
-  font-weight: 500;
+#auth-container .button.secondary:hover {
+  background-color: #a39784;
 }
 #auth-container input.input {
   background-color: #f2e2ca;
-  border: none;
+  border: solid 1px #b9b0a1;
   transition: all linear 0.1s;
 }
 #auth-container input.input:focus, #auth-container input.input:active {
@@ -180,6 +171,11 @@ body {
   height: stretch;
   background-color: #FFF9F0;
   font-family: "Poppins", sans-serif;
+}
+
+#app {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 /*This also is needed to address the iOS issue*/
@@ -206,6 +202,31 @@ a {
 
 .button, .btn {
   border-radius: 10px;
+}
+
+.separator {
+  width: auto;
+  height: 1px;
+  background-color: rgba(140, 126, 104, 0.3);
+  margin: 1.5rem 0;
+}
+
+a.underline_animate::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.15s ease-out;
+}
+
+a.underline_animate:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 /*# sourceMappingURL=style.css.map */

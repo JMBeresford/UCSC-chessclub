@@ -6,59 +6,69 @@
   background-color: $secondary-bg;
   font-family: fonts.$sans-serif;
   z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   
+  border: solid 1px color.adjust($border-dark, $lightness: 20);
   max-width: 80%;
   min-width: 400px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid $border-dark;
   border-radius: 10px;
-  padding: 20px;
+  padding: 2rem;
 
   .disabled {
     display: none;
   }
 
-  label.label {
+  h1 {
+    font-size: 2rem;
     font-weight: 500;
   }
 
-  .button {
+  label.label:nth-of-type(1) {
     margin-top: 1rem;
-    margin-right: 0.5rem;
   }
 
-  input.button {
+  label.label {
+    font-weight: 500;
+    font-size: 1.125rem;
+  }
+  
+  .button.primary  {
+    margin-top: 2rem;
+    width: 100%;
     background-color: $accent-dark;
     color: $text-light;
     border: 1px solid $accent-dark;
-
+    
     &:hover {
-      background-color: rgba($color: #fff, $alpha: 0);
-      font-weight: 500;
-      color: $accent-dark;
+      background-color: color.adjust($accent-dark, $lightness: 15);
+      // color: $accent-dark;
+    }
+
+    transition: all linear 0.2s;
+  }
+  
+  .button.secondary  {
+    width: 100%;
+    background-color: $tertiary-bg;
+    color: $text-light;
+    border: 1px solid $tertiary-bg;
+    margin: 0;
+    
+    &:hover {
+      background-color: color.adjust($tertiary-bg, $lightness: 10);
     }
 
     transition: all linear 0.2s;
   }
 
-  .button:not(input)  {
-    background-color: $tertiary-bg;
-    color: $text-light;
-    border: 1px solid $tertiary-bg;
-    
-    &:hover {
-      background-color: rgba($color: #fff, $alpha: 0);
-      color: $tertiary-bg;
-      font-weight: 500;
-    }
-
-    transition: all linear 0.1s;
-  }
-
   input.input {
     background-color: color.adjust($secondary-bg, $lightness: -5, $saturation: -40);
-    border: none;
+    border: solid 1px color.adjust($border-dark, $lightness: 20);
 
     &:focus, &:active {
       outline: none;

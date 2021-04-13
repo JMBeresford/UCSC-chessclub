@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <base href="[[=URL('static')]]/">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA=="/>
@@ -10,7 +9,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    [[block page_head]]<!-- individual pages can customize header here -->[[end]]
   </head>
   <body>
     <div id="app">
@@ -18,35 +16,16 @@
       <header class="header" role="navigation" aria-label="main navigation">
         <nav class="navcontent">
           <div class="buttons">
-            [[if globals().get('user'):]]
-              <a class="btn underline_animate" href="[[=URL('leaderboards')]]">Leaderboards</a></li>
-              <a class="btn underline_animate" href="[[=URL('auth/profile')]]">Profile</a>
-              <a class="btn underline_animate" href="[[=URL('auth/logout')]]">Sign Out</a>
-            [[else:]]
-              <a class="btn underline_animate" href="[[=URL('auth/login')]]">Sign in</a>
-              <a class="btn underline_animate" href="[[=URL('auth/register')]]">Register</a>
-            [[pass]]
+            <a class="btn underline_animate" href="../auth/login">Sign in</a>
+            <a class="btn underline_animate" href="../auth/login">Register</a>
           </div>
         </nav>
       </header>
   
-      <div class="layout-wrap">
-        <!-- beginning of HTML inserted by extending template -->
-        [[include]]
-        <!-- end of HTML inserted by extending template -->
+      <div class="layout-wrap" style="text-align: center;">
+        <h1 class="title">Registration Successful</h1>
+        <p class="subtitle">Please sign in using your new credentials</p>
       </div>
-  
-      <!-- A bit hacky, but enables us to define noboard on routes that are not in controllers.py (auth routes) -->
-      [[try:]]
-        [[if (noboard):]]
-        [[pass]]
-      [[except NameError:]]
-        [[ noboard = False ]]
-      [[pass]]
-  
-      [[if not noboard:]]
-        <board></board>
-      [[pass]]
     </div>
   </body>
   <script src="js/sugar.min.js"></script>

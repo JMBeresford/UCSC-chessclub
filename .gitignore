@@ -1,3 +1,5 @@
 __pycache__
 *.map
 node_modules
+databases/*
+!databases/README.md
