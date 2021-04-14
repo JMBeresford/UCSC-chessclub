@@ -36,15 +36,21 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
-    print("User:", get_user_email())
-    return {"noboard": False}
+    if auth.get_user() != None:
+      redirect(URL('home'))
+    return { "noboard": False }
 
 @action('auth/login')
 @action.uses(db, auth, 'signin.html')
 def login():
-  return {"noboard": False}
+  return { "noboard": False }
 
 @action('auth/register')
 @action.uses(db, auth, 'register.html')
 def register():
-  return {"noboard": False}
+  return { "noboard": False }
+
+@action('home')
+@action.uses(db, auth, auth.user, 'home.html')
+def home():
+  return { "noboard": False }

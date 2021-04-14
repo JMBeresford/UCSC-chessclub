@@ -6,7 +6,7 @@ Vue.component('signin', {
         password: '',
       },
       errors: {},
-      next: '../index',
+      next: '../home',
       invalidEmail: false,
     };
   },
