@@ -36,8 +36,10 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
-    if auth.get_user() != None:
-      redirect(URL('home'))
+  if auth.get_user() != {}:
+    print(auth.get_user())
+    redirect(URL('home'))
+  else:
     return { "noboard": False }
 
 @action('auth/login')
