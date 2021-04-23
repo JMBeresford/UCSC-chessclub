@@ -1,5 +1,6 @@
 header.header {
   position: absolute;
+  z-index: 50;
   width: 100%;
   display: grid;
   grid-template-areas: ". content .";

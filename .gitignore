@@ -3,3 +3,13 @@ __pycache__
 node_modules
 databases/*
 !databases/README.md
+vendor/three/examples/*
+vendor/three/docs/
+vendor/three/editor/
+vendor/three/files/
+vendor/three/src/
+vendor/three/test/
+vendor/three/pack*
+!vendor/three/build/
+!vendor/three/examples/jsm/
+vendor/three/utils/
