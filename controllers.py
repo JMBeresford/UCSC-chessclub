@@ -56,3 +56,8 @@ def register():
 @action.uses(db, auth, auth.user, 'home.html')
 def home():
   return { "noboard": False, "zoominto": False }
+
+@action('leaderboards')
+@action.uses(db,auth,'leaderboards.html')
+def leaderboards():
+  return { "noboard": False, "zoominto": False }
