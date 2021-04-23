@@ -15,21 +15,12 @@
   <body>
     <div id="app">
       <!-- Navigation bar -->
-      <header class="header" role="navigation" aria-label="main navigation">
-        <nav class="navcontent">
-          <div class="buttons">
-            [[if globals().get('user'):]]
-              <a class="btn underline_animate" href="[[=URL('leaderboards')]]">Leaderboards</a></li>
-              <a class="btn underline_animate" href="[[=URL('auth/profile')]]">Profile</a>
-              <a class="btn underline_animate" href="[[=URL('auth/logout')]]">Sign Out</a>
-            [[else:]]
-              <a class="btn underline_animate" href="[[=URL('auth/login')]]">Sign in</a>
-              <a class="btn underline_animate" href="[[=URL('auth/register')]]">Register</a>
-            [[pass]]
-          </div>
-        </nav>
-      </header>
-  
+      [[if globals().get('user'):]]
+        <headercomponent loggedin hurl="[[=URL('index')]]" lburl="[[=URL('leaderboards')]]" purl="[[=URL('profile')]]" sourl="[[=URL('auth/logout')]]"></headercomponent>
+      [[else:]]
+        <headercomponent hurl="[[=URL('index')]]" siurl="[[=URL('auth/login')]]" regurl="[[=URL('auth/register')]]" ></headercomponent>
+      [[pass]]
+
       <div class="layout-wrap">
         <!-- A bit hacky, but enables us to define noboard on routes that are not in controllers.py (auth routes) -->
         [[try:]]

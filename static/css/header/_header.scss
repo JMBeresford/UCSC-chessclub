@@ -1,5 +1,6 @@
 @use "../sizingutils";
 @use "../colors" as *;
+@use "../fonts" as *;
 
 header.header {
   position: absolute;
@@ -15,8 +16,27 @@ header.header {
 
 .navcontent {
   grid-area: content;
-  align-self: center;
-  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .brandWrapper {
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    h3 {
+      margin-left: 1rem;
+      font-family: $serif;
+      font-weight: 500;
+      font-size: 2rem;
+    }
+  }
+
+  img {
+    max-height: 50%;
+  }
 
   .buttons {
     height: 100%;

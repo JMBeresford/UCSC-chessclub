@@ -238,11 +238,13 @@ const board = Vue.component('board', {
         },
       });
     },
+    setInteractive: function () {
+      this.interactive = true;
+    },
   },
   mounted: function () {
     // for debug ONLY
     //this.gui = new dat.GUI({ name: 'Debug Tools' });
-    console.log(this.zoominto);
 
     // add listeners and query document
     window.addEventListener('resize', this.resize);
@@ -359,7 +361,7 @@ const board = Vue.component('board', {
       this.camera.position.set(0, 0.25, 3 * this.squareSize);
       this.camera.lookAt(this.camTarget.position);
       this.camera.updateProjectionMatrix();
-      this.interactive = true;
+      window.setTimeout(this.setInteractive, 1500);
     }
   },
   template: `
