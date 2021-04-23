@@ -40,19 +40,19 @@ def index():
     print(auth.get_user())
     redirect(URL('home'))
   else:
-    return { "noboard": False }
+    return { "noboard": False, "zoominto": True }
 
 @action('auth/login')
 @action.uses(db, auth, 'signin.html')
 def login():
-  return { "noboard": False }
+  return { "noboard": False, "zoominto": False }
 
 @action('auth/register')
 @action.uses(db, auth, 'register.html')
 def register():
-  return { "noboard": False }
+  return { "noboard": False, "zoominto": False }
 
 @action('home')
 @action.uses(db, auth, auth.user, 'home.html')
 def home():
-  return { "noboard": False }
+  return { "noboard": False, "zoominto": False }

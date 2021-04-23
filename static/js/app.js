@@ -1,4 +1,4 @@
-import './components/board.js';
+import './components/board/board.js';
 import './components/auth/signin.js';
 import './components/auth/register.js';
 
