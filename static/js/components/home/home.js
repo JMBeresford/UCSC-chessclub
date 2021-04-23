@@ -1,4 +1,11 @@
-Vue.component('homeMenu', {
+const homemenu = Vue.component('homemenu', {
   // Vue component for menu on home page
-  data() {},
+  data() {
+    return {};
+  },
+  template: `
+    <div></div>
+  `,
 });
+
+export default homemenu;
