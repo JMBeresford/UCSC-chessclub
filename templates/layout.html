@@ -35,8 +35,11 @@
         [[try:]]
           [[if (noboard):]]
           [[pass]]
+          [[if (zoominto):]]
+          [[pass]]
         [[except NameError:]]
           [[ noboard = False ]]
+          [[ zoominto = False ]]
         [[pass]]
     
         [[if not noboard:]]
