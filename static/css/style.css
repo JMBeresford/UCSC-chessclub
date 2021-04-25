@@ -213,9 +213,13 @@ a {
 
 .layout-wrap {
   display: flex;
+  background-color: rgba(255, 255, 255, 0);
   flex-direction: column;
   justify-content: center;
   height: 100%;
+}
+.layout-wrap *:not(#_threejs_container) {
+  z-index: 5;
 }
 
 .button, .btn {

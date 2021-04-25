@@ -61,3 +61,18 @@ def home():
 @action.uses(db,auth,'leaderboards.html')
 def leaderboards():
   return { "noboard": False, "zoominto": False }
+
+@action('profile')
+@action.uses(db, auth, auth.user, 'profile.html')
+def profile():
+  user = auth.get_user()
+  user['status'] = "Statuses are for chumps"
+  games = games = {"wins": 8999, "losses": 50000, "draws": 0, "mostWins": {}, "mostLosses": {}, "mostPlayed": {}}
+  return dict(user = user, games = games, isMe = True)
+
+@action('profile/<profile_id:int>')
+@action.uses(db, auth, auth.user, 'profile.html')
+def _profile(profile_id):
+  user = {"id": profile_id, "username": "Wade Watts", "status": "The Gunter life isn't for everyone :/"}
+  games = {"wins": 9001, "losses": 12, "draws": 0, "mostWins": {}, "mostLosses": {}, "mostPlayed": {}}
+  return dict(user = user, games = games, isMe = False)

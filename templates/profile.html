@@ -1,0 +1,7 @@
+[[ extend 'layout.html' ]]
+
+[[ if isMe: ]]
+  <profile user="[[ =user ]]" games="[[ =games ]]" is-me></profile>
+[[ else: ]]
+  <profile user="[[ =user ]]" games="[[ =games ]]"></profile>
+[[ pass ]]

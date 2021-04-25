@@ -8,6 +8,7 @@
 @use "auth/auth";
 @use "home/home";
 @use "leaderboards/leaderboards";
+@use "profile/profile";
 
 // END OF IMPORTS
 
@@ -61,9 +62,14 @@ a {
 
 .layout-wrap {
   display: flex;
+  background-color: rgba($color: #ffffff, $alpha: 0.0);
   flex-direction: column;
   justify-content: center;
   height: 100%;
+  
+  *:not(#_threejs_container) {
+    z-index: 5;
+  }
 }
 
 .button, .btn {
