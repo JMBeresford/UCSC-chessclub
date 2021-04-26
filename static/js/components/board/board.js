@@ -288,7 +288,7 @@ const board = Vue.component('board', {
     this.mouse = new Vector2();
     this.camTarget = new Mesh(new SphereBufferGeometry(0.1), this.mats.invis);
     this.scene.add(this.camTarget);
-    this.camTarget.position.set(0, 0, 0);
+    this.camTarget.position.set(0, 0.25, 0);
     this.raycaster = new Raycaster();
     this.board = new Group();
     this.board.receiveShadow = true;
@@ -309,7 +309,7 @@ const board = Vue.component('board', {
       this.cameraOpts.far
     );
 
-    this.camera.position.set(0, 5, 0);
+    this.camera.position.set(0, 3.5, 0);
     this.camera.lookAt(this.camTarget.position);
 
     // lighting
@@ -357,7 +357,7 @@ const board = Vue.component('board', {
     if (this.zoominto) {
       this.zoom();
     } else {
-      this.camTarget.position.set(0, 0, -1);
+      this.camTarget.position.set(0, 0.25, -1);
       this.camera.position.set(0, 0.25, 3 * this.squareSize);
       this.camera.lookAt(this.camTarget.position);
       this.camera.updateProjectionMatrix();

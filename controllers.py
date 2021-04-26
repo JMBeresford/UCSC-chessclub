@@ -27,6 +27,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
+import json
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
@@ -37,7 +38,6 @@ url_signer = URLSigner(session)
 @action.uses(db, auth, 'index.html')
 def index():
   if auth.get_user() != {}:
-    print(auth.get_user())
     redirect(URL('home'))
   else:
     return { "noboard": False, "zoominto": True }
@@ -55,7 +55,7 @@ def register():
 @action('home')
 @action.uses(db, auth, auth.user, 'home.html')
 def home():
-  return { "noboard": False, "zoominto": False }
+  return { "noboard": False, "zoominto": True, "user": json.dumps(auth.get_user()) }
 
 @action('leaderboards')
 @action.uses(db,auth,'leaderboards.html')

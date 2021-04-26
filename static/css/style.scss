@@ -83,7 +83,7 @@ a {
   margin: 1.5rem 0;
 }
 
-a.underline_animate::before {
+.underline_animate::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -93,10 +93,10 @@ a.underline_animate::before {
   background-color: $text-dark;
   transform: scaleX(0);
   transform-origin: bottom right;
-  transition: transform 0.15s ease-out;
+  transition: transform 0.25s ease-out;
 }
 
-  a.underline_animate:hover::before {
+.underline_animate:hover::before {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
