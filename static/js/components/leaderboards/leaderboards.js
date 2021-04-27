@@ -1,27 +1,44 @@
 const leaderboards = Vue.component('leaderboards', {
-    props: {
-      players:[],
-    },
-  data: () => ({ name: "", elo: "", wins:"", losses:"", draws:"", winrate:"", allScores: [] }),
+  props: {
+    players: Array,
+  },
+  data: () => ({
+    name: '',
+    elo: '',
+    wins: '',
+    losses: '',
+    draws: '',
+    winrate: '',
+    allScores: [],
+  }),
   computed: {
-    sortedList: function() {
-      return this.allScores.slice().sort(function(a, b) {
+    sortedList: function () {
+      return this.allScores.slice().sort(function (a, b) {
         return b.elo - a.elo;
       });
     },
   },
   methods: {
     onSubmit() {
-    this.players.forEach(player =>this.allScores.push({ name: player.name, elo: player.elo, wins: player.wins, losses: player.losses,
-        draws:player.draws, winrate: player.winrate },));
+      this.players.forEach((player) =>
+        this.allScores.push({
+          id: player.id,
+          name: player.name,
+          elo: player.elo,
+          wins: player.wins,
+          losses: player.losses,
+          draws: player.draws,
+          winrate: player.winrate,
+        })
+      );
     },
-    Challenge() {
-      console.log("Challenge", this.players.name);
+    Challenge(id) {
+      console.log('Challenge', id);
     },
   },
- beforeMount(){
-    this.onSubmit()
- },
+  beforeMount() {
+    this.onSubmit();
+  },
   template: `
     <div class="container">
     <h1 class=" text-center">Leaderboard</h1>
@@ -47,7 +64,7 @@ const leaderboards = Vue.component('leaderboards', {
           <td>{{ entry.losses }}</td>
           <td>{{ entry.draws }}</td>
           <td>{{ entry.winrate }}</td>
-          <button type="button" @click="Challenge" class="btn btn-dark">
+          <button type="button" @click="Challenge(entry.id)" class="btn btn-dark">
             Challenge
         </button>
         </tr>
