@@ -1,3 +1,21 @@
 [[extend 'layout.html']]
 
-<leaderboards></leaderboards>
+<main id="auth-container" class="section">
+<!--
+Obviously, not supposed to be using the auth container, need
+to make one for the table to match overall theme. This is just basic functionality.
+-->
+
+
+
+<leaderboards :players = "[
+        {id: 1, name:'Bo Joe', elo:'1820', wins:'10', losses:'20', draws:'20', winrate:'20%'},
+        {id: 2, name:'Jon Poe', elo: '1990', wins:'5', losses:'30', draws:'19', winrate:'20%'},
+        {id: 3, name:'Maurice Ashley', elo: '2000', wins:'52', losses:'30', draws:'219', winrate:'30%'},
+        {id: 4, name:'Magnus', elo: '1960', wins:'51', losses:'32', draws:'29', winrate:'40%'},
+        ]">
+
+
+</leaderboards>
+
+</main>
