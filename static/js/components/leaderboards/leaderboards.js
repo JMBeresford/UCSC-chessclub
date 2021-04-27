@@ -12,7 +12,6 @@ const leaderboards = Vue.component('leaderboards', {
   },
   methods: {
     onSubmit() {
-    console.log(this.players);
     this.players.forEach(player =>this.allScores.push({ name: player.name, elo: player.elo, wins: player.wins, losses: player.losses,
         draws:player.draws, winrate: player.winrate },));
     },
@@ -20,12 +19,13 @@ const leaderboards = Vue.component('leaderboards', {
       console.log("Challenge", this.players.name);
     },
   },
+ beforeMount(){
+    this.onSubmit()
+ },
   template: `
     <div class="container">
     <h1 class=" text-center">Leaderboard</h1>
-   <button type="button" @click="onSubmit" class="btn btn-dark">
-        LoadData
-      </button>
+
     <table class="table is-striped is-hoverable mt-5">
       <thead>
         <tr>
