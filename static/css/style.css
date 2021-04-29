@@ -235,6 +235,67 @@ header.header {
   display: none;
 }
 
+#profile main {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+#profile .info {
+  display: flex;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #FFEFD6;
+}
+#profile label {
+  cursor: pointer;
+}
+#profile label img {
+  border-radius: 50%;
+  border: 1px solid #37454F;
+}
+#profile .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+}
+#profile .text .username {
+  font-size: 2rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+}
+#profile .buttons {
+  margin-left: auto;
+}
+#profile .buttons button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #37454F;
+  color: #FFF9F0;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  margin-left: 1rem;
+  border-radius: 0.8rem;
+}
+#profile .buttons button:disabled {
+  background-color: #8C7E68;
+}
+#profile .charts {
+  display: flex;
+  justify-content: center;
+}
+#profile .charts div {
+  width: 50%;
+  margin: 2rem;
+  padding: 1rem;
+  background-color: #37454F;
+  color: #FFF9F0;
+  text-align: center;
+  border-radius: 1rem;
+}
+
 body {
   height: 100vh;
   font-size: 16px;
