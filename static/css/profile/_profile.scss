@@ -1,25 +1,29 @@
 @use "../colors" as *;
 @use "../fonts" as *;
+@use "../sizingutils" as *;
 @use "sass:color";
 
 #profile {
-    main {
-        // display: flex;
-        // flex-direction: column;
-        // align-items: center;
+    .bg {
+        background-color: $secondary-bg;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         width: 100%;
-        max-width: 1500px;
+        max-width: $span-center;
 
         margin: 0 auto;
     }
 
     .info {
         display: flex;
-        padding: 1rem;
+        padding: 1rem 0;
 
         border-radius: 1rem;
-        background-color: $secondary-bg;
     }
 
     label {
@@ -72,12 +76,15 @@
 
         div {
             width: 50%;
-            margin: 2rem;
             padding: 1rem;
+            margin-top: 1rem;
             background-color: $accent-dark;
             color: $text-light;
             text-align: center;
             border-radius: 1rem;
+        }
+        div:first-child {
+            margin-right: 1rem;
         }
     }
 }

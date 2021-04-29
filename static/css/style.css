@@ -235,16 +235,21 @@ header.header {
   display: none;
 }
 
-#profile main {
+#profile .bg {
+  background-color: #FFEFD6;
+}
+#profile .wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  max-width: 1500px;
+  max-width: clamp(100px, 80%, 1500px);
   margin: 0 auto;
 }
 #profile .info {
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
   border-radius: 1rem;
-  background-color: #FFEFD6;
 }
 #profile label {
   cursor: pointer;
@@ -288,12 +293,15 @@ header.header {
 }
 #profile .charts div {
   width: 50%;
-  margin: 2rem;
   padding: 1rem;
+  margin-top: 1rem;
   background-color: #37454F;
   color: #FFF9F0;
   text-align: center;
   border-radius: 1rem;
+}
+#profile .charts div:first-child {
+  margin-right: 1rem;
 }
 
 body {
