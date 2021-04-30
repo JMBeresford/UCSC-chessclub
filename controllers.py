@@ -68,7 +68,7 @@ def profile():
   user = auth.get_user()
   user['status'] = "Statuses are for chumps"
   games = games = {"wins": 8999, "losses": 50000, "draws": 0, "mostWins": {}, "mostLosses": {}, "mostPlayed": {}}
-  return dict(user = user, games = games, isMe = True)
+  return dict(user = json.dumps(user), games = games, isMe = True)
 
 @action('profile/<profile_id:int>')
 @action.uses(db, auth, auth.user, 'profile.html')
