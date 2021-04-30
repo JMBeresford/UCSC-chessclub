@@ -235,6 +235,10 @@ header.header {
   display: none;
 }
 
+#profile {
+  height: 100%;
+  margin-top: clamp(100px, 10%, 20px);
+}
 #profile .bg {
   background-color: #FFEFD6;
 }
@@ -248,13 +252,17 @@ header.header {
 }
 #profile .info {
   display: flex;
+  align-items: center;
   padding: 1rem 0;
   border-radius: 1rem;
 }
 #profile label {
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 #profile label img {
+  margin: auto 0;
   border-radius: 50%;
   border: 1px solid #37454F;
 }
@@ -290,9 +298,11 @@ header.header {
 #profile .charts {
   display: flex;
   justify-content: center;
+  margin-top: 2rem;
 }
 #profile .charts div {
   width: 50%;
+  min-height: 300px;
   padding: 1rem;
   margin-top: 1rem;
   background-color: #37454F;

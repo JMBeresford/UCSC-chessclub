@@ -4,6 +4,9 @@
 @use "sass:color";
 
 #profile {
+  height: 100%;
+  margin-top: $header-height;
+
     .bg {
         background-color: $secondary-bg;
     }
@@ -21,6 +24,7 @@
 
     .info {
         display: flex;
+        align-items: center;
         padding: 1rem 0;
 
         border-radius: 1rem;
@@ -28,8 +32,11 @@
 
     label {
         cursor: pointer;
+        display: flex;
+        align-items: center;
 
         img {
+            margin: auto 0;
             border-radius: 50%;
             border: 1px solid $accent-dark;
         }
@@ -73,9 +80,11 @@
     .charts {
         display: flex;
         justify-content: center;
+        margin-top: 2rem;
 
         div {
             width: 50%;
+            min-height: 300px;
             padding: 1rem;
             margin-top: 1rem;
             background-color: $accent-dark;
