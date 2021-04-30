@@ -15,13 +15,17 @@ import {
   BoxBufferGeometry,
   FogExp2,
   WebGLRenderer,
+  CameraHelper,
+  PCFSoftShadowMap,
 } from '../../three/build/three.module.js';
+import { OrbitControls } from '../../three/OrbitControls.js';
 
 const board = Vue.component('board', {
-  props: { zoominto: Boolean },
+  props: { zoominto: Boolean, debug: Boolean },
   data() {
     return {
       gui: null,
+      controls: null,
       interactive: false,
       boardSize: null,
       squareSize: null,
@@ -107,6 +111,7 @@ const board = Vue.component('board', {
     markAnimation: function (point) {
       point.userData.aniState = 'animating';
       point.children[0].castShadow = true;
+      //point.children[0].receiveShadow = false;
     },
     markWaiting: function (point) {
       point.userData.aniState = 'waiting';
@@ -115,6 +120,7 @@ const board = Vue.component('board', {
       point.userData.aniState = 'idle';
       let square = point.children[0];
       square.castShadow = false;
+      //square.receiveShadow = true;
     },
     doLifts: function () {
       for (var intersection of this.intersects) {
@@ -170,7 +176,6 @@ const board = Vue.component('board', {
             );
             hoverSquare.rotateX(Math.PI / 2);
             square.receiveShadow = true;
-            hoverSquare.receiveShadow = true;
             square.castShadow = false;
             hoverSquare.add(square);
             hoverSquare.userData.aniState = 'idle';
@@ -192,7 +197,6 @@ const board = Vue.component('board', {
             );
             hoverSquare.rotateX(Math.PI / 2);
             square.receiveShadow = true;
-            hoverSquare.receiveShadow = true;
             square.castShadow = false;
             hoverSquare.add(square);
             hoverSquare.userData.aniState = 'idle';
@@ -243,9 +247,6 @@ const board = Vue.component('board', {
     },
   },
   mounted: function () {
-    // for debug ONLY
-    //this.gui = new dat.GUI({ name: 'Debug Tools' });
-
     // add listeners and query document
     window.addEventListener('resize', this.resize);
     document.addEventListener('mousemove', this.handleMouseMove);
@@ -319,14 +320,16 @@ const board = Vue.component('board', {
     this.lights.directional.position.set(0.5, 4, -2);
     this.lights.directional.shadow.camera.updateProjectionMatrix();
 
-    // directional light shadow camera config
-    this.lights.directional.shadow.mapSize.width = 1024;
-    this.lights.directional.shadow.mapSize.height = 1024;
-    this.lights.directional.shadow.camera.far = 10;
-    this.lights.directional.shadow.camera.left = -1.5;
-    this.lights.directional.shadow.camera.right = 1.5;
-    this.lights.directional.shadow.camera.bottom = -1.5;
-    this.lights.directional.shadow.camera.top = 1.5;
+    // directional light shadow config
+    this.lights.directional.shadow.mapSize.width = 512;
+    this.lights.directional.shadow.mapSize.height = 512;
+    this.lights.directional.shadow.camera.near = 3.7;
+    this.lights.directional.shadow.camera.far = 5.2;
+    this.lights.directional.shadow.camera.left = -1.2;
+    this.lights.directional.shadow.camera.right = 1.2;
+    this.lights.directional.shadow.camera.bottom = -1.2;
+    this.lights.directional.shadow.camera.top = 1.2;
+    this.lights.directional.shadow.radius = 5;
 
     // geometries
     this.geos.square = new BoxBufferGeometry(
@@ -344,17 +347,34 @@ const board = Vue.component('board', {
     this.scene.add(this.board, this.lights.ambient, this.lights.directional);
     this.scene.fog = new FogExp2(this.colors.bg, 1.2);
 
+    if (this.debug) {
+      this.scene.fog = new FogExp2(this.colors.bg, 0);
+    }
+
     // renderer
     this.renderer = new WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = PCFSoftShadowMap;
 
     this.container.append(this.renderer.domElement);
     this.renderer.render(this.scene, this.camera);
 
+    // for debug ONLY
+    if (this.debug) {
+      this.shadowcamHelper = new CameraHelper(
+        this.lights.directional.shadow.camera
+      );
+
+      this.scene.add(this.shadowcamHelper);
+
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.gui = new dat.GUI({ name: 'Debug Tools' });
+    }
+
     this.render();
-    if (this.zoominto) {
+    if (this.zoominto && !this.debug) {
       this.zoom();
     } else {
       this.camTarget.position.set(0, 0.25, -1);

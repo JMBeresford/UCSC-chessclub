@@ -8,6 +8,7 @@ Vue.component('signin', {
       errors: {},
       next: '../home',
       invalidEmail: false,
+      invalidCreds: false,
     };
   },
   methods: {
@@ -18,15 +19,19 @@ Vue.component('signin', {
           if (res.data.errors) {
             this.errors = res.data.errors;
           } else if (res.data.status == 'error') {
-            console.log(this.errors);
+            //console.log(this.errors);
           } else {
             window.location = this.next;
           }
         })
         .catch((err) => {
+          //console.log(err.response);
           if (err.response.data.message === 'Invalid email') {
             this.invalidEmail = true;
             this.form.email = '';
+          } else if (err.response.data.message === 'Invalid Credentials') {
+            this.invalidCreds = true;
+            this.form.password = '';
           }
         });
     },
@@ -46,7 +51,7 @@ Vue.component('signin', {
         <div class="control">
           <input v-model="form.password" class="input is-success" type="password" placeholder="Enter Password">
         </div>
-        <p class="help is-danger disabled">Incorrect Password</p>
+        <p :class="{disabled: !this.invalidCreds}" class="help is-danger">Incorrect Password</p>
       </div>
 
       <div class="field">

@@ -4,6 +4,7 @@
 
 .landing {
   display: grid;
+  pointer-events: none;
   grid-template-columns: 1fr sizingutils.$span-center 1fr;
   grid-template-rows: 1fr clamp(400px, 50%, 1000px) 1fr;
   height: 100%;
