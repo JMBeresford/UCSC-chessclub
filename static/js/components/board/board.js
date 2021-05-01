@@ -60,6 +60,11 @@ const board = Vue.component('board', {
         darkSquare: null,
         invis: null,
       },
+      meshes: {
+        lightMesh: null,
+        darkMesh: null,
+        invisMesh: null,
+      },
       maps: {
         normal: {
           dark: null,
@@ -212,9 +217,9 @@ const board = Vue.component('board', {
 
       // meshes
 
-      const lightMesh = new Mesh(this.geos.square, this.mats.lightSquare);
-      const darkMesh = new Mesh(this.geos.square, this.mats.darkSquare);
-      const invisMesh = new Mesh(this.geos.square, this.mats.invis);
+      this.meshes.lightMesh = new Mesh(this.geos.square, this.mats.lightSquare);
+      this.meshes.invisMesh = new Mesh(this.geos.square, this.mats.invis);
+      this.meshes.darkMesh = new Mesh(this.geos.square, this.mats.darkSquare);
 
       for (var i = 0; i < this.boardSize; i++) {
         if (i % 2 === 0) {
@@ -222,11 +227,11 @@ const board = Vue.component('board', {
 
           for (var j = 0; j < this.boardSize; j++) {
             if (j % 2 === 0) {
-              square = new Mesh(this.geos.square, this.mats.lightSquare);
+              square = this.meshes.lightMesh.clone();
             } else {
-              square = darkMesh.clone();
+              square = this.meshes.darkMesh.clone();
             }
-            invisSquare = invisMesh.clone();
+            invisSquare = this.meshes.invisMesh.clone();
             invisSquare.position.set(
               (j - Math.floor(this.boardSize / 2)) * this.squareSize,
               0,
@@ -242,11 +247,11 @@ const board = Vue.component('board', {
           // odd rows
           for (var j = 0; j < this.boardSize; j++) {
             if (j % 2 === 0) {
-              square = darkMesh.clone();
+              square = this.meshes.darkMesh.clone();
             } else {
-              square = lightMesh.clone();
+              square = this.meshes.lightMesh.clone();
             }
-            invisSquare = invisMesh.clone();
+            invisSquare = this.meshes.invisMesh.clone();
             invisSquare.position.set(
               (j - Math.floor(this.boardSize / 2)) * this.squareSize,
               0,
@@ -381,6 +386,26 @@ const board = Vue.component('board', {
       this.camera.lookAt(this.camTarget.position);
       this.camera.updateProjectionMatrix();
       window.setTimeout(this.setInteractive, 1500);
+    }
+  },
+  beforeDestroy: function () {
+    let board = this.scene.getObjectById(this.boardID);
+
+    for (const square of board.children) {
+      square.children[0].dispose();
+      square.dispose();
+    }
+
+    board.dispose();
+
+    this.geos.square.dispose();
+
+    for (const material of this.mats) {
+      material.dispose();
+    }
+
+    for (const mesh of this.meshes) {
+      mesh.dispose();
     }
   },
   template: `
