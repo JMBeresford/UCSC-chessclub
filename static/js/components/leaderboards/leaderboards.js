@@ -28,7 +28,12 @@ const leaderboards = Vue.component('leaderboards', {
           wins: player.wins,
           losses: player.losses,
           draws: player.draws,
-          winrate: player.winrate,
+          winrate: (
+            (parseInt(player.wins) * 100) /
+            (parseInt(player.wins) +
+              parseInt(player.losses) +
+              parseInt(player.draws))
+          ).toFixed(0),
         })
       );
     },
@@ -40,37 +45,76 @@ const leaderboards = Vue.component('leaderboards', {
     this.onSubmit();
   },
   template: `
-    <div class="container">
-    <h1 class=" text-center">Leaderboard</h1>
+    <div id="leaderboard-container">
+    <div class="banner">
+      <div class="innerWrap">
+        <img src="svg/pieces/bp.svg">
+        <h1>Leaderboards</h1>
+        <img src="svg/pieces/wp.svg">
+      </div>
+    </div>
 
-    <table class="table is-striped is-hoverable mt-5">
-      <thead>
-        <tr>
-          <th scope="col">Rank</th>
-          <th scope="col">User</th>
-          <th scope="col">Elo</th>
-          <th scope="col">Wins</th>
-          <th scope="col">Losses</th>
-          <th scope="col">Draws</th>
-          <th scope="col">Win Rate</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(entry, i) in sortedList" :key="i">
-          <th scope="row">{{ ++i }}</th>
-          <td>{{ entry.name }}</td>
-          <td>{{ entry.elo }}</td>
-          <td>{{ entry.wins }}</td>
-          <td>{{ entry.losses }}</td>
-          <td>{{ entry.draws }}</td>
-          <td>{{ entry.winrate }}</td>
-          <button type="button" @click="Challenge(entry.id)" class="btn btn-dark">
-            Challenge
-        </button>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <div class="wrap">
+        <table>
+          <thead>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Elo</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Draws</th>
+            <th>Win Rate</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr v-for="(entry, i) in sortedList" :key="i">
+              <td>
+                <div class="td rank">
+                  <p>{{ ++i }}</p>
+                </div> 
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.name }}</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.elo }}</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.wins }}</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.losses }}</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.draws }}</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>{{ entry.winrate }}%</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td buttontd">
+                  <button class="btn" @click="Challenge(entry.id)">
+                    Challenge
+                  </button>
+                </div> 
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
 
      `,
