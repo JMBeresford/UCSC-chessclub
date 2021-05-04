@@ -236,6 +236,107 @@ header.header {
   display: none;
 }
 
+#leaderboard-container {
+  height: 100%;
+  margin-top: clamp(100px, 10%, 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#leaderboard-container .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: clamp(100px, 80%, 1500px);
+  display: flex;
+}
+#leaderboard-container .banner {
+  width: 100%;
+  background-color: #FFEFD6;
+  display: grid;
+  place-items: center;
+  border-top: solid 1px #8C7E68;
+  border-bottom: solid 1px #8C7E68;
+  margin-bottom: 3rem;
+}
+#leaderboard-container .innerWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: clamp(800px, 50%, 400px);
+}
+#leaderboard-container h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  font-weight: 500;
+  margin: 1.5rem 0;
+  position: relative;
+}
+#leaderboard-container h1::after {
+  content: "";
+  position: absolute;
+  right: -10%;
+  left: -10%;
+  bottom: -0.25rem;
+  height: 1px;
+  background-color: rgba(51, 51, 51, 0.5);
+}
+#leaderboard-container table {
+  width: 100%;
+  text-align: center;
+}
+#leaderboard-container thead {
+  background-color: #8C7E68;
+}
+#leaderboard-container th {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.75rem 0;
+  color: #FFF9F0;
+}
+#leaderboard-container th:first-child {
+  border-radius: 10px 0 0 0;
+}
+#leaderboard-container th:last-child {
+  border-radius: 0 10px 0 0;
+}
+#leaderboard-container tbody tr {
+  background-color: #f5e3c6;
+  font-weight: 500;
+  font-size: 1rem;
+  vertical-align: center;
+}
+#leaderboard-container tbody tr:nth-child(odd) {
+  background-color: #FFEFD6;
+}
+#leaderboard-container tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 10px;
+}
+#leaderboard-container tbody tr:last-child td:last-child {
+  border-radius: 0 0 10px 0;
+}
+#leaderboard-container tbody .rank {
+  font-weight: 600;
+}
+#leaderboard-container tbody button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: #37454F;
+  color: #FFF9F0;
+  cursor: pointer;
+  transition: background-color ease 0.2s;
+}
+#leaderboard-container tbody button:hover {
+  background-color: #4c5f6d;
+}
+#leaderboard-container tbody .td {
+  display: grid;
+  place-items: center;
+  min-height: 4rem;
+}
+
 #profile {
   height: 100%;
   margin-top: clamp(100px, 10%, 20px);
