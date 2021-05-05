@@ -50,9 +50,26 @@
         margin-left: 1rem;
 
         .username {
-            font-size: 2rem;
+            font-size: 3.2rem;
+            text-transform: capitalize;
             font-family: $serif;
             font-weight: 600;
+            position: relative;
+
+            &::after {
+              position: absolute;
+              content: '';
+              width: 100%;
+              bottom: 0rem;
+              left: 0;
+              height: 1px;
+              background-color: color.adjust($text-dark, $alpha: -0.5);
+            }
+        }
+
+        .status {
+            font-size: 1.3rem;
+            font-family: $sans-serif;
         }
     }
 
@@ -70,6 +87,19 @@
             padding: 0.75rem 1.5rem;
             margin-left: 1rem;
             border-radius: 0.8rem;
+            transition: background-color ease 0.2s;
+
+            &:hover {
+              background-color: color.adjust($accent-dark, $lightness: 10);
+            }
+
+            &:nth-child(2) {
+                background-color: $tertiary-bg;
+
+                &:hover {
+                  background-color: color.adjust($tertiary-bg, $lightness: 5);
+                }
+            }
         }
 
         button:disabled {

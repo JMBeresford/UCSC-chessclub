@@ -27,4 +27,9 @@ db.define_table('ratings', [
   Field('updated_on', 'datetime', requires=IS_DATETIME())
 ])
 
+db.define_table('statuses', [
+  Field('status', default=""),
+  Field('player_id', 'integer', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id))
+])
+
 db.commit()

@@ -66,13 +66,61 @@ def leaderboards():
 @action.uses(db, auth, auth.user, 'profile.html')
 def profile():
   user = auth.get_user()
-  user['status'] = "Statuses are for chumps"
-  games = games = {"wins": 8999, "losses": 50000, "draws": 0, "mostWins": {}, "mostLosses": {}, "mostPlayed": {}}
+  user['status'] = db(db.statuses["player_id"] == user['id']).select().first()
+  games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
   return dict(user = json.dumps(user), games = games, isMe = True)
 
 @action('profile/<profile_id:int>')
 @action.uses(db, auth, auth.user, 'profile.html')
-def _profile(profile_id):
-  user = {"id": profile_id, "username": "Wade Watts", "status": "The Gunter life isn't for everyone :/"}
-  games = {"wins": 9001, "losses": 12, "draws": 0, "mostWins": {}, "mostLosses": {}, "mostPlayed": {}}
-  return dict(user = user, games = games, isMe = False)
+def profile_(profile_id):
+  try:
+    if profile_id == auth.get_user()['id']:
+      redirect(URL('profile'))
+
+    user = db.auth_user(profile_id).as_dict()
+    try:
+      user['status'] = db(db.statuses["player_id"] == user['id']).select().first()['status']
+    except TypeError:
+      pass
+    
+    games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
+  except AttributeError:
+    redirect(URL('index'))
+
+  return dict(user = json.dumps(user), games = json.dumps(games), isMe = False)
+
+@action('populate')
+@action.uses(db, auth, auth.user, 'populate.html')
+def populate():
+  return dict()
+
+@action('populategames')
+@action.uses(db, auth, auth.user)
+def populategames():
+  games = [
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2", "game_over": True, "winner" : 1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2", "game_over": True, "winner" : 2},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2", "game_over": True, "winner" : 1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+    {"player_white": 1, "player_black": 2, "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "game_over": False, "winner" : -1},
+  ]
+
+  for game in games:
+    db.games.insert(
+      player_white=game['player_white'],
+      player_black=game['player_black'],
+      fen=game['fen'],
+      game_over=game['game_over'],
+      winner=game['winner']
+    )
+
+  return "Done"
