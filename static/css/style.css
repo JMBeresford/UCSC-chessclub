@@ -349,6 +349,7 @@ header.header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   width: 100%;
   max-width: clamp(100px, 80%, 1500px);
   margin: 0 auto;
@@ -425,21 +426,42 @@ header.header {
 }
 #profile .charts {
   display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+  position: absolute;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 3rem;
 }
 #profile .charts div {
-  width: 50%;
+  width: 57%;
   min-height: 300px;
   padding: 1rem;
-  margin-top: 1rem;
   background-color: #37454F;
   color: #FFF9F0;
   text-align: center;
-  border-radius: 1rem;
+  border-radius: 10px;
 }
-#profile .charts div:first-child {
-  margin-right: 1rem;
+#profile .charts div:last-child {
+  width: 40%;
+}
+#profile .match-history {
+  display: flex;
+  margin-top: 3rem;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 10px;
+  background-color: #37454F;
+}
+#profile .charts, #profile .match-history {
+  transition: all 0.4s ease-in-out;
+}
+#profile .visible {
+  opacity: 100%;
+  transition-delay: 0.4s;
+  pointer-events: all;
+}
+#profile .hide {
+  opacity: 0%;
+  pointer-events: none;
 }
 
 body {

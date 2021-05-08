@@ -3,6 +3,7 @@ const profile = Vue.component('profile', {
     user: String,
     games: String,
     isme: Boolean,
+    matchHistory: Boolean,
   },
   computed: {
     getUser: function () {
@@ -12,8 +13,22 @@ const profile = Vue.component('profile', {
       return JSON.parse(this.games);
     },
   },
+  mounted: function () {
+    if (this.matchHistory) {
+      this.showCharts = false;
+    } else {
+      this.showCharts = true;
+    }
+  },
+  methods: {
+    toggleView: function () {
+      this.showCharts = !this.showCharts;
+    },
+  },
   data() {
-    return {};
+    return {
+      showCharts: true,
+    };
   },
   template: `
     <main>
@@ -30,14 +45,14 @@ const profile = Vue.component('profile', {
                         <p v-else class="status"> {{getUser.status}} </p>
                     </div>
                     <div class="buttons">
-                        <button>Match History</button>
+                        <button @click="this.toggleView">Match History</button>
                         <button v-if="!isme">Challenge</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="wrapper">
-            <div class="charts">
+            <div class="charts" v-bind:class="{ hide: !showCharts, visible: showCharts}">
                 <div>
                     Elo Rating
                     <!-- replace with chart -->
@@ -46,6 +61,10 @@ const profile = Vue.component('profile', {
                     Games
                     <!-- replace with chart -->
                 </div>
+            </div>
+
+            <div class="match-history" v-bind:class="{ hide: showCharts, visible: !showCharts}">
+              <p>ass</p>
             </div>
         </div>
     </main>
