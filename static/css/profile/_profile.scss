@@ -35,11 +35,18 @@
         cursor: pointer;
         display: flex;
         align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-color: $accent-light;
+        border: 2px solid $accent-dark;
 
         img {
-            margin: auto 0;
-            border-radius: 50%;
-            border: 1px solid $accent-dark;
+            margin: auto auto;
+            height: 70%;
+            width: 70%;
         }
     }
 

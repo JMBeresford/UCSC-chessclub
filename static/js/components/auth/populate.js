@@ -54,6 +54,7 @@ const populate = Vue.component('populate', {
         last_name: 'Undefined', // unused, but py4web expects it at register route
       },
       errors: {},
+      resData: {},
       done: [false, false, false, false, false, false],
       error: false,
     };
@@ -70,6 +71,7 @@ const populate = Vue.component('populate', {
             console.log(res.data);
             that.error = true;
           } else {
+            axios.get(`../setpfprandom/${res.data.id}`);
             that.done[i] = true;
             that.$forceUpdate();
           }

@@ -4,6 +4,7 @@ const profile = Vue.component('profile', {
     games: String,
     isme: Boolean,
     matchHistory: Boolean,
+    pfp: String,
   },
   computed: {
     getUser: function () {
@@ -11,6 +12,9 @@ const profile = Vue.component('profile', {
     },
     getGames: function () {
       return JSON.parse(this.games);
+    },
+    getPfp: function () {
+      return `img/pfp/${this.pfp}`;
     },
   },
   mounted: function () {
@@ -37,7 +41,7 @@ const profile = Vue.component('profile', {
                 <div class="info">
                     <label for="image">
                         <input type="file" name="image" id="image" style="display:none;"/>
-                        <img src="https://via.placeholder.com/100x100">
+                        <img :src="getPfp">
                     </label>
                     <div class="text">
                         <p class="username"> {{getUser.username}} </p>

@@ -13,3 +13,4 @@ vendor/three/pack*
 !vendor/three/build/
 !vendor/three/examples/jsm/
 vendor/three/utils/
+uploads/*

@@ -29,6 +29,8 @@ Vue.component('register', {
           } else if (res.data.status == 'error') {
             console.log(this.errors);
           } else {
+            console.log(res);
+            console.log(res.data);
             window.location = this.next;
           }
         })

@@ -32,4 +32,9 @@ db.define_table('statuses', [
   Field('player_id', 'integer', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id))
 ])
 
+db.define_table('profile_pictures', [
+  Field('image', 'upload'),
+  Field('player_id', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id))
+])
+
 db.commit()

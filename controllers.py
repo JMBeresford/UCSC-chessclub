@@ -25,7 +25,10 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
+from .settings import APP_FOLDER
 from py4web import action, request, abort, redirect, URL
+import random
+import os
 from yatl.helpers import A
 import json
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
@@ -55,6 +58,13 @@ def register():
 @action('home')
 @action.uses(db, auth, auth.user, 'home.html')
 def home():
+  id = auth.get_user()['id']
+
+  pfp = db.profile_pictures(id)
+  
+  if not pfp:
+    redirect(URL("setpfprandom", id))
+
   return { "noboard": False, "zoominto": True, "user": json.dumps(auth.get_user()) }
 
 @action('leaderboards')
@@ -68,7 +78,11 @@ def profile():
   user = auth.get_user()
   user['status'] = db(db.statuses["player_id"] == user['id']).select().first()
   games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
-  return dict(user = json.dumps(user), games = games, isMe = True)
+
+  row = db.profile_pictures(user['id'])
+  (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
+
+  return dict(user = json.dumps(user), games = games, isMe = True, pfp=filename)
 
 @action('profile/<profile_id:int>')
 @action.uses(db, auth, auth.user, 'profile.html')
@@ -84,10 +98,27 @@ def profile_(profile_id):
       pass
     
     games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
+    
+    row = db.profile_pictures(profile_id)
+    (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
   except AttributeError:
     redirect(URL('index'))
 
-  return dict(user = json.dumps(user), games = json.dumps(games), isMe = False)
+  return dict(user = json.dumps(user), games = json.dumps(games), isMe = False, pfp=filename)
+
+@action('setpfprandom/<id:int>')
+@action.uses(db, auth, auth.user)
+def setpfprandom(id):
+  working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
+  img = random.choice([x for x in os.listdir(working_dir) if os.path.isfile(os.path.join(working_dir, x))])
+  img_path = os.path.join(working_dir, img)
+
+  with open(img_path, 'rb') as stream:
+    db.profile_pictures.insert(image=stream, player_id=id)
+
+  redirect(URL('home'))
+
+  return dict()
 
 @action('populate')
 @action.uses(db, auth, auth.user, 'populate.html')
