@@ -68,7 +68,7 @@ const profile = Vue.component('profile', {
             </div>
 
             <div class="match-history" v-bind:class="{ hide: showCharts, visible: !showCharts}">
-              <p>ass</p>
+              Match History
             </div>
         </div>
     </main>
