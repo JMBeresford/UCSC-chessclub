@@ -6,6 +6,7 @@ import './components/home/home.js';
 import './components/leaderboards/leaderboards.js';
 import './components/header/header.js';
 import './components/profile/profile.js';
+import './components/profile/match_history.js';
 
 new Vue({
   el: '#app',

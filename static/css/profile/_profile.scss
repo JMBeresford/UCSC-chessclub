@@ -3,6 +3,8 @@
 @use "../sizingutils" as *;
 @use "sass:color";
 
+@use "./match_history";
+
 #profile {
   height: 100%;
   margin-top: $header-height;
