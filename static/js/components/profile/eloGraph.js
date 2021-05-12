@@ -6,47 +6,51 @@ const eloGraph = Vue.component('eloGraph', {
     };
   },
   computed: {
-    getWins: function () {
+
+  getName: function(){
+  return(this.user.username);
+  },
+
+    getData: function () {
       let wins = 0;
+      let losses =0;
+      let draws = 0;
       let that = this;
       this.games.map((game) => {
-        if (game.winner === that.user.id) {
-          wins++;
-        }
+      game.winner === that.user.id ? wins++
+      : game.winner  === -1 ? draws++
+      : losses++;
       });
+       return [wins, draws, losses];
+      },
 
-      return wins;
     },
-  },
+
   mounted: function () {
-    console.log(this.getWins);
-    let attributes = ['Wins', 'Losses', 'Draws'];
-    let elem = document.getElementById('eloChart').getContext('2d');
-    this.chart = new Chart(elem, {
-      type: 'pie',
-      data: {
-        labels: attributes,
-        datasets: [
-          {
-            label: 'Magnus Carlsen',
-            fill: true,
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 205, 86)',
-            ],
-            data: [21, 12, 45],
-          },
-        ],
-      },
-      options: {
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let elo = [2100, 1950, 1920, 2000, 2150, 2190, 2300, 2250, 2251, 2300, 2354, 2390];
+let eloChart = document.getElementById("eloChart").getContext('2d');
+let linechart = new Chart(eloChart, {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [ {
+        label: this.getName,
+            data: elo,
+            backgroundColor:  "#DD8281",
+            borderColor: "#DD8281",
+            fill: false
+        }]
+    },
+    options: {
         title: {
-          text: 'Wins, Losses, and Draws',
-          display: true,
+                text: "Elo Rating Over Past Year",
+            display: true
         },
-      },
-    });
-  },
+
+    }
+});
+},
   template: `
     <canvas id="eloChart"></canvas>
   `,

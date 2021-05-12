@@ -4,6 +4,7 @@
  * (c) 2021 Chart.js Contributors
  * Released under the MIT License
  */
+
 (function (global, factory) {
 typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 typeof define === 'function' && define.amd ? define(factory) :
@@ -966,7 +967,7 @@ class Defaults {
     this.animation = undefined;
     this.backgroundColor = 'rgba(0,0,0,0.1)';
     this.borderColor = 'rgba(0,0,0,0.1)';
-    this.color = '#666';
+    this.color = '#999';
     this.datasets = {};
     this.devicePixelRatio = (context) => context.chart.platform.getDevicePixelRatio();
     this.elements = {};
@@ -982,7 +983,7 @@ class Defaults {
       size: 12,
       style: 'normal',
       lineHeight: 1.2,
-      weight: null
+      weight: 1.5
     };
     this.hover = {};
     this.hoverBackgroundColor = (ctx, options) => getHoverColor(options.backgroundColor);
@@ -8104,6 +8105,7 @@ LineController.overrides = {
       type: 'linear',
     },
   }
+
 };
 function getStartAndCountOfVisiblePoints(meta, points, animationsDisabled) {
   const pointCount = points.length;
@@ -9850,7 +9852,7 @@ var plugin_filler = {
 
 const getBoxSize = (labelOpts, fontSize) => {
   let {boxHeight = fontSize, boxWidth = fontSize} = labelOpts;
-  if (labelOpts.usePointStyle) {
+  if (true) {
     boxHeight = Math.min(boxHeight, fontSize);
     boxWidth = Math.min(boxWidth, fontSize);
   }
@@ -10077,7 +10079,7 @@ class Legend extends Element {
       ctx.lineWidth = lineWidth;
       ctx.strokeStyle = valueOrDefault(legendItem.strokeStyle, defaultColor);
       ctx.setLineDash(valueOrDefault(legendItem.lineDash, []));
-      if (labelOpts.usePointStyle) {
+      if (true) {
         const drawOptions = {
           radius: boxWidth * Math.SQRT2 / 2,
           pointStyle: legendItem.pointStyle,
@@ -10280,7 +10282,7 @@ var plugin_legend = {
     display: true,
     position: 'top',
     align: 'center',
-    fullSize: true,
+    fullSize: false,
     reverse: false,
     weight: 1000,
     onClick(e, legendItem, legend) {

@@ -8,6 +8,8 @@ import './components/header/header.js';
 import './components/profile/profile.js';
 import './components/profile/match_history.js';
 import './components/profile/eloGraph.js';
+import './components/profile/eloGraph2.js';
+
 import './charts/dist/chart.js';
 
 new Vue({
