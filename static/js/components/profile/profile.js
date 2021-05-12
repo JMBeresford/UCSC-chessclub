@@ -58,13 +58,14 @@ const profile = Vue.component('profile', {
         <div class="wrapper">
             <div class="charts" v-bind:class="{ hide: !showCharts, visible: showCharts}">
                 <div>
-                    Elo Rating
-                    <!-- replace with chart -->
+                    Elo Rating (Past Yr.)
+                    <eloGraph :user=getUser :games=getGames></eloGraph>
                 </div>
                 <div>
-                    Games
-                    <!-- replace with chart -->
+                  Games
+                  <eloGraph2 :user=getUser :games=getGames></eloGraph2>
                 </div>
+
             </div>
 
             <div class="match-history" v-bind:class="{ hide: showCharts, visible: !showCharts}">

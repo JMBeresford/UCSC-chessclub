@@ -82,7 +82,7 @@ def profile():
   row = db.profile_pictures(user['id'])
   (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
 
-  return dict(user = json.dumps(user), games = games, isMe = True, pfp=filename)
+  return dict(user = json.dumps(user), games = json.dumps(games), isMe = True, pfp=filename)
 
 @action('profile/<profile_id:int>')
 @action.uses(db, auth, auth.user, 'profile.html')
@@ -97,7 +97,7 @@ def profile_(profile_id):
     except TypeError:
       pass
     
-    games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
+    games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_dict()
     
     row = db.profile_pictures(profile_id)
     (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
