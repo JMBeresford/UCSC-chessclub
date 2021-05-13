@@ -471,6 +471,10 @@ header.header {
   pointer-events: none;
 }
 
+#game-container {
+  width: clamp(100px, 80%, 1500px);
+}
+
 body {
   height: 100vh;
   font-size: 16px;
@@ -512,7 +516,8 @@ a {
   z-index: 5;
 }
 
-.button, .btn {
+.button,
+.btn {
   border-radius: 10px;
 }
 

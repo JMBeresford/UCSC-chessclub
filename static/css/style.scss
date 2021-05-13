@@ -9,9 +9,9 @@
 @use "home/home";
 @use "leaderboards/leaderboards";
 @use "profile/profile";
+@use "game/game";
 
 // END OF IMPORTS
-
 
 // The following is global styling options. Additional .scss files can be created with
 // additional style rules for other components of the site and included using the above syntax.
@@ -26,7 +26,6 @@
 // read more about it here: https://sass-lang.com/documentation/at-rules/use
 // more on the path parameter for @use : https://sass-lang.com/documentation/at-rules/use#finding-the-module
 
-
 // GLOBAL LAYOUT CONFIG START
 body {
   height: 100vh;
@@ -37,12 +36,12 @@ body {
   height: stretch;
 
   background-color: $main-bg;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 #app {
   height: 100%;
-  background-color: rgba($color: #fff, $alpha: 0.0);
+  background-color: rgba($color: #fff, $alpha: 0);
 }
 
 /*This also is needed to address the iOS issue*/
@@ -62,17 +61,18 @@ a {
 
 .layout-wrap {
   display: flex;
-  background-color: rgba($color: #ffffff, $alpha: 0.0);
+  background-color: rgba($color: #ffffff, $alpha: 0);
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  
+
   *:not(#_threejs_container) {
     z-index: 5;
   }
 }
 
-.button, .btn {
+.button,
+.btn {
   border-radius: 10px;
 }
 

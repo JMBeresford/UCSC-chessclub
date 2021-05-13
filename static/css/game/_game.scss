@@ -1,0 +1,5 @@
+@use '../sizingutils';
+
+#game-container {
+  width: sizingutils.$span-center;
+}
