@@ -3,7 +3,7 @@ const profile = Vue.component('profile', {
     user: String,
     games: String,
     isme: Boolean,
-    matchHistory: Boolean,
+    matchhistory: Boolean,
     pfp: String,
   },
   computed: {
@@ -17,8 +17,8 @@ const profile = Vue.component('profile', {
       return `img/pfp/${this.pfp}`;
     },
   },
-  mounted: function () {
-    if (this.matchHistory) {
+  created: function () {
+    if (this.matchhistory) {
       this.showCharts = false;
     } else {
       this.showCharts = true;
@@ -31,7 +31,7 @@ const profile = Vue.component('profile', {
   },
   data() {
     return {
-      showCharts: true,
+      showCharts: null,
     };
   },
   template: `

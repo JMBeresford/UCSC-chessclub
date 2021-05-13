@@ -1,9 +1,17 @@
 [[ extend 'layout.html' ]]
 
 <div id="profile">
-    [[ if isMe: ]]
-    <profile user="[[=user]]" games="[[=games]]" isme pfp="[[ =pfp ]]"></profile>
-    [[ else: ]]
-    <profile user="[[=user]]" games="[[=games]]" pfp="[[ =pfp ]]"></profile>
-    [[ pass ]]
+  [[ if isMe: ]] [[ if matchHistory: ]]
+  <profile
+    user="[[=user]]"
+    games="[[=games]]"
+    isme
+    pfp="[[ =pfp ]]"
+    matchhistory
+  ></profile>
+  [[ else: ]]
+  <profile user="[[=user]]" games="[[=games]]" isme pfp="[[ =pfp ]]"></profile>
+  [[ pass ]] [[ else: ]]
+  <profile user="[[=user]]" games="[[=games]]" pfp="[[ =pfp ]]"></profile>
+  [[ pass ]]
 </div>

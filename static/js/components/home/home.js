@@ -34,7 +34,7 @@ const homemenu = Vue.component('homemenu', {
     </div>
     <p class="menuLink underline_animate" @click="find_challenge()">Challenge Someone</p>
     <a class="menuLink underline_animate disabled" href="../match/computer">Challenge Computer</a>
-    <a class="menuLink underline_animate" href="../matches">Current Matches</a>
+    <a class="menuLink underline_animate" href="../profile?mhist=True">Current Matches</a>
     <a class="menuLink underline_animate" href="../freeplay">Free Board</a>
   </main>
   `,
