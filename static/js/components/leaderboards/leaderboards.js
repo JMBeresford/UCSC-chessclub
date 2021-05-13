@@ -2,10 +2,12 @@ const leaderboards = Vue.component('leaderboards', {
   props: {
     players: Array,
     gamedata: String,
+    elodata: String,
   },
   data: function () {
     return {
       games: Object,
+      elos: Object,
     };
   },
   methods: {
@@ -21,6 +23,7 @@ const leaderboards = Vue.component('leaderboards', {
   },
   beforeMount() {
     this.games = JSON.parse(this.gamedata);
+    this.elos = JSON.parse(this.elodata);
   },
   template: `
     <div id="leaderboard-container">
