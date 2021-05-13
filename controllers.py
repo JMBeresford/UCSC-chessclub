@@ -26,7 +26,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 """
 
 from .settings import APP_FOLDER
-from py4web import action, request, abort, redirect, URL
+from py4web import action, request, response, abort, redirect, URL
 import random
 import os
 from yatl.helpers import A
@@ -162,3 +162,22 @@ def populategames():
     )
 
   return "Done"
+
+@action('get/user')
+@action.uses(db)
+def getUser():
+    id = request.params.id
+
+    print(id)
+
+    if not id:
+        response.status = 404
+        return "User not found"
+
+    try:
+        player = db(db.auth_user.id == id).select(db.auth_user.id, db.auth_user.username, db.auth_user.email).as_dict()
+    except:
+        response.status = 500
+        return "There was an issue with the request."
+
+    return player
