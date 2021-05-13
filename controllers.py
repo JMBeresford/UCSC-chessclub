@@ -58,35 +58,33 @@ def register():
 @action('home')
 @action.uses(db, auth, auth.user, 'home.html')
 def home():
-  id = auth.get_user()['id']
-
-  pfp = db.profile_pictures(id)
-  
-  if not pfp:
-    redirect(URL("setpfprandom", id))
 
   return { "noboard": False, "zoominto": True, "user": json.dumps(auth.get_user()) }
 
 @action('leaderboards')
 @action.uses(db,auth,'leaderboards.html')
 def leaderboards():
-  return { "noboard": False, "zoominto": False }
+  games = db(db.games).select().as_dict()
+
+  return { "noboard": False, "zoominto": False, "games": json.dumps(games) }
 
 @action('profile')
 @action.uses(db, auth, auth.user, 'profile.html')
 def profile():
   match_history = request.params.mhist
 
-  if match_history is None:
+  if not match_history:
     match_history = False
   else:
     match_history = True
+
+  print(match_history)
 
   user = auth.get_user()
   user['status'] = db(db.statuses["player_id"] == user['id']).select().first()
   games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
 
-  row = db.profile_pictures(user['id'])
+  row = db(db.profile_pictures.player_id == user['id']).select().first()
   (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
 
   return dict(user = json.dumps(user), games = json.dumps(games), isMe = True, pfp=filename, matchHistory=match_history)
@@ -132,16 +130,16 @@ def game(id):
     
 
 @action('setpfprandom/<id:int>')
-@action.uses(db, auth, auth.user)
+@action.uses(db)
 def setpfprandom(id):
+  print(id)
+
   working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
   img = random.choice([x for x in os.listdir(working_dir) if os.path.isfile(os.path.join(working_dir, x))])
   img_path = os.path.join(working_dir, img)
 
   with open(img_path, 'rb') as stream:
     db.profile_pictures.insert(image=stream, player_id=id)
-
-  redirect(URL('home'))
 
   return dict()
 
@@ -181,12 +179,21 @@ def populategames():
 
   return "Done"
 
+@action('initelo/<id:int>')
+@action.uses(db)
+def initelo(id):
+  print("ratings defaulted")
+  rating = db(db.ratings.player_id == id).select().first()
+
+  if rating != {}:
+    db.ratings.insert(player_id = id)
+
+  return dict()
+
 @action('get/user')
 @action.uses(db)
 def getUser():
     id = request.params.id
-
-    print(id)
 
     if not id:
         response.status = 404
@@ -199,3 +206,20 @@ def getUser():
         return "There was an issue with the request."
 
     return player
+
+@action('get/pfp')
+@action.uses(db)
+def getUser():
+    id = request.params.id
+
+    if not id:
+        response.status = 404
+        return "Profile picture not found"
+
+    try:
+        pfp = db(db.profile_picture.player_id == id).select().as_dict()
+    except:
+        response.status = 500
+        return "There was an issue with the request."
+
+    return pfp

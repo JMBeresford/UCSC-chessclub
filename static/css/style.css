@@ -301,6 +301,7 @@ header.header {
   border-radius: 10px 0 0 0;
 }
 #leaderboard-container th:last-child {
+  min-width: 10px;
   border-radius: 0 10px 0 0;
 }
 #leaderboard-container tbody tr {
@@ -431,6 +432,12 @@ header.header {
 #profile .buttons button:disabled {
   background-color: #8C7E68;
 }
+#profile .buttons .stats {
+  background-color: #DD8281;
+}
+#profile .buttons .stats:hover {
+  background-color: #d25a59;
+}
 #profile .charts {
   display: flex;
   position: absolute;
@@ -458,7 +465,8 @@ header.header {
   border-radius: 10px;
   background-color: #37454F;
 }
-#profile .charts, #profile .match-history {
+#profile .charts,
+#profile .match-history {
   transition: all 0.4s ease-in-out;
 }
 #profile .visible {

@@ -9,157 +9,166 @@
   height: 100%;
   margin-top: $header-height;
 
-    .bg {
-        background-color: $secondary-bg;
+  .bg {
+    background-color: $secondary-bg;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+    width: 100%;
+    max-width: $span-center;
+
+    margin: 0 auto;
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+
+    border-radius: 1rem;
+  }
+
+  label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: $accent-light;
+    border: 2px solid $accent-dark;
+
+    img {
+      margin: auto auto;
+      height: 70%;
+      width: 70%;
     }
+  }
 
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
+  .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-        width: 100%;
-        max-width: $span-center;
+    margin-left: 1rem;
 
-        margin: 0 auto;
-    }
+    .username {
+      font-size: 3.2rem;
+      text-transform: capitalize;
+      font-family: $serif;
+      font-weight: 600;
+      position: relative;
 
-    .info {
-        display: flex;
-        align-items: center;
-        padding: 1rem 0;
-
-        border-radius: 1rem;
-    }
-
-    label {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 100px;
-        width: 100px;
-        border-radius: 50%;
-        background-color: $accent-light;
-        border: 2px solid $accent-dark;
-
-        img {
-            margin: auto auto;
-            height: 70%;
-            width: 70%;
-        }
-    }
-
-    .text {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        margin-left: 1rem;
-
-        .username {
-            font-size: 3.2rem;
-            text-transform: capitalize;
-            font-family: $serif;
-            font-weight: 600;
-            position: relative;
-
-            &::after {
-              position: absolute;
-              content: '';
-              width: 100%;
-              bottom: 0rem;
-              left: 0;
-              height: 1px;
-              background-color: color.adjust($text-dark, $alpha: -0.5);
-            }
-        }
-
-        .status {
-            font-size: 1.3rem;
-            font-family: $sans-serif;
-        }
-    }
-
-    .buttons {
-        margin-left: auto;
-
-        button {
-            border: none;
-            outline: none;
-            cursor: pointer;
-            background-color: $accent-dark;
-            color: $text-light;
-            font-family: inherit;
-            font-size: 1rem;
-            padding: 0.75rem 1.5rem;
-            margin-left: 1rem;
-            border-radius: 0.8rem;
-            transition: background-color ease 0.2s;
-
-            &:hover {
-              background-color: color.adjust($accent-dark, $lightness: 10);
-            }
-
-            &:nth-child(2) {
-                background-color: $tertiary-bg;
-
-                &:hover {
-                  background-color: color.adjust($tertiary-bg, $lightness: 5);
-                }
-            }
-        }
-
-        button:disabled {
-            background-color: $tertiary-bg;
-        }
-    }
-
-    .charts {
-        display: flex;
+      &::after {
         position: absolute;
+        content: '';
         width: 100%;
-        justify-content: space-between;
-        margin-top: 3rem;
-
-        div {
-            width: 57%;
-            min-height: 300px;
-            padding: 1rem;
-            background-color: $accent-dark;
-            color: $text-light;
-            text-align: center;
-            border-radius: 10px;
-        }
-
-        div:last-child {
-          width: 40%;
-        }
+        bottom: 0rem;
+        left: 0;
+        height: 1px;
+        background-color: color.adjust($text-dark, $alpha: -0.5);
+      }
     }
 
-    .match-history {
-      display: flex;
-      margin-top: 3rem;
-      width: 100%;
-      min-height: 300px;
-      border-radius: 10px;
+    .status {
+      font-size: 1.3rem;
+      font-family: $sans-serif;
+    }
+  }
+
+  .buttons {
+    margin-left: auto;
+
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
       background-color: $accent-dark;
+      color: $text-light;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+      margin-left: 1rem;
+      border-radius: 0.8rem;
+      transition: background-color ease 0.2s;
+
+      &:hover {
+        background-color: color.adjust($accent-dark, $lightness: 10);
+      }
+
+      &:nth-child(2) {
+        background-color: $tertiary-bg;
+
+        &:hover {
+          background-color: color.adjust($tertiary-bg, $lightness: 5);
+        }
+      }
     }
 
-    .charts, .match-history {
-      transition: all 0.4s ease-in-out;
+    button:disabled {
+      background-color: $tertiary-bg;
     }
 
-    .visible {
-      opacity: 100%;
-      transition-delay: 0.4s;
-      pointer-events: all;
+    .stats {
+      background-color: $accent-medium;
+
+      &:hover {
+        background-color: color.adjust($accent-medium, $lightness: -10);
+      }
+    }
+  }
+
+  .charts {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 3rem;
+
+    div {
+      width: 57%;
+      min-height: 300px;
+      padding: 1rem;
+      background-color: $accent-dark;
+      color: $text-light;
+      text-align: center;
+      border-radius: 10px;
     }
 
-    .hide {
-      opacity: 0%;
-      pointer-events: none;
+    div:last-child {
+      width: 40%;
     }
+  }
+
+  .match-history {
+    display: flex;
+    margin-top: 3rem;
+    width: 100%;
+    min-height: 300px;
+    border-radius: 10px;
+    background-color: $accent-dark;
+  }
+
+  .charts,
+  .match-history {
+    transition: all 0.4s ease-in-out;
+  }
+
+  .visible {
+    opacity: 100%;
+    transition-delay: 0.4s;
+    pointer-events: all;
+  }
+
+  .hide {
+    opacity: 0%;
+    pointer-events: none;
+  }
 }

@@ -30,7 +30,11 @@ Vue.component('register', {
             console.log(this.errors);
           } else {
             console.log(res);
-            console.log(res.data);
+            let id = res.data.id;
+            axios.get(`../setpfprandom/${id}`);
+
+            axios.get(`../initelo/${id}`);
+
             window.location = this.next;
           }
         })

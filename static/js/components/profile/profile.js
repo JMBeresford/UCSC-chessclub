@@ -49,7 +49,7 @@ const profile = Vue.component('profile', {
                         <p v-else class="status"> {{getUser.status}} </p>
                     </div>
                     <div class="buttons">
-                        <button @click="this.toggleView">Match History</button>
+                        <button @click="this.toggleView" :class="{stats: !showCharts}">{{showCharts ? "Match History" : "User Stats"}}</button>
                         <button v-if="!isme">Challenge</button>
                     </div>
                 </div>

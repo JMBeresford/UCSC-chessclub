@@ -22,7 +22,7 @@ db.define_table('games', [
 ])
 
 db.define_table('ratings', [
-  Field('rating', 'integer'),
+  Field('rating', 'integer', default=800),
   Field('player_id', 'integer', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id)),
   Field('updated_on', 'datetime', requires=IS_DATETIME())
 ])
