@@ -1,5 +1,3 @@
-# ChessClub
-
 # Chess Club
 ### A digital chess application for users to play against the friends in a controlled, local environment.
 
