@@ -42,10 +42,53 @@ const leaderboards = Vue.component('leaderboards', {
             <th>Losses</th>
             <th>Draws</th>
             <th>Win Rate</th>
-            <th></th> <!-- For button -->
+            <th></th>
           </thead>
           <tbody>
-            
+            <tr v-for="(entry, i) in players" :key="i">
+              <td>
+                <div class="td rank">
+                  <p>{{ ++i }}</p>
+                </div> 
+              </td>
+              <td>
+                <div class="td">
+                  <p>Name</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>rating</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>wins</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>losses</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>draws</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td">
+                  <p>winrate%</p>
+                </div>  
+              </td>
+              <td>
+                <div class="td buttontd">
+                  <button class="btn" @click="Challenge(entry.id)">
+                    Challenge
+                  </button>
+                </div> 
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
