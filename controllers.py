@@ -223,3 +223,20 @@ def getUser():
         return "There was an issue with the request."
 
     return pfp
+
+@action('get/elo')
+@action.uses(db)
+def elo():
+    id = request.params.id
+
+    if not id:
+        response.status = 404
+        return "Elo not found"
+
+    try:
+        rating = db(db.ratings.player_id == id).select().as_dict()
+    except:
+        response.status = 500
+        return "There was an issue with the request."
+
+    return rating
