@@ -26,7 +26,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 """
 
 from .settings import APP_FOLDER
-from py4web import action, request, abort, redirect, URL
+from py4web import action, request, response, abort, redirect, URL
 import random
 import os
 from yatl.helpers import A
@@ -40,7 +40,7 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
-  if auth.get_user() != {}:
+  if not auth.get_user() == {}:
     redirect(URL('home'))
   else:
     return { "noboard": False, "zoominto": True }
@@ -75,6 +75,13 @@ def leaderboards():
 @action('profile')
 @action.uses(db, auth, auth.user, 'profile.html')
 def profile():
+  match_history = request.params.mhist
+
+  if match_history is None:
+    match_history = False
+  else:
+    match_history = True
+
   user = auth.get_user()
   user['status'] = db(db.statuses["player_id"] == user['id']).select().first()
   games = db((db.games["player_black"] == user['id']) | (db.games["player_white"] == user['id'])).select().as_list()
@@ -82,7 +89,7 @@ def profile():
   row = db.profile_pictures(user['id'])
   (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
 
-  return dict(user = json.dumps(user), games = json.dumps(games), isMe = True, pfp=filename)
+  return dict(user = json.dumps(user), games = json.dumps(games), isMe = True, pfp=filename, matchHistory=match_history)
 
 @action('profile/<profile_id:int>')
 @action.uses(db, auth, auth.user, 'profile.html')
@@ -155,3 +162,22 @@ def populategames():
     )
 
   return "Done"
+
+@action('get/user')
+@action.uses(db)
+def getUser():
+    id = request.params.id
+
+    print(id)
+
+    if not id:
+        response.status = 404
+        return "User not found"
+
+    try:
+        player = db(db.auth_user.id == id).select(db.auth_user.id, db.auth_user.username, db.auth_user.email).as_dict()
+    except:
+        response.status = 500
+        return "There was an issue with the request."
+
+    return player
