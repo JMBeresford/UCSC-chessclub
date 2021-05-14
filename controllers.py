@@ -183,7 +183,6 @@ def game(id):
 
     return dict(game=game, player_white=white, player_black=black)
 
-
 @action("setpfprandom/<id:int>")
 @action.uses(db)
 def setpfprandom(id):
