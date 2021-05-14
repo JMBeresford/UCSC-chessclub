@@ -159,8 +159,7 @@ def profile_(profile_id):
         user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=filename
     )
 
-
-@action("game/<id: int>")
+@action("game/<id:int>")
 @action.uses(db, auth, auth.user, "game.html")
 def game(id):
     game = db.games(id).as_dict()
@@ -173,18 +172,17 @@ def game(id):
     black_id = game["player_black"]
 
     white = (
-        db.auth_user(white_id)
+        db(db.auth_user.id == white_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
         .as_dict()
     )
     black = (
-        db.auth_user(black_id)
+        db(db.auth_user.id == black_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
         .as_dict()
     )
 
     return dict(game=game, player_white=white, player_black=black)
-
 
 @action("setpfprandom/<id:int>")
 @action.uses(db)

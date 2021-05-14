@@ -1,9 +1,18 @@
 [[ extend 'layout.html' ]]
 
 <div id="game-container">
-    <game
-        game="[[=game]]"
-        player_white="[[=player_white]]"
-        player_black="[[=player_black]]"
-    ></game>
+    <div class="section">
+        <div class="level">
+            <div class="level-item">
+                <div class="box" id="game-chat">
+                    <p>GAME CHAT</p>
+                </div>
+            </div>
+            <div class="level-item">
+                <div class="box" id="game-board">
+                    <p>GAME BOARD</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

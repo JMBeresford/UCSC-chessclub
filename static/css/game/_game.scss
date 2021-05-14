@@ -1,5 +1,21 @@
-@use '../sizingutils';
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../sizingutils" as *;
+@use "sass:color";
 
 #game-container {
-  width: sizingutils.$span-center;
-}
+  width: $span-center;
+  margin: auto;
+
+  #game-chat {
+    min-width:500px;
+    min-height:500px;
+    background-color:burlywood;
+  }
+
+  #game-board {
+    min-width:500px;
+    min-height:500px;
+    background-color:burlywood;
+  }
+}  
