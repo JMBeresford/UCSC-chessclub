@@ -99,8 +99,6 @@ def profile():
     else:
         match_history = True
 
-    print(match_history)
-
     user = auth.get_user()
     user["status"] = db(db.statuses["player_id"] == user["id"]).select().first()
     games = (
@@ -160,7 +158,7 @@ def profile_(profile_id):
     )
 
 
-@action("game/<id: int>")
+@action("game/<id:int>")
 @action.uses(db, auth, auth.user, "game.html")
 def game(id):
     game = db.games(id).as_dict()
@@ -173,12 +171,12 @@ def game(id):
     black_id = game["player_black"]
 
     white = (
-        db.auth_user(white_id)
+        db(db.auth_user.id == white_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
         .as_dict()
     )
     black = (
-        db.auth_user(black_id)
+        db(db.auth_user.id == black_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
         .as_dict()
     )
@@ -189,7 +187,6 @@ def game(id):
 @action("setpfprandom/<id:int>")
 @action.uses(db)
 def setpfprandom(id):
-    print(id)
 
     working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
     img = random.choice(
@@ -332,7 +329,6 @@ def populategames():
 @action("initelo/<id:int>")
 @action.uses(db)
 def initelo(id):
-    print("ratings defaulted")
     rating = db(db.ratings.player_id == id).select().first()
 
     if rating != {}:
