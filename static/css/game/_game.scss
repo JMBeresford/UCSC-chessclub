@@ -3,7 +3,8 @@
 @use "../sizingutils" as *;
 @use "sass:color";
 
-@use "ingamechat";
+@use "./ingamechat";
+@use "board";
 
 #game-container {
   width: $span-center;
@@ -15,14 +16,14 @@
   }
 
   #game-chat {
-    width: 47.5%;
+    width: 50%;
     min-height: 300px;
-    background-color: burlywood;
+    background-color: $secondary-bg;
+    border-radius: 15px;
+    border: 1px $tertiary-bg solid;
   }
 
   #game-board {
     width: 45%;
-    min-height: 300px;
-    background-color: burlywood;
   }
 }
