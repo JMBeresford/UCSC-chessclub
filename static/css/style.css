@@ -483,14 +483,18 @@ header.header {
   width: clamp(100px, 80%, 1500px);
   margin: auto;
 }
+#game-container .wrap {
+  display: flex;
+  justify-content: space-between;
+}
 #game-container #game-chat {
-  min-width: 500px;
-  min-height: 500px;
+  width: 47.5%;
+  min-height: 300px;
   background-color: burlywood;
 }
 #game-container #game-board {
-  min-width: 500px;
-  min-height: 500px;
+  width: 45%;
+  min-height: 300px;
   background-color: burlywood;
 }
 

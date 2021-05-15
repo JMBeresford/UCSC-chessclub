@@ -3,19 +3,26 @@
 @use "../sizingutils" as *;
 @use "sass:color";
 
+@use "ingamechat";
+
 #game-container {
   width: $span-center;
   margin: auto;
 
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+
   #game-chat {
-    min-width:500px;
-    min-height:500px;
-    background-color:burlywood;
+    width: 47.5%;
+    min-height: 300px;
+    background-color: burlywood;
   }
 
   #game-board {
-    min-width:500px;
-    min-height:500px;
-    background-color:burlywood;
+    width: 45%;
+    min-height: 300px;
+    background-color: burlywood;
   }
-}  
+}

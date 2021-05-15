@@ -1,18 +1,14 @@
 [[ extend 'layout.html' ]]
 
 <div id="game-container">
-    <div class="section">
-        <div class="level">
-            <div class="level-item">
-                <div class="box" id="game-chat">
-                    <p>GAME CHAT</p>
-                </div>
-            </div>
-            <div class="level-item">
-                <div class="box" id="game-board">
-                    <p>GAME BOARD</p>
-                </div>
-            </div>
-        </div>
+  <div class="wrap">
+    <div id="game-chat">
+      <p>GAME CHAT</p>
+      <ingamechat></ingamechat>
     </div>
+    <div id="game-board">
+      <p>GAME BOARD</p>
+      <!-- <chessboard></chessboard> -->
+    </div>
+  </div>
 </div>
