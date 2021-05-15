@@ -181,7 +181,9 @@ def game(id):
         .as_dict()
     )
 
-    return dict(game=game, player_white=white, player_black=black)
+    players = {"white": white, "black": black}
+
+    return dict(game=json.dumps(game), players=json.dumps(players))
 
 @action("setpfprandom/<id:int>")
 @action.uses(db)
