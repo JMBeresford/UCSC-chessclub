@@ -7,7 +7,11 @@
       <ingamechat :game="[[ =game ]]" :players="[[ =players ]]"></ingamechat>
     </div>
     <div id="game-board">
-      <customchessboard></customchessboard>
+      <customchessboard
+        :game="[[ =game ]]"
+        :players="[[ =players ]]"
+        :user="[[ =user ]]"
+      ></customchessboard>
     </div>
   </div>
 </div>
