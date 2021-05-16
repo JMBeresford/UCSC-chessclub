@@ -10,7 +10,7 @@ import './components/profile/match_history.js';
 import './components/profile/eloGraph.js';
 import './components/profile/eloGraph2.js';
 import './components/game/ingamechat.js';
-import './components/game/chessboard.js';
+import './components/game/customchessboard.js';
 
 import './charts/dist/chart.js';
 

@@ -173,17 +173,22 @@ def game(id):
     white = (
         db(db.auth_user.id == white_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
-        .as_dict()
+        .as_list()
     )
     black = (
         db(db.auth_user.id == black_id)
         .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
-        .as_dict()
+        .as_list()
     )
 
-    players = {"white": white, "black": black}
+    players = {"white": white[0], "black": black[0]}
 
-    return dict(game=json.dumps(game), players=json.dumps(players))
+    return dict(
+        game=json.dumps(game),
+        players=json.dumps(players),
+        user=json.dumps(auth.get_user()),
+    )
+
 
 @action("setpfprandom/<id:int>")
 @action.uses(db)
@@ -208,6 +213,12 @@ def setpfprandom(id):
 @action("populate")
 @action.uses(db, auth, auth.user, "populate.html")
 def populate():
+    return dict()
+
+
+@action("freeboard")
+@action.uses(auth, auth.user, "freeboard.html")
+def freeboard():
     return dict()
 
 
@@ -394,3 +405,44 @@ def elo():
         return "There was an issue with the request."
 
     return rating
+
+@action('get/fen')
+@action.uses(db)
+def getfen():
+    id = request.params.id
+
+    if not id:
+        response.status = 404
+        return "Fen not found"
+
+    try:
+        game = db(db.games.id == id).select().first().as_dict()
+    except:
+        response.status = 500
+        return "There was an issue with the request."
+
+    return game['fen']
+
+@action('post/game', method=['POST'])
+@action.uses(db, auth, auth.user)
+def updatefen():
+    data = request.json
+    
+    game = db.games(data['game'])
+
+    game.fen = data['fen']
+    game.update_record()
+
+    return dict()
+
+@action('websocket/<id:int>')
+@action.uses(auth, auth.user)
+def websocket(id):
+    ws  = request.environ.get("wsgi.websocket")
+    while True:
+        msg = ws.receive()
+        if msg is not None:
+            for client in ws.handler.server.clients.values():
+                client.ws.send(msg)
+        else:
+            break

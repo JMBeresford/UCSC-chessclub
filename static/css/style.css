@@ -182,6 +182,16 @@ header.header {
   background-color: #FFEFD6;
 }
 
+#freeboard {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: clamp(100px, 80%, 1500px);
+  padding: clamp(100px, 10%, 20px) 25% 0 25%;
+  display: grid;
+  place-items: center;
+}
+
 #home {
   display: grid;
   place-items: center;
@@ -479,6 +489,35 @@ header.header {
   pointer-events: none;
 }
 
+#custom-board {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+#custom-board h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+}
+#custom-board .wrapper {
+  padding: 0.5rem;
+  background-color: #605647;
+  border-radius: 15px;
+  width: 100%;
+}
+#custom-board square.selected {
+  background-color: rgba(214, 237, 255, 0.3);
+}
+#custom-board square.move-dest {
+  background: none;
+  background-color: rgba(163, 215, 255, 0.3);
+}
+#custom-board square.last-move {
+  background-color: rgba(221, 130, 129, 0.3);
+}
+
 #game-container {
   width: clamp(100px, 80%, 1500px);
   margin: auto;
@@ -488,14 +527,14 @@ header.header {
   justify-content: space-between;
 }
 #game-container #game-chat {
-  width: 47.5%;
+  width: 50%;
   min-height: 300px;
-  background-color: burlywood;
+  background-color: #FFEFD6;
+  border-radius: 15px;
+  border: 1px #8C7E68 solid;
 }
 #game-container #game-board {
   width: 45%;
-  min-height: 300px;
-  background-color: burlywood;
 }
 
 body {

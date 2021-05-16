@@ -3,6 +3,7 @@
 @use '../colors' as *;
 @use 'sass:color';
 
+@use './freeboard';
 
 #home {
   display: grid;
@@ -16,7 +17,7 @@
     align-items: center;
     width: 100%;
   }
-  
+
   .banner {
     display: flex;
     align-items: center;
@@ -27,7 +28,7 @@
       transform: scaleX(-1);
     }
   }
-  
+
   h1 {
     margin: 0 4rem;
     font-family: fonts.$serif;
@@ -54,14 +55,14 @@
     font-size: 1.45rem;
     font-weight: 300;
     margin: 0.5rem 0;
-
   }
 
   .disabled {
     color: color.adjust($text-dark, $alpha: -0.5);
     cursor: not-allowed;
 
-    &::after, &::before {
+    &::after,
+    &::before {
       display: none;
     }
   }

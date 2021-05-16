@@ -1,3 +1,13 @@
+#freeboard {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: clamp(100px, 80%, 1500px);
+  padding: clamp(100px, 10%, 20px) 25% 0 25%;
+  display: grid;
+  place-items: center;
+}
+
 #home {
   display: grid;
   place-items: center;

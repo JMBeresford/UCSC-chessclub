@@ -1,0 +1,12 @@
+@use '../sizingutils' as *;
+
+#freeboard {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: $span-center;
+  padding: $header-height 25% 0 25%;
+
+  display: grid;
+  place-items: center;
+}
