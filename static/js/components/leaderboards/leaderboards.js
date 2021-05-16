@@ -31,11 +31,10 @@ const leaderboards = Vue.component('leaderboards', {
       : this.games[key].winner  === -1 ? draws++
       : losses++;
     }
-   else
-   {
-   console.log("Not counting");
-   }
-  // ...
+    else
+    {
+    console.log("Not counting");
+    }
 });
     return [wins, losses, draws];
     },
@@ -46,52 +45,41 @@ const leaderboards = Vue.component('leaderboards', {
     Object.keys(this.elos).forEach(key => {
     myUniquePlayers.add(this.elos[key].player_id);
     });
-
     myUniquePlayers = Array.from(myUniquePlayers);
-for(var i =0; i< myUniquePlayers.length; i++)
-{
-
-//id to get metadata of, from elos table, ie, only rank a player if they have a default elo value.
-let id = myUniquePlayers[i];
-    let userName = "";
- let that = this;
-    let obj;
- axios.all([
-  axios.get('../get/user?id='+id),
-  axios.get('../get/elo?id='+id)
- //axios.get('../get/pfp?id='+id), hasn't been implemened yet.
-])
-.then(responseArr => {
-  //this will be executed only when all requests are complete
-  let arrWinsLossDraws = this.calcWins(id);
-  let winsID= arrWinsLossDraws[0];
-   let losessID= arrWinsLossDraws[1];
- let drawsID= arrWinsLossDraws[2];
-   this.allScores.push({
-          id: id,
-          name: Object.values(responseArr[0].data)[0].username,
-          elo:Object.values(responseArr[1].data)[0].rating,
-          wins: winsID,
-          losses: losessID,
-          draws: drawsID,
-          winrate: (
-            (parseInt(winsID) * 100) /
-            (parseInt(winsID) +
-              parseInt(losessID) +
-              parseInt(drawsID))
-          ).toFixed(0),
-        })
-});
-
-
-}
-
-
-
-
-
-
-
+    for(var i =0; i< myUniquePlayers.length; i++)
+    {
+    //id to get metadata of, from elos table, ie, only rank a player if they have a default elo value.
+    let id = myUniquePlayers[i];
+        let userName = "";
+     let that = this;
+        let obj;
+     axios.all([
+      axios.get('../get/user?id='+id),
+      axios.get('../get/elo?id='+id)
+     //axios.get('../get/pfp?id='+id), hasn't been implemened yet.
+    ])
+    .then(responseArr => {
+      //this will be executed only when all requests are complete
+      let arrWinsLossDraws = this.calcWins(id);
+      let winsID= arrWinsLossDraws[0];
+       let losessID= arrWinsLossDraws[1];
+     let drawsID= arrWinsLossDraws[2];
+       this.allScores.push({
+              id: id,
+              name: Object.values(responseArr[0].data)[0].username,
+              elo:Object.values(responseArr[1].data)[0].rating,
+              wins: winsID,
+              losses: losessID,
+              draws: drawsID,
+              winrate: (
+                (parseInt(winsID) * 100) /
+                (parseInt(winsID) +
+                  parseInt(losessID) +
+                  parseInt(drawsID))
+              ).toFixed(0),
+              })
+         });
+        }
     },
 
     getWinrate: function (wins, losses, draws) {
@@ -118,7 +106,6 @@ let id = myUniquePlayers[i];
         <img src="svg/pieces/wp.svg">
       </div>
     </div>
-
       <div class="wrap">
         <table>
           <thead>
@@ -141,13 +128,11 @@ let id = myUniquePlayers[i];
               <td>
                 <div class="td">
                 <p>{{ entry.name }}</p>
-
                 </div>
               </td>
               <td>
                 <div class="td">
                 <p>{{ entry.elo }}</p>
-
                 </div>
               </td>
               <td>
@@ -158,13 +143,11 @@ let id = myUniquePlayers[i];
               </td>
               <td>
                 <div class="td">
-
                 <p>{{ entry.losses }}</p>
                 </div>
               </td>
               <td>
                 <div class="td">
-
                 <p>{{ entry.draws }}</p>
                 </div>
               </td>
@@ -175,7 +158,7 @@ let id = myUniquePlayers[i];
               </td>
               <td>
                 <div class="td buttontd">
-                  <button class="btn" @click="Challenge(entry.id)">
+                  <button class="btn" @click="challenge(entry.id)">
                     Challenge
                   </button>
                 </div>
@@ -185,8 +168,6 @@ let id = myUniquePlayers[i];
         </table>
       </div>
     </div>
-
-
      `,
 });
 
