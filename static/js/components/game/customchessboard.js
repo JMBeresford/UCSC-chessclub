@@ -39,19 +39,23 @@ const customchessboard = Vue.component('customchessboard', {
       axios
         .post('../post/game', payload)
         .then((res) => {
-          console.log(res);
-          this.ws.send('moved');
+          let message = JSON.stringify({ type: 'move', id: this.game.id });
+          this.ws.send(message);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     pullFen: function (e) {
+      let message = JSON.parse(e.data);
+      if (message.type != 'move' || message.id != this.game.id) {
+        return false;
+      }
+
       axios
         .get(`../get/fen?id=${this.game.id}`)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data);
             this.fen = res.data;
             this.$refs.chess.game.load(this.fen);
             this.$refs.chess.board.set({
