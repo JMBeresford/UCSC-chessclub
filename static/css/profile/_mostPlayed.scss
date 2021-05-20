@@ -1,0 +1,13 @@
+#mostplayed {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+}
+
+#mostplayed > div {
+  background-color: red;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}

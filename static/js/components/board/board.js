@@ -297,8 +297,8 @@ const board = Vue.component('board', {
       this.lights.directional.shadow.camera.updateProjectionMatrix();
 
       // directional light shadow config
-      this.lights.directional.shadow.mapSize.width = 1024;
-      this.lights.directional.shadow.mapSize.height = 1024;
+      this.lights.directional.shadow.mapSize.width = 512;
+      this.lights.directional.shadow.mapSize.height = 512;
       this.lights.directional.shadow.camera.near = 3.7;
       this.lights.directional.shadow.camera.far = 5.2;
       this.lights.directional.shadow.camera.left = -1.2;

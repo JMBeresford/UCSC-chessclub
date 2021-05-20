@@ -72,6 +72,7 @@ const populate = Vue.component('populate', {
             that.error = true;
           } else {
             axios.get(`../setpfprandom/${res.data.id}`);
+            axios.get(`../initelo/${res.data.id}`);
             that.done[i] = true;
             that.$forceUpdate();
           }

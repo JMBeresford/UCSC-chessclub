@@ -295,7 +295,8 @@ header.header {
 }
 #leaderboard-container table {
   width: 100%;
-  text-align: center;
+  text-align: left;
+  table-layout: fixed;
 }
 #leaderboard-container thead {
   background-color: #8C7E68;
@@ -309,6 +310,7 @@ header.header {
 }
 #leaderboard-container th:first-child {
   border-radius: 10px 0 0 0;
+  padding-left: 3rem;
 }
 #leaderboard-container th:last-child {
   min-width: 10px;
@@ -343,10 +345,45 @@ header.header {
 #leaderboard-container tbody button:hover {
   background-color: #4c5f6d;
 }
+#leaderboard-container tbody td:first-child {
+  padding-left: 3rem;
+}
 #leaderboard-container tbody .td {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: clamp(70px, 7vh, 100px);
+  width: auto;
+}
+#leaderboard-container tbody .td.user {
+  cursor: pointer;
+}
+#leaderboard-container tbody .imgwrap {
+  background-color: #D6EDFF;
+  border-radius: 50%;
+  border: 2px solid #333;
+  padding: 5px;
+  height: 50px;
+  width: 50px;
   display: grid;
   place-items: center;
-  min-height: 4rem;
+}
+#leaderboard-container tbody .imgwrap img {
+  max-height: 90%;
+}
+
+#mostplayed {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+}
+
+#mostplayed > div {
+  background-color: red;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
 }
 
 #profile {
@@ -392,6 +429,7 @@ header.header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   margin-left: 1rem;
 }
 #profile .text .username {
@@ -412,6 +450,20 @@ header.header {
 }
 #profile .text .status {
   font-size: 1.3rem;
+  font-family: "Poppins", sans-serif;
+}
+#profile .text .status.editing {
+  display: none;
+}
+#profile .text input {
+  height: 1.3rem;
+  margin-top: 10px;
+  background-color: #FFEFD6;
+  box-shadow: none;
+  outline: none;
+  color: #333;
+  border: 1px solid #8C7E68;
+  font-size: 1rem;
   font-family: "Poppins", sans-serif;
 }
 #profile .buttons {
@@ -452,20 +504,31 @@ header.header {
   display: flex;
   position: absolute;
   width: 100%;
+  height: clamp(400px, 60vh, 600px);
   justify-content: space-between;
   margin-top: 3rem;
+  font-weight: bold;
+  align-items: stretch;
 }
-#profile .charts div {
+#profile .charts > div {
   width: 57%;
+  position: relative;
+  padding: 1rem 2rem;
   min-height: 300px;
-  padding: 1rem;
+  height: 100%;
   background-color: #37454F;
   color: #FFF9F0;
   text-align: center;
   border-radius: 10px;
 }
-#profile .charts div:last-child {
+#profile .charts #eloChart {
+  height: 100%;
+}
+#profile .charts > div:last-child {
   width: 40%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
 #profile .match-history {
   display: flex;
@@ -478,6 +541,12 @@ header.header {
 #profile .charts,
 #profile .match-history {
   transition: all 0.4s ease-in-out;
+}
+#profile #eloChart {
+  height: 100%;
+}
+#profile .graph1container {
+  height: 40vh;
 }
 #profile .visible {
   opacity: 100%;

@@ -35,6 +35,8 @@ Vue.component('register', {
 
             axios.get(`../initelo/${id}`);
 
+            axios.post(`../post/status`, { id: id, status: '' });
+
             window.location = this.next;
           }
         })

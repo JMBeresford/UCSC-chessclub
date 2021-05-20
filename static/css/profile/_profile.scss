@@ -4,6 +4,7 @@
 @use "sass:color";
 
 @use "./match_history";
+@use "./mostplayed";
 
 #profile {
   height: 100%;
@@ -56,6 +57,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 
     margin-left: 1rem;
 
@@ -79,6 +81,22 @@
 
     .status {
       font-size: 1.3rem;
+      font-family: $sans-serif;
+    }
+
+    .status.editing {
+      display: none;
+    }
+
+    input {
+      height: 1.3rem;
+      margin-top: 10px;
+      background-color: $secondary-bg;
+      box-shadow: none;
+      outline: none;
+      color: $text-dark;
+      border: 1px solid $tertiary-bg;
+      font-size: 1rem;
       font-family: $sans-serif;
     }
   }
@@ -129,21 +147,33 @@
     display: flex;
     position: absolute;
     width: 100%;
+    height: clamp(400px, 60vh, 600px);
     justify-content: space-between;
     margin-top: 3rem;
+    font-weight: bold;
+    align-items: stretch;
 
-    div {
+    > div {
       width: 57%;
+      position: relative;
+      padding: 1rem 2rem;
       min-height: 300px;
-      padding: 1rem;
+      height: 100%;
       background-color: $accent-dark;
       color: $text-light;
       text-align: center;
       border-radius: 10px;
     }
 
-    div:last-child {
+    #eloChart {
+      height: 100%;
+    }
+
+    > div:last-child {
       width: 40%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
     }
   }
 
@@ -159,6 +189,14 @@
   .charts,
   .match-history {
     transition: all 0.4s ease-in-out;
+  }
+
+  #eloChart {
+    height: 100%;
+  }
+
+  .graph1container {
+    height: 40vh;
   }
 
   .visible {

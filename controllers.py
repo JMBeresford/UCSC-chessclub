@@ -100,7 +100,8 @@ def profile():
         match_history = True
 
     user = auth.get_user()
-    user["status"] = db(db.statuses["player_id"] == user["id"]).select().first()
+    row = db(db.statuses["player_id"] == user["id"]).select().first()
+    user["status"] = row.status if row else ""
     games = (
         db(
             (db.games["player_black"] == user["id"])
@@ -146,7 +147,7 @@ def profile_(profile_id):
             .as_dict()
         )
 
-        row = db.profile_pictures(profile_id)
+        row = db(db.profile_pictures.player_id == profile_id).select().first()
         (filename, fullname) = db.profile_pictures.image.retrieve(
             row.image, nameonly=True
         )
@@ -373,7 +374,7 @@ def getUser():
 
 @action("get/pfp")
 @action.uses(db)
-def getUser():
+def getPfp():
     id = request.params.id
 
     if not id:
@@ -381,12 +382,15 @@ def getUser():
         return "Profile picture not found"
 
     try:
-        pfp = db(db.profile_picture.player_id == id).select().as_dict()
+        row = db(db.profile_pictures.player_id == id).select().first()
+        (filename, fullname) = db.profile_pictures.image.retrieve(
+            row.image, nameonly=True
+        )
     except:
         response.status = 500
         return "There was an issue with the request."
 
-    return pfp
+    return filename
 
 
 @action("get/elo")
@@ -406,7 +410,8 @@ def elo():
 
     return rating
 
-@action('get/fen')
+
+@action("get/fen")
 @action.uses(db)
 def getfen():
     id = request.params.id
@@ -421,24 +426,47 @@ def getfen():
         response.status = 500
         return "There was an issue with the request."
 
-    return game['fen']
+    return game["fen"]
 
-@action('post/game', method=['POST'])
+
+@action("post/game", method=["POST"])
 @action.uses(db, auth, auth.user)
 def updatefen():
     data = request.json
-    
-    game = db.games(data['game'])
 
-    game.fen = data['fen']
+    game = db.games(data["game"])
+
+    game.fen = data["fen"]
     game.update_record()
 
     return dict()
 
-@action('websocket/<id:int>')
+
+@action("post/status", method=["POST"])
+@action.uses(db, auth, auth.user)
+def updateStatus():
+    data = request.json
+    print(data)
+
+    try:
+        db.statuses.update_or_insert(
+            db.statuses.player_id == data["id"],
+            player_id=data["id"],
+            status=data["status"],
+        )
+        response.status = 200
+    except Exception as e:
+        print(e)
+        response.status = 500
+        return "Something went wrong..."
+
+    return dict()
+
+
+@action("websocket/<id:int>")
 @action.uses(auth, auth.user)
 def websocket(id):
-    ws  = request.environ.get("wsgi.websocket")
+    ws = request.environ.get("wsgi.websocket")
     while True:
         msg = ws.receive()
         if msg is not None:

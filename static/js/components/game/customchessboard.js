@@ -48,6 +48,7 @@ const customchessboard = Vue.component('customchessboard', {
     },
     pullFen: function (e) {
       let message = JSON.parse(e.data);
+      console.log(e);
       if (message.type != 'move' || message.id != this.game.id) {
         return false;
       }

@@ -1,1 +1,0 @@
-# Put default profile pictures here

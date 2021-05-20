@@ -58,7 +58,8 @@
 
   table {
     width: 100%;
-    text-align: center;
+    text-align: left;
+    table-layout: fixed;
   }
 
   thead {
@@ -74,6 +75,7 @@
 
     &:first-child {
       border-radius: 10px 0 0 0;
+      padding-left: 3rem;
     }
 
     &:last-child {
@@ -124,11 +126,36 @@
       }
     }
 
+    td:first-child {
+      padding-left: 3rem;
+    }
+
     .td {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      height: clamp(70px, 7vh, 100px);
+      width: auto;
+
+      &.user {
+        cursor: pointer;
+      }
+    }
+
+    .imgwrap {
+      background-color: $accent-light;
+      border-radius: 50%;
+      border: 2px solid $text-dark;
+      padding: 5px;
+      height: 50px;
+      width: 50px;
       display: grid;
       place-items: center;
 
-      min-height: 4rem;
+      img {
+        max-height: 90%;
+      }
     }
   }
 }
