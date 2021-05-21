@@ -518,6 +518,21 @@ header.header {
   background-color: rgba(221, 130, 129, 0.3);
 }
 
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: scroll;
+}
+
+.chatBanner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: clamp(100px, 80%, 1500px);
+  margin: auto;
+}
+
 #game-container {
   width: clamp(100px, 80%, 1500px);
   margin: auto;

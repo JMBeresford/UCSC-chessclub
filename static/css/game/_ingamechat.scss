@@ -1,0 +1,29 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../sizingutils" as *;
+@use "sass:color";
+
+//@use "./ingamechat";
+@use "board";
+
+.chatContainer {
+    // these two lines set up the container to have its children stack vertically
+    // and allow the use of flex utilities
+    display: flex;
+    flex-direction: column;
+  
+    // this line ensures that content stays at the bottom of the container
+    // and stacks upwards as messages are added thanks to the flex-direction
+    justify-content: flex-end;
+
+    overflow-y: scroll;   
+}
+
+.chatBanner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    width: $span-center;
+    margin: auto;
+}
