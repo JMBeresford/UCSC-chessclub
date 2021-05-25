@@ -39,6 +39,7 @@ db.define_table(
             "reference auth_user",
             requires=IS_IN_DB(db, db.auth_user.id),
         ),
+        Field("date", default=get_time)
     ],
 )
 
