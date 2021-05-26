@@ -139,6 +139,7 @@ const customchessboard = Vue.component('customchessboard', {
     }
 
     this.$refs.chess.board.state.viewOnly = !this.canMove();
+    document.body.dispatchEvent(new Event('chessground.resize'));
   },
   template: `
     <div id="custom-board">
