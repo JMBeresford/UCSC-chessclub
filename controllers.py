@@ -348,7 +348,6 @@ def newgame():
         db.games.insert(
             player_white=data["player_white"],
             player_black=data["player_black"],
-            fen=data["fen"],
         )
         response.status = 200
         return dict()
