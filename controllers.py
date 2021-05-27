@@ -339,6 +339,25 @@ def populategames():
     return "Done"
 
 
+@action("post/newgame", method=["POST"])
+@action.uses(db, auth, auth.user)
+def newgame():
+    data = request.json
+
+    try:
+        db.games.insert(
+            player_white=data["player_white"],
+            player_black=data["player_black"],
+            fen=data["fen"],
+        )
+        response.status = 200
+        return dict()
+    except Exception as e:
+        print(e)
+        response.status = 500
+        return "There was an error"
+
+
 @action("initelo/<id:int>")
 @action.uses(db)
 def initelo(id):

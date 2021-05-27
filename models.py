@@ -31,15 +31,16 @@ db.define_table(
             "reference auth_user",
             requires=IS_IN_DB(db, db.auth_user.id),
         ),
-        Field("fen"),
-        Field("game_over", "boolean"),
+        Field(
+            "fen", default="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        ),
+        Field("game_over", "boolean", default=False),
         Field(
             "winner",
             "integer",
             "reference auth_user",
-            requires=IS_IN_DB(db, db.auth_user.id),
         ),
-        Field("date", default=get_time)
+        Field("date", default=get_time),
     ],
 )
 
