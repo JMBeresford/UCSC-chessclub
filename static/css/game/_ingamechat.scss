@@ -1,0 +1,142 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../sizingutils" as *;
+@use "sass:color";
+
+//@use "./ingamechat";
+//@use "board";
+
+.chatContainer {
+    // these two lines set up the container to have its children stack vertically
+    // and allow the use of flex utilities
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: 50px;
+    grid-template-columns: 100%;
+    
+    font-family: "Playfair Display", serif;
+
+    // this line ensures that content stays at the bottom of the container
+    // and stacks upwards as messages are added thanks to the flex-direction
+    justify-content: start;
+    align-items: end;
+
+    height: 100%;
+    max-height: 100%;
+
+    // position: absolute;
+    // top: 0;
+    // left: 5%;
+    // right: 5%;
+    // bottom: 0;
+
+    background-color: rgba(0,0,0,0);
+
+    overflow-y: auto;   
+    overflow-x: hidden;
+
+    .spacer {
+        height: 100%;
+    }
+}
+
+#ingamechat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    white-space: nowrap;
+    text-align: center; 
+    
+    padding: 1rem 1.5rem;
+    width: 100%;
+    grid-template-columns: 100%;
+
+    .wrapper {
+        position: relative;
+        height: 75%;
+        margin-left: 4%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .chatMessage {
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        .whiteMessage {
+            color: black;
+        }
+        
+        .blackMessage {
+            color: black;
+        }
+        
+        .serverMessage {
+            text-align: center;
+            align-self: center;
+            color: darkgray;
+            width: 100%;
+        }
+    }
+}
+
+.inputWrap {
+    width: 100%;
+    display: grid;
+    border: solid 2px $tertiary-bg;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 100%;
+    place-items: center;
+    padding: 0 1rem;
+    border-radius: 10px;
+    background-color: white;
+
+    .input {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        
+        &:focus, &:active {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+    }
+}
+
+.chatBanner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    font-family: "Playfair Display", serif;
+    width: 100%;
+    height: 15%;
+    align-items: center;
+    gap: 1.5rem;
+
+    #leftHorse {
+        width: auto;
+        min-width: 75px;
+    };
+
+    #rightHorse {
+        width: auto;
+        min-width: 75px;
+    };
+
+    h1 {
+        font-size: 1.5rem;
+        margin-top: 4%;
+        margin-bottom: -4%; // make underline closer (bad solution)
+    }
+
+    hr {
+        background-color: gray;
+    }
+}
