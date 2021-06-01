@@ -4,8 +4,12 @@
   <h1>Register</h1>
   <div class="separator"></div>
 
-  <register></register>
-  
+  <register
+    oauth2google="[[ =URL('auth/plugin/oauth2google/login', vars=dict(next='../index')) ]]"
+  ></register>
+
   <div class="separator"></div>
-  <a class="button secondary" href="[[=URL('auth/login')]]">or sign in instead</a>
+  <a class="button secondary" href="[[=URL('auth/login')]]"
+    >or sign in instead</a
+  >
 </main>

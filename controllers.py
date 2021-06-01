@@ -29,6 +29,7 @@ from .settings import APP_FOLDER
 from py4web import action, request, response, abort, redirect, URL
 import random
 import os
+import base64
 from yatl.helpers import A
 import json
 from .common import (
@@ -112,13 +113,13 @@ def profile():
     )
 
     row = db(db.profile_pictures.player_id == user["id"]).select().first()
-    (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
+    pfp = row["image_name"]
 
     return dict(
         user=json.dumps(user),
         games=json.dumps(games),
         isMe=True,
-        pfp=filename,
+        pfp=pfp,
         matchHistory=match_history,
     )
 
@@ -148,15 +149,11 @@ def profile_(profile_id):
         )
 
         row = db(db.profile_pictures.player_id == profile_id).select().first()
-        (filename, fullname) = db.profile_pictures.image.retrieve(
-            row.image, nameonly=True
-        )
+        pfp = row["image_name"]
     except AttributeError:
         redirect(URL("index"))
 
-    return dict(
-        user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=filename
-    )
+    return dict(user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=pfp)
 
 
 @action("game/<id:int>")
@@ -189,26 +186,6 @@ def game(id):
         players=json.dumps(players),
         user=json.dumps(auth.get_user()),
     )
-
-
-@action("setpfprandom/<id:int>")
-@action.uses(db)
-def setpfprandom(id):
-
-    working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
-    img = random.choice(
-        [
-            x
-            for x in os.listdir(working_dir)
-            if os.path.isfile(os.path.join(working_dir, x))
-        ]
-    )
-    img_path = os.path.join(working_dir, img)
-
-    with open(img_path, "rb") as stream:
-        db.profile_pictures.insert(image=stream, player_id=id)
-
-    return dict()
 
 
 @action("populate")
@@ -401,14 +378,13 @@ def getPfp():
 
     try:
         row = db(db.profile_pictures.player_id == id).select().first()
-        (filename, fullname) = db.profile_pictures.image.retrieve(
-            row.image, nameonly=True
-        )
+        print(row)
+        response.status = 200
     except:
         response.status = 500
-        return "There was an issue with the request."
+        return "There was an issue with the profile picture."
 
-    return filename
+    return row["image_name"]
 
 
 @action("get/elo")

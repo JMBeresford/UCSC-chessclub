@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  
+
   border: solid 1px color.adjust($border-dark, $lightness: 20);
   max-width: 80%;
   min-width: 400px;
@@ -36,14 +36,13 @@
     font-weight: 500;
     font-size: 1.125rem;
   }
-  
-  .button.primary  {
-    margin-top: 2rem;
+
+  .button.primary {
     width: 100%;
     background-color: $accent-dark;
     color: $text-light;
     border: 1px solid $accent-dark;
-    
+
     &:hover {
       background-color: color.adjust($accent-dark, $lightness: 15);
       // color: $accent-dark;
@@ -51,14 +50,14 @@
 
     transition: all linear 0.2s;
   }
-  
-  .button.secondary  {
+
+  .button.secondary {
     width: 100%;
     background-color: $tertiary-bg;
     color: $text-light;
     border: 1px solid $tertiary-bg;
     margin: 0;
-    
+
     &:hover {
       background-color: color.adjust($tertiary-bg, $lightness: 10);
     }
@@ -67,10 +66,15 @@
   }
 
   input.input {
-    background-color: color.adjust($secondary-bg, $lightness: -5, $saturation: -40);
+    background-color: color.adjust(
+      $secondary-bg,
+      $lightness: -5,
+      $saturation: -40
+    );
     border: solid 1px color.adjust($border-dark, $lightness: 20);
 
-    &:focus, &:active {
+    &:focus,
+    &:active {
       outline: none;
       border: solid 1px $tertiary-bg;
       -webkit-box-shadow: none;
@@ -82,4 +86,9 @@
     transition: all linear 0.1s;
   }
 
+  .control.btns {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+  }
 }

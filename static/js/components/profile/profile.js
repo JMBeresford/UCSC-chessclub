@@ -1,82 +1,79 @@
-const profile = Vue.component("profile", {
-    props: {
-        user: String,
-        games: String,
-        isme: Boolean,
-        matchhistory: Boolean,
-        pfp: String,
+const profile = Vue.component('profile', {
+  props: {
+    user: String,
+    games: String,
+    isme: Boolean,
+    matchhistory: Boolean,
+    pfp: String,
+  },
+  computed: {
+    getUser: function () {
+      return JSON.parse(this.user);
     },
-    computed: {
-        getUser: function () {
-            return JSON.parse(this.user);
-        },
-        getGames: function () {
-            return JSON.parse(this.games);
-        },
-        getPfp: function () {
-            return `img/pfp/${this.pfp}`;
-        },
+    getGames: function () {
+      return JSON.parse(this.games);
     },
-    created: function () {
-        if (this.matchhistory) {
-            this.showCharts = false;
-        } else {
-            this.showCharts = true;
+    getPfp: function () {
+      return `img/pfp/${this.pfp}`;
+    },
+  },
+  created: function () {
+    if (this.matchhistory) {
+      this.showCharts = false;
+    } else {
+      this.showCharts = true;
+    }
+
+    this.status = this.getUser.status
+      ? this.getUser.status
+      : 'Set your status...';
+
+    Chart.defaults.font.family = 'Poppins';
+    Chart.defaults.color = '#D6EDFF';
+    Chart.defaults.font.weight = 3;
+  },
+  methods: {
+    toggleView: function () {
+      this.showCharts = !this.showCharts;
+    },
+    handleInputExit: function (e) {
+      if (e.type !== 'keyup' && e.target.classList.contains('statusedit')) {
+        return;
+      } else {
+        this.editingStatus = false;
+
+        if (
+          this.status != this.getUser.status &&
+          this.status !== 'Set your status...'
+        ) {
+          axios
+            .post('../post/status', {
+              status: this.status,
+              id: this.getUser.id,
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                let user = this.getUser;
+                user.status = this.status;
+                // modifying props like this is bad, only doing because lazy and circumstances allow it
+                this.user = JSON.stringify(user);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
-
-        this.status = this.getUser.status
-            ? this.getUser.status
-            : "Set your status...";
-
-        Chart.defaults.font.family = "Poppins";
-        Chart.defaults.color = "#D6EDFF";
-        Chart.defaults.font.weight = 3;
+      }
     },
-    methods: {
-        toggleView: function () {
-            this.showCharts = !this.showCharts;
-        },
-        handleInputExit: function (e) {
-            if (
-                e.type !== "keyup" &&
-                e.target.classList.contains("statusedit")
-            ) {
-                return;
-            } else {
-                this.editingStatus = false;
-
-                if (
-                    this.status != this.getUser.status &&
-                    this.status !== "Set your status..."
-                ) {
-                    axios
-                        .post("../post/status", {
-                            status: this.status,
-                            id: this.getUser.id,
-                        })
-                        .then((res) => {
-                            if (res.status == 200) {
-                                let user = this.getUser;
-                                user.status = this.status;
-                                // modifying props like this is bad, only doing because lazy and circumstances allow it
-                                this.user = JSON.stringify(user);
-                            }
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-            }
-        },
-    },
-    data() {
-        return {
-            showCharts: null,
-            editingStatus: false,
-            status: "",
-        };
-    },
-    template: `
+  },
+  data() {
+    return {
+      showCharts: null,
+      editingStatus: false,
+      status: '',
+    };
+  },
+  template: `
     <main @click.stop="handleInputExit">
         <div class="bg">
             <div class="wrapper">

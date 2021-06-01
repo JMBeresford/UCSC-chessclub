@@ -3,6 +3,9 @@ This file defines the database models
 """
 
 import datetime
+import os
+import random
+from .settings import APP_FOLDER
 from .common import db, Field, auth
 from pydal.validators import *
 
@@ -34,7 +37,6 @@ db.define_table(
         Field(
             "fen", default="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
         ),
-        Field("game_over", "boolean", default=False),
         Field(
             "winner",
             "integer",
@@ -74,11 +76,32 @@ db.define_table(
 db.define_table(
     "profile_pictures",
     [
-        Field("image", "upload"),
+        Field("image_name"),
         Field(
             "player_id", "reference auth_user", requires=IS_IN_DB(db, db.auth_user.id)
         ),
     ],
 )
+
+
+def set_random_pfp(f, i):
+    working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
+    img = random.choice(
+        [
+            x
+            for x in os.listdir(working_dir)
+            if os.path.isfile(os.path.join(working_dir, x))
+        ]
+    )
+
+    db.profile_pictures.update_or_insert(
+        db.profile_pictures.player_id == i, image_name=img, player_id=i
+    )
+
+    return False
+
+
+db.auth_user._after_insert.append(lambda f, i: db.ratings.insert(player_id=i))
+db.auth_user._after_insert.append(set_random_pfp)
 
 db.commit()

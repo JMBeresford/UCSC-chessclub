@@ -35,13 +35,21 @@ for item in settings.LOGGERS:
 # #######################################################
 # connect to db
 # #######################################################
-db = DAL(
-    settings.DB_URI,
-    folder=settings.DB_FOLDER,
-    pool_size=settings.DB_POOL_SIZE,
-    migrate=settings.DB_MIGRATE,
-    fake_migrate=settings.DB_FAKE_MIGRATE,
-)
+if os.environ.get("GAE_ENV"):
+    db = DAL(
+        settings.CLOUD_DB_URI,
+        pool_size=settings.CLOUD_DB_POOL_SIZE,
+        migrate=settings.CLOUD_DB_MIGRATE,
+        fake_migrate=settings.CLOUD_DB_FAKE_MIGRATE,
+    )
+else:
+    db = DAL(
+        settings.DB_URI,
+        folder=settings.DB_FOLDER,
+        pool_size=settings.DB_POOL_SIZE,
+        migrate=settings.DB_MIGRATE,
+        fake_migrate=settings.DB_FAKE_MIGRATE,
+    )
 
 # #######################################################
 # define global objects that may or may not be used by the actions
@@ -85,9 +93,9 @@ auth = Auth(session, db, define_tables=False)
 
 # Fixes the messages.
 auth_messages = copy.deepcopy(auth.MESSAGES)
-auth_messages['buttons']['sign-in'] = "Sign in"
-auth_messages['buttons']['sign-up'] = "Register"
-auth_messages['buttons']['lost-password'] = "Lost password"
+auth_messages["buttons"]["sign-in"] = "Sign in"
+auth_messages["buttons"]["sign-up"] = "Register"
+auth_messages["buttons"]["lost-password"] = "Lost password"
 
 # And button classes.
 auth_button_classes = {
@@ -146,13 +154,16 @@ if settings.USE_LDAP:
 if settings.OAUTH2GOOGLE_CLIENT_ID:
     from py4web.utils.auth_plugins.oauth2google import OAuth2Google  # TESTED
 
-    auth.register_plugin(
-        OAuth2Google(
-            client_id=settings.OAUTH2GOOGLE_CLIENT_ID,
-            client_secret=settings.OAUTH2GOOGLE_CLIENT_SECRET,
-            callback_url="auth/plugin/oauth2google/callback",
-        )
+    oauth = OAuth2Google(
+        client_id=settings.OAUTH2GOOGLE_CLIENT_ID,
+        client_secret=settings.OAUTH2GOOGLE_CLIENT_SECRET,
+        callback_url="auth/plugin/oauth2google/callback",
     )
+
+    oauth.maps["username"] = "email"
+
+    auth.register_plugin(oauth)
+
 if settings.OAUTH2FACEBOOK_CLIENT_ID:
     from py4web.utils.auth_plugins.oauth2facebook import OAuth2Facebook  # UNTESTED
 
@@ -179,16 +190,18 @@ if settings.OAUTH2OKTA_CLIENT_ID:
 # Define a convenience action to allow users to download
 # files uploaded and reference by Field(type='upload')
 # #######################################################
-if settings.UPLOAD_FOLDER:
-    @action('download/<filename>')
-    @action.uses(db)
-    def download(filename):
-        return downloader(db, settings.UPLOAD_FOLDER, filename)
-    # To take advantage of this in Form(s)
-    # for every field of type upload you MUST specify:
-    #
-    # field.upload_path = settings.UPLOAD_FOLDER
-    # field.download_url = lambda filename: URL('download/%s' % filename)
+# if settings.UPLOAD_FOLDER:
+
+#     @action("download/<filename>")
+#     @action.uses(db)
+#     def download(filename):
+#         return downloader(db, settings.UPLOAD_FOLDER, filename)
+
+# To take advantage of this in Form(s)
+# for every field of type upload you MUST specify:
+#
+# field.upload_path = settings.UPLOAD_FOLDER
+# field.download_url = lambda filename: URL('download/%s' % filename)
 
 # #######################################################
 # Optionally configure celery

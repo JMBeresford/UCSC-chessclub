@@ -77,6 +77,13 @@ const leaderboards = Vue.component('leaderboards', {
               draws: drawsID,
               winrate: this.getWinrate(winsID, losessID, drawsID).toFixed(0),
             });
+          })
+          .catch((err) => {
+            if (err.response.status === 500) {
+              axios.get(`../setrandompfp/${id}`).then(() => {
+                i--;
+              });
+            }
           });
       }
     },
@@ -115,8 +122,9 @@ const leaderboards = Vue.component('leaderboards', {
       <div class="wrap">
         <table>
           <thead>
+            <th></th>
             <th>Rank</th>
-            <th>User</th>
+            <th colspan="2">User</th>
             <th>Elo</th>
             <th>Wins</th>
             <th>Losses</th>
@@ -126,12 +134,13 @@ const leaderboards = Vue.component('leaderboards', {
           </thead>
           <tbody>
             <tr v-for="(entry, i) in sortedList" :key="i">
+              <td></td
               <td>
                 <div class="td rank">
                   <p>{{ ++i }}</p>
                 </div>
               </td>
-              <td>
+              <td colspan="2">
                 <div @click='goToProfile(entry.id)' class="td user">
                   <div class="imgwrap">
                     <img class="pfp" :src="'img/pfp/' + entry.pfp">
