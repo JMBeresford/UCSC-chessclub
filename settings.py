@@ -27,10 +27,11 @@ if not os.environ.get("GAE_ENV"):
     DB_FAKE_MIGRATE = False  # maybe?
 
 # G Cloud db
-CLOUD_DB_URI = f"google:MySQLdb://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}"
-CLOUD_DB_POOL_SIZE = 1
-CLOUD_DB_MIGRATE = False
-CLOUD_DB_FAKE_MIGRATE = False  # maybe?
+if os.environ.get("GAE_ENV"):
+    CLOUD_DB_URI = f"google:MySQLdb://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}"
+    CLOUD_DB_POOL_SIZE = 1
+    CLOUD_DB_MIGRATE = False
+    CLOUD_DB_FAKE_MIGRATE = False  # maybe?
 
 # location where static files are stored:
 # STATIC_FOLDER = required_folder(APP_FOLDER, "static")
