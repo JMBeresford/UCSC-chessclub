@@ -84,8 +84,8 @@ const customchessboard = Vue.component('customchessboard', {
       }
 
       if (this.$refs.chess.game.in_check()) {
-        this.check = this.toMove;
-        this.$emit('check', this.check);
+        let message = JSON.stringify({ type: 'check', color: this.toMove });
+        this.ws.send(message);
       } else {
         this.check = '';
       }
@@ -139,6 +139,7 @@ const customchessboard = Vue.component('customchessboard', {
     }
 
     this.$refs.chess.board.state.viewOnly = !this.canMove();
+    document.body.dispatchEvent(new Event('chessground.resize'));
   },
   template: `
     <div id="custom-board">

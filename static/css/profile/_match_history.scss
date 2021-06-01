@@ -1,0 +1,87 @@
+@use "../colors" as *;
+@use "../fonts" as *;
+@use "../sizingutils" as *;
+@use "sass:color";
+
+#match-history-container {
+    color: $text-light;
+    padding: 1rem;
+
+    h1 {
+        font-size: 3rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        text-align: center;
+        table-layout: fixed;
+    }
+
+    tbody {
+        tr {
+            font-weight: 500;
+            font-size: 1rem;
+            vertical-align: center;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: $accent-medium;
+            color: $text-dark;
+            cursor: pointer;
+            transition: background-color ease 0.2s;
+            font-family: $sans-serif;
+
+            &:hover {
+                background-color: color.adjust($accent-medium, $lightness: 10);
+            }
+        }
+
+        .completed {
+            color: $accent-medium;
+            background-color: $accent-dark;
+            border: 2px solid $accent-medium;
+
+            &:hover {
+                background-color: color.adjust($accent-dark, $lightness: 10);
+            }
+        }
+
+        td:first-child {
+            margin-left: 3rem;
+        }
+
+        .td {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            height: clamp(70px, 7vh, 100px);
+            width: auto;
+
+            border-top: 1px solid white;
+
+            &.user {
+                cursor: pointer;
+            }
+        }
+
+        .imgwrap {
+            background-color: $accent-light;
+            border-radius: 50%;
+            border: 2px solid $text-dark;
+            padding: 5px;
+            height: 50px;
+            width: 50px;
+            display: grid;
+            place-items: center;
+
+            img {
+                max-height: 90%;
+            }
+        }
+    }
+}
