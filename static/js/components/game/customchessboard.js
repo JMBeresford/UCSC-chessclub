@@ -11,7 +11,7 @@ const customchessboard = Vue.component('customchessboard', {
       fen: String,
       check: String,
       playerColor: String,
-      ws: WebSocket,
+      fen_es: EventSource,
     };
   },
   computed: {},
@@ -46,35 +46,20 @@ const customchessboard = Vue.component('customchessboard', {
           console.log(err);
         });
     },
-    pullFen: function (e) {
-      let message = JSON.parse(e.data);
-      console.log(e);
-      if (message.type != 'move' || message.id != this.game.id) {
-        return false;
-      }
+    handleNewFen: function (e) {
+      let data = JSON.parse(e.data);
 
-      axios
-        .get(`../get/fen?id=${this.game.id}`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.fen = res.data;
-            this.$refs.chess.game.load(this.fen);
-            this.$refs.chess.board.set({
-              fen: this.fen,
-              turnColor: this.$refs.chess.toColor(),
-              movable: {
-                color: this.$refs.chess.toColor(),
-                dests: this.$refs.chess.possibleMoves(),
-                events: { after: this.$refs.chess.changeTurn() },
-              },
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      return false;
+      this.fen = data.fen;
+      this.$refs.chess.game.load(this.fen);
+      this.$refs.chess.board.set({
+        fen: this.fen,
+        turnColor: this.$refs.chess.toColor(),
+        movable: {
+          color: this.$refs.chess.toColor(),
+          dests: this.$refs.chess.possibleMoves(),
+          events: { after: this.$refs.chess.changeTurn() },
+        },
+      });
     },
     handleMove: function (data) {
       this.toMove = data.turn;
@@ -92,13 +77,12 @@ const customchessboard = Vue.component('customchessboard', {
 
       this.$refs.chess.board.state.viewOnly = !this.canMove();
     },
-    wsOpened: function (e) {
-      console.log('websocket connection established');
-      return false;
+    esError: function (err) {
+      console.error('EventSource failed:', err);
     },
-    wsClosed: function (e) {
-      console.log('websocket connection CLOSED');
-    },
+  },
+  beforeDestroy: function () {
+    this.fen_es.close();
   },
   created: function () {
     this.playerColor = 'white';
@@ -120,15 +104,15 @@ const customchessboard = Vue.component('customchessboard', {
     }
 
     if (!this.free) {
-      this.ws = new WebSocket(
-        (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
-          window.location.host +
-          `/chessclub/websocket/${this.game.id}`
+      this.fen_es = new EventSource(
+        `${window.location.protocol}//${window.location.host}/chessclub/fen_sse/${this.game.id}`,
+        {
+          withCredentials: true,
+        }
       );
 
-      this.ws.onopen = this.wsOpened;
-      this.ws.onclose = this.wsClosed;
-      this.ws.onmessage = this.pullFen;
+      this.fen_es.onmessage = this.handleNewFen;
+      this.fen_es.onerror = this.esError;
     }
   },
   mounted: function () {
