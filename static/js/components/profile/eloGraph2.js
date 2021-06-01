@@ -27,7 +27,11 @@ const eloGraph2 = Vue.component('eloGraph2', {
           console.log('Not counting');
         }
       });
-       return [wins, draws, losses];
+       if(wins == 0 && losses ==0 && draws==0)
+      {
+        draws = 1;//temp data.
+      }
+       return [wins, losses, draws];
       },
 
     },
