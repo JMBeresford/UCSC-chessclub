@@ -37,4 +37,89 @@ db.define_table('profile_pictures', [
   Field('player_id', 'reference auth_user', requires=IS_IN_DB(db, db.auth_user.id))
 ])
 
+# db.games.insert(
+#        player_white = 1,
+#        player_black = 2,
+#        game_over = True,
+#        winner = 1,
+# )
+#
+# db.games.insert(
+#        player_white = 2,
+#        player_black = 1,
+#        game_over = True,
+#        winner = -1,
+# )
+#
+# db.games.insert(
+#        player_white = 4,
+#        player_black = 1,
+#        game_over = True,
+#        winner = 4,
+# )
+#
+# db.games.insert(
+#        player_white = 2,
+#        player_black = 4,
+#        game_over = True,
+#        winner = 4,
+# )
+#
+# db.games.insert(
+#        player_white = 4,
+#        player_black = 3,
+#        game_over = True,
+#        winner = 4,
+# )
+#
+# db.games.insert(
+#        player_white = 4,
+#        player_black = 2,
+#        game_over = True,
+#        winner = -1,
+# )
+#
+# db.games.insert(
+#        player_white = 1,
+#        player_black = 3,
+#        game_over = True,
+#        winner = 1,
+# )
+#
+# db.games.insert(
+#        player_white = 3,
+#        player_black = 4,
+#        game_over = True,
+#        winner = 4,
+# )
+#
+# db.games.insert(
+#        player_white = 2,
+#        player_black = 3,
+#        game_over = True,
+#        winner = 3,
+# )
+#
+# db.games.insert(
+#        player_white = 3,
+#        player_black = 2,
+#        game_over = True,
+#        winner = -1,
+# )
+#
+# db.games.insert(
+#        player_white = 2,
+#        player_black = 3,
+#        game_over = True,
+#        winner = -1,
+# )
+#
+# db.games.insert(
+#        player_white = 3,
+#        player_black = 2,
+#        game_over = True,
+#        winner = -1,
+# )
+
+
 db.commit()

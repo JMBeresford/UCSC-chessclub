@@ -72,7 +72,19 @@ def register():
 @action("home")
 @action.uses(db, auth, auth.user, "home.html")
 def home():
-    return {"noboard": False, "zoominto": True, "user": json.dumps(auth.get_user())}
+    me = auth.get_user()
+    my_id = auth.get_user()['id']
+    #games = db( db.games.game_over & ( (db.games.player_white == my_id) | (db.games.player_black == my_id)) ).select().as_dict()
+    games = db( db.games.game_over ).select().as_dict()
+    users = db(db.auth_user.id != my_id ).select(db.auth_user.id, db.auth_user.username, db.auth_user.first_name, db.auth_user.last_name ).as_dict()
+    ratings = db(db.ratings).select().as_dict()
+    return {"noboard": False,
+            "zoominto": True,
+            "user": json.dumps(auth.get_user()),
+            "games": json.dumps(games),
+            "users": json.dumps(users),
+            "ratings": json.dumps(ratings),
+            }
 
 
 @action("leaderboards")

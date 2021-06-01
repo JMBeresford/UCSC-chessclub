@@ -204,6 +204,12 @@ header.header {
   align-items: center;
   width: 100%;
 }
+#home .menu-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 #home .banner {
   display: flex;
   align-items: center;
@@ -244,6 +250,17 @@ header.header {
 }
 #home .disabled::after, #home .disabled::before {
   display: none;
+}
+#home .backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  z-index: 6;
 }
 
 #leaderboard-container {
