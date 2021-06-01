@@ -16,3 +16,4 @@ vendor/three/utils/
 uploads/*
 .DS_Store
 .REST
+private
