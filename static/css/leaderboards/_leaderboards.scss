@@ -74,6 +74,7 @@
     color: $text-light;
 
     &:first-child {
+      width: 10px;
       border-radius: 10px 0 0 0;
       padding-left: 3rem;
     }
@@ -126,14 +127,11 @@
       }
     }
 
-    td:first-child {
-      padding-left: 3rem;
-    }
-
     .td {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      overflow-x: hidden;
 
       height: clamp(70px, 7vh, 100px);
       width: auto;
@@ -150,6 +148,7 @@
       padding: 5px;
       height: 50px;
       width: 50px;
+      min-width: 50px;
       display: grid;
       place-items: center;
 

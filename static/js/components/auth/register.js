@@ -1,4 +1,7 @@
 Vue.component('register', {
+  props: {
+    oauth2google: String,
+  },
   data() {
     return {
       form: {
@@ -31,11 +34,11 @@ Vue.component('register', {
           } else {
             console.log(res);
             let id = res.data.id;
-            axios.get(`../setpfprandom/${id}`);
+            // axios.get(`../setpfprandom/${id}`);
 
-            axios.get(`../initelo/${id}`);
+            // axios.get(`../initelo/${id}`);
 
-            axios.post(`../post/status`, { id: id, status: '' });
+            // axios.post(`../post/status`, { id: id, status: '' });
 
             window.location = this.next;
           }
@@ -96,8 +99,12 @@ Vue.component('register', {
       </div>
 
       <div class="field">
-        <div class="control">
-          <button @click.prevent="submit" class="button primary">Submit</button>
+        <div class="control btns">
+          <button @click.prevent="submit" class="button primary">Register</button>
+          <a class="button is-outlined" :href="oauth2google">
+            <img style="width: 20px; margin-right: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png">
+            Sign In With Google
+          </a>
         </div>
       </div>
     </form>

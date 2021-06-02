@@ -29,6 +29,7 @@ from .settings import APP_FOLDER
 from py4web import action, request, response, abort, redirect, URL
 import random
 import os
+import base64
 from yatl.helpers import A
 import json
 from .common import (
@@ -44,6 +45,9 @@ from .common import (
 )
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
+
+# from gevent import monkey; monkey.patch_all()
+from gevent import sleep
 
 url_signer = URLSigner(session)
 
@@ -73,18 +77,31 @@ def register():
 @action.uses(db, auth, auth.user, "home.html")
 def home():
     me = auth.get_user()
-    my_id = auth.get_user()['id']
-    #games = db( db.games.game_over & ( (db.games.player_white == my_id) | (db.games.player_black == my_id)) ).select().as_dict()
-    games = db( db.games.game_over ).select().as_dict()
-    users = db(db.auth_user.id != my_id ).select(db.auth_user.id, db.auth_user.username, db.auth_user.first_name, db.auth_user.last_name ).as_dict()
+    my_id = auth.get_user()["id"]
+    games = (
+        db((db.games.player_white == my_id) | (db.games.player_black == my_id))
+        .select()
+        .as_dict()
+    )
+    users = (
+        db(db.auth_user.id != my_id)
+        .select(
+            db.auth_user.id,
+            db.auth_user.username,
+            db.auth_user.first_name,
+            db.auth_user.last_name,
+        )
+        .as_dict()
+    )
     ratings = db(db.ratings).select().as_dict()
-    return {"noboard": False,
-            "zoominto": True,
-            "user": json.dumps(auth.get_user()),
-            "games": json.dumps(games),
-            "users": json.dumps(users),
-            "ratings": json.dumps(ratings),
-            }
+    return {
+        "noboard": False,
+        "zoominto": True,
+        "user": json.dumps(auth.get_user()),
+        "games": json.dumps(games),
+        "users": json.dumps(users),
+        "ratings": json.dumps(ratings),
+    }
 
 
 @action("leaderboards")
@@ -124,13 +141,13 @@ def profile():
     )
 
     row = db(db.profile_pictures.player_id == user["id"]).select().first()
-    (filename, fullname) = db.profile_pictures.image.retrieve(row.image, nameonly=True)
+    pfp = row["image_name"]
 
     return dict(
         user=json.dumps(user),
         games=json.dumps(games),
         isMe=True,
-        pfp=filename,
+        pfp=pfp,
         matchHistory=match_history,
     )
 
@@ -160,15 +177,11 @@ def profile_(profile_id):
         )
 
         row = db(db.profile_pictures.player_id == profile_id).select().first()
-        (filename, fullname) = db.profile_pictures.image.retrieve(
-            row.image, nameonly=True
-        )
+        pfp = row["image_name"]
     except AttributeError:
         redirect(URL("index"))
 
-    return dict(
-        user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=filename
-    )
+    return dict(user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=pfp)
 
 
 @action("game/<id:int>")
@@ -201,26 +214,6 @@ def game(id):
         players=json.dumps(players),
         user=json.dumps(auth.get_user()),
     )
-
-
-@action("setpfprandom/<id:int>")
-@action.uses(db)
-def setpfprandom(id):
-
-    working_dir = os.path.join(APP_FOLDER, "static", "img", "pfp")
-    img = random.choice(
-        [
-            x
-            for x in os.listdir(working_dir)
-            if os.path.isfile(os.path.join(working_dir, x))
-        ]
-    )
-    img_path = os.path.join(working_dir, img)
-
-    with open(img_path, "rb") as stream:
-        db.profile_pictures.insert(image=stream, player_id=id)
-
-    return dict()
 
 
 @action("populate")
@@ -413,14 +406,13 @@ def getPfp():
 
     try:
         row = db(db.profile_pictures.player_id == id).select().first()
-        (filename, fullname) = db.profile_pictures.image.retrieve(
-            row.image, nameonly=True
-        )
+        print(row)
+        response.status = 200
     except:
         response.status = 500
-        return "There was an issue with the request."
+        return "There was an issue with the profile picture."
 
-    return filename
+    return row["image_name"]
 
 
 @action("get/elo")
@@ -493,14 +485,22 @@ def updateStatus():
     return dict()
 
 
-@action("websocket/<id:int>")
-@action.uses(auth, auth.user)
-def websocket(id):
-    ws = request.environ.get("wsgi.websocket")
+@action("fen_sse/<id:int>")
+@action.uses(auth, auth.user, db)
+def sse(id):
+    response.content_type = "text/event-stream"
+    response.cache_control = "no-cache"
+
+    # Sets the auto-reconnect timeout to 1000ms on client
+    yield "retry: 1000\n\n"
+
+    fen_old = db(db.games.id == id).select(db.games.fen).first().as_dict()
+
     while True:
-        msg = ws.receive()
-        if msg is not None:
-            for client in ws.handler.server.clients.values():
-                client.ws.send(msg)
-        else:
-            break
+        fen = db(db.games.id == id).select(db.games.fen).first().as_dict()
+
+        if fen_old != fen:
+            yield f"data: {json.dumps(fen)}\n\n"
+            fen_old = fen
+        # only update every 1s
+        sleep(1)

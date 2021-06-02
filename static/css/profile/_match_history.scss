@@ -4,84 +4,109 @@
 @use "sass:color";
 
 #match-history-container {
+  color: $text-dark;
+  padding: 0;
+
+  table {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+  }
+
+  .headwrap {
+    padding: 1rem 0;
+  }
+
+  thead {
+    background-color: $accent-dark;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 100%;
+  }
+
+  th {
+    background-color: $tertiary-bg;
     color: $text-light;
-    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
 
-    h1 {
-        font-size: 3rem;
-        text-align: center;
-        width: 100%;
+  tbody {
+    tr {
+      font-weight: 500;
+      font-size: 1rem;
+      vertical-align: center;
+      background-color: color.adjust(
+        $secondary-bg,
+        $lightness: -5,
+        $saturation: -30
+      );
+
+      &:nth-child(odd) {
+        background-color: $secondary-bg;
+      }
     }
 
-    table {
-        width: 100%;
-        text-align: center;
-        table-layout: fixed;
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: $accent-dark;
+      color: $accent-light;
+      cursor: pointer;
+      transition: background-color ease 0.2s;
+      font-family: $sans-serif;
+      font-weight: 500;
+
+      &:hover {
+        background-color: color.adjust($accent-dark, $lightness: 10);
+      }
     }
 
-    tbody {
-        tr {
-            font-weight: 500;
-            font-size: 1rem;
-            vertical-align: center;
-        }
+    .completed {
+      color: $text-dark;
+      background-color: rgba(0, 0, 0, 0);
+      border: 2px solid $accent-dark;
 
-        button {
-            padding: 0.5rem 1rem;
-            border: none;
-            background-color: $accent-medium;
-            color: $text-dark;
-            cursor: pointer;
-            transition: background-color ease 0.2s;
-            font-family: $sans-serif;
-
-            &:hover {
-                background-color: color.adjust($accent-medium, $lightness: 10);
-            }
-        }
-
-        .completed {
-            color: $accent-medium;
-            background-color: $accent-dark;
-            border: 2px solid $accent-medium;
-
-            &:hover {
-                background-color: color.adjust($accent-dark, $lightness: 10);
-            }
-        }
-
-        td:first-child {
-            margin-left: 3rem;
-        }
-
-        .td {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-
-            height: clamp(70px, 7vh, 100px);
-            width: auto;
-
-            border-top: 1px solid white;
-
-            &.user {
-                cursor: pointer;
-            }
-        }
-
-        .imgwrap {
-            background-color: $accent-light;
-            border-radius: 50%;
-            border: 2px solid $text-dark;
-            padding: 5px;
-            height: 50px;
-            width: 50px;
-            display: grid;
-            place-items: center;
-
-            img {
-                max-height: 90%;
-            }
-        }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0);
+        cursor: unset;
+      }
     }
+
+    td:first-child {
+      margin-left: 3rem;
+    }
+
+    .td {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+
+      height: clamp(70px, 7vh, 100px);
+      width: auto;
+
+      border-top: 1px solid color.adjust($accent-light, $alpha: -0.8);
+
+      &.user {
+        cursor: pointer;
+      }
+    }
+
+    .imgwrap {
+      background-color: $accent-light;
+      border-radius: 50%;
+      border: 2px solid $text-dark;
+      padding: 5px;
+      height: 50px;
+      width: 50px;
+      display: grid;
+      place-items: center;
+
+      img {
+        max-height: 90%;
+      }
+    }
+  }
 }

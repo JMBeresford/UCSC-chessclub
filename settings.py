@@ -8,22 +8,36 @@ This file is provided as an example:
 import os
 from py4web.core import required_folder
 
+# try import private settings
+try:
+    from .private.secrets import *
+except (ImportError, ModuleNotFoundError):
+    pass
+
 # db settings
 APP_FOLDER = os.path.dirname(__file__)
 APP_NAME = os.path.split(APP_FOLDER)[-1]
 # DB_FOLDER:    Sets the place where migration files will be created
 #               and is the store location for SQLite databases
-DB_FOLDER = required_folder(APP_FOLDER, "databases")
-DB_URI = "sqlite://storage.db"
-DB_POOL_SIZE = 1
-DB_MIGRATE = True
-DB_FAKE_MIGRATE = False  # maybe?
+if not os.environ.get("GAE_ENV"):
+    DB_FOLDER = required_folder(APP_FOLDER, "databases")
+    DB_URI = "sqlite://storage.db"
+    DB_POOL_SIZE = 1
+    DB_MIGRATE = True
+    DB_FAKE_MIGRATE = False  # maybe?
+
+# G Cloud db
+if os.environ.get("GAE_ENV"):
+    CLOUD_DB_URI = f"google:MySQLdb://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}"
+    CLOUD_DB_POOL_SIZE = 1
+    CLOUD_DB_MIGRATE = False
+    CLOUD_DB_FAKE_MIGRATE = False  # maybe?
 
 # location where static files are stored:
-STATIC_FOLDER = required_folder(APP_FOLDER, "static")
+# STATIC_FOLDER = required_folder(APP_FOLDER, "static")
 
 # location where to store uploaded files:
-UPLOAD_FOLDER = required_folder(APP_FOLDER, "uploads")
+# UPLOAD_FOLDER = required_folder(APP_FOLDER, "uploads")
 
 # send email on regstration
 VERIFY_EMAIL = False
@@ -47,7 +61,7 @@ SMTP_TLS = False
 
 # session settings
 SESSION_TYPE = "database"
-SESSION_SECRET_KEY = "c90f618b-8a3b-481c-81fd-8f7212ddddf5" # replace this with a uuid
+SESSION_SECRET_KEY = "c90f618b-8a3b-481c-81fd-8f7212ddddf5"  # replace this with a uuid
 MEMCACHE_CLIENTS = ["127.0.0.1:11211"]
 REDIS_SERVER = "localhost:6379"
 
@@ -55,10 +69,6 @@ REDIS_SERVER = "localhost:6379"
 LOGGERS = [
     "warning:stdout"
 ]  # syntax "severity:filename" filename can be stderr or stdout
-
-# single sign on Google (will be used if provided)
-OAUTH2GOOGLE_CLIENT_ID = None
-OAUTH2GOOGLE_CLIENT_SECRET = None
 
 # single sign on Okta (will be used if provided. Please also add your tenant
 # name to py4web/utils/auth_plugins/oauth2okta.py. You can replace the XXX
@@ -90,6 +100,6 @@ CELERY_BROKER = "redis://localhost:6379/0"
 
 # try import private settings
 try:
-    from .settings_private import *
+    from .private.secrets import *
 except (ImportError, ModuleNotFoundError):
     pass

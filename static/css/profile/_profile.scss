@@ -8,10 +8,13 @@
 
 #profile {
   height: 100%;
-  margin-top: $header-height;
+  width: 100%;
+  padding-top: $header-height;
 
   .bg {
     background-color: $secondary-bg;
+    border-top: solid 1px $tertiary-bg;
+    border-bottom: solid 1px $tertiary-bg;
   }
 
   .wrapper {
@@ -135,10 +138,10 @@
     }
 
     .stats {
-      background-color: $accent-medium;
+      background-color: color.adjust($accent-medium, $lightness: -10);
 
       &:hover {
-        background-color: color.adjust($accent-medium, $lightness: -10);
+        background-color: color.adjust($accent-medium, $lightness: -20);
       }
     }
   }
@@ -182,8 +185,17 @@
     margin-top: 3rem;
     width: 100%;
     min-height: 300px;
+    max-height: 55vh;
     border-radius: 10px;
     background-color: $accent-dark;
+
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .charts,
@@ -196,7 +208,7 @@
   }
 
   .graph1container {
-    height: 40vh;
+    height: 100%;
   }
 
   .visible {

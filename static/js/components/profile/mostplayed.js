@@ -9,7 +9,7 @@ const mostplayed = Vue.component('mostplayed', {
   },
   methods: {
     //basic outline //need to work on making this cleaner. Was going to just have one obj
-    //but then calculating updates would be more cumberson. 
+    //but then calculating updates would be more cumberson.
   calcWins: function (id) {
     let wins = 0;
     let losses = 0;
@@ -79,7 +79,7 @@ const mostplayed = Vue.component('mostplayed', {
           //put into hashtbl
         }
         else{
-          
+
           let winner  = "";
           if(this.games[key].player_white == id)
           {
@@ -140,7 +140,7 @@ const mostplayed = Vue.component('mostplayed', {
             this.mostPlayedArray.push({url: responseArr[2].data});
 
             });
-  
+
     return [this.mostWonArray, this.mostLostArray, this.mostPlayedArray];
   },
 },
@@ -154,17 +154,17 @@ created: function () {
   <div id="mostplayed">
     <div class="mostplayeduser">
       <div class="imgwrap">
-        <img class="pfp" :src="'img/pfp/'+ mostPlayedArray[1].url">          
+        <img class="pfp" :src="'img/pfp/'+ mostPlayedArray[1].url">
       </div>
     </div>
     <div class="mostwonagainst">
     <div class="imgwrap">
-        <img class="pfp" :src="'img/pfp/'+ mostWonArray[1].url">          
+        <img class="pfp" :src="'img/pfp/'+ mostWonArray[1].url">
     </div>
     </div>
     <div class="mostlostagainst">
     <div class="imgwrap">
-        <img class="pfp" :src="'img/pfp/'+ mostLostArray[1].url">          
+        <img class="pfp" :src="'img/pfp/'+ mostLostArray[1].url">
     </div>
     </div>
   </div>
