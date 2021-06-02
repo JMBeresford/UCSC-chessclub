@@ -17,6 +17,16 @@
     width: 100%;
     max-width: $span-center;
     display: flex;
+    border-radius: 10px;
+
+    overflow-y: auto;
+    max-height: 65vh;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .banner {
