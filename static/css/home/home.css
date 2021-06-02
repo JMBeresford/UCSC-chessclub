@@ -20,6 +20,12 @@
   align-items: center;
   width: 100%;
 }
+#home .menu-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 #home .banner {
   display: flex;
   align-items: center;
@@ -60,6 +66,221 @@
 }
 #home .disabled::after, #home .disabled::before {
   display: none;
+}
+#home .backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  z-index: 6;
+}
+#home .modal-title {
+  margin: 0 4rem;
+  font-family: "Playfair Display", serif;
+  font-size: 2.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  position: relative;
+  text-align: center;
+}
+#home .modal-title::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #333;
+}
+
+#challenge-modal-box {
+  background-color: #FFEFD6;
+  border-radius: 6px;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  color: #4a4a4a;
+  display: block;
+  padding: 1.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+  min-width: 500px;
+}
+
+#challenge-modal-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#challenge-modal-button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: #37454F;
+  color: #FFF9F0;
+  cursor: pointer;
+  transition: background-color ease 0.2s;
+}
+
+#challenge-modal-column1 {
+  display: block;
+  padding: 0.75rem;
+  /*    background-color: #d2ccb4;*/
+}
+
+#challenge-modal-container .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: clamp(100px, 80%, 1500px);
+  display: flex;
+  border-style: solid;
+  border-radius: 12px;
+  max-height: 300px;
+  overflow: auto;
+}
+
+#challenge-modal-container .banner {
+  width: 100%;
+  background-color: #FFEFD6;
+  display: grid;
+  place-items: center;
+  border-top: solid 1px #8C7E68;
+  border-bottom: solid 1px #8C7E68;
+  margin-bottom: 3rem;
+}
+
+#challenge-modal-container .innerWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: clamp(800px, 50%, 400px);
+}
+
+#challenge-modal-container h1 {
+  font-family: "Playfair Display", serif;
+  text-transform: uppercase;
+  font-size: 3rem;
+  font-weight: 500;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+#challenge-modal-container h1::after {
+  content: "";
+  position: absolute;
+  right: -10%;
+  left: -10%;
+  bottom: -0.25rem;
+  height: 1px;
+  background-color: rgba(51, 51, 51, 0.5);
+}
+
+#challenge-modal-container table {
+  width: 100%;
+  text-align: left;
+  table-layout: fixed;
+}
+
+#challenge-modal-container thead {
+  background-color: #8C7E68;
+}
+
+#challenge-modal-container th {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.75rem 0;
+  color: #FFF9F0;
+}
+
+#challenge-modal-container th:first-child {
+  border-radius: 10px 0 0 0;
+  padding-left: 3rem;
+}
+
+#challenge-modal-container th:last-child {
+  min-width: 10px;
+  border-radius: 0 10px 0 0;
+}
+
+#challenge-modal-container tbody tr {
+  background-color: #f5e3c6;
+  font-weight: 500;
+  font-size: 1rem;
+  vertical-align: center;
+}
+
+#challenge-modal-container tbody tr:nth-child(odd) {
+  background-color: #FFEFD6;
+}
+
+#challenge-modal-container tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 10px;
+}
+
+#challenge-modal-container tbody tr:last-child td:last-child {
+  border-radius: 0 0 10px 0;
+}
+
+#challenge-modal-container tbody .rank {
+  font-weight: 600;
+}
+
+#challenge-modal-container tbody button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background-color: #37454F;
+  color: #FFF9F0;
+  cursor: pointer;
+  transition: background-color ease 0.2s;
+}
+
+#challenge-modal-container tbody button:hover {
+  background-color: #4c5f6d;
+}
+
+#challenge-modal-container tbody td:first-child {
+  padding-left: 3rem;
+}
+
+#challenge-modal-container tbody .td {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: clamp(70px, 7vh, 100px);
+  width: auto;
+}
+
+#challenge-modal-container tbody .td.user {
+  cursor: pointer;
+}
+
+#challenge-modal-container tbody .imgwrap {
+  background-color: #D6EDFF;
+  border-radius: 50%;
+  border: 2px solid #333;
+  padding: 5px;
+  height: 50px;
+  width: 50px;
+  display: grid;
+  place-items: center;
+}
+
+#challenge-modal-container tbody .imgwrap img {
+  max-height: 90%;
+}
+
+#x-span {
+  font-style: inherit;
+  font-weight: bold;
+  font-size: xx-large;
+  float: right;
 }
 
 /*# sourceMappingURL=home.css.map */

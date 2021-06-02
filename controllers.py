@@ -485,22 +485,14 @@ def updateStatus():
     return dict()
 
 
-@action("fen_sse/<id:int>")
-@action.uses(auth, auth.user, db)
-def sse(id):
-    response.content_type = "text/event-stream"
-    response.cache_control = "no-cache"
-
-    # Sets the auto-reconnect timeout to 1000ms on client
-    yield "retry: 1000\n\n"
-
-    fen_old = db(db.games.id == id).select(db.games.fen).first().as_dict()
-
+@action("websocket/<id:int>")
+@action.uses(auth, auth.user)
+def websocket(id):
+    ws = request.environ.get("wsgi.websocket")
     while True:
-        fen = db(db.games.id == id).select(db.games.fen).first().as_dict()
-
-        if fen_old != fen:
-            yield f"data: {json.dumps(fen)}\n\n"
-            fen_old = fen
-        # only update every 1s
-        sleep(1)
+        msg = ws.receive()
+        if msg is not None:
+            for client in ws.handler.server.clients.values():
+                client.ws.send(msg)
+        else:
+            break
