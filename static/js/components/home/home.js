@@ -199,9 +199,10 @@ const homemenu = Vue.component('homemenu', {
     <div class="backdrop" v-if="challenging">
     <div class="block">
       <div class="box" id="challenge-modal-box">
-        <div>
+        <div class="block">
           <span id ="x-span" @click="cancelChallenge()">x</span>
-          <h2 class="title is-2 has-text-centered">Choose an Opponent</h2>
+          <!--h2 class="title is-2 has-text-centered">Choose an Opponent</h2-->
+          <h2 class="modal-title">Choose an Opponent</h2>
         </div>
         <div class="columns">
           <div class="column is-half" id ="challenge-modal-column1">
@@ -229,13 +230,13 @@ const homemenu = Vue.component('homemenu', {
           <div class="column is-half">
             <div class="block" id="challenge-modal-container">
               <div class="block">
-                <h4 class="subtitle is-4">History vs {{selectedUserName}}</h4>
+                <h4 class="subtitle is-4 has-text-weight-semibold">History vs {{selectedUserName}}</h4>
               </div>
               <div class="block">
-                <h5 class="subtitle is-5">Wins: {{selectedUserWins}}</h5>
-                <h5 class="subtitle is-5">Losses: {{selectedUserLosses}}</h5>
-                <h5 class="subtitle is-5">Draws: {{selectedUserDraws}}</h5>
-                <h5 class="subtitle is-5">Win-rate: {{selectedUserWinRate}} %</h5>
+                <h5 class="subtitle is-5 has-text-centered">Wins: {{selectedUserWins}}</h5>
+                <h5 class="subtitle is-5 has-text-centered">Losses: {{selectedUserLosses}}</h5>
+                <h5 class="subtitle is-5 has-text-centered">Draws: {{selectedUserDraws}}</h5>
+                <h5 class="subtitle is-5 has-text-centered">Win-rate: {{selectedUserWinRate}} %</h5>
               </div>
               <div class="columns">
                 <div class="column">
