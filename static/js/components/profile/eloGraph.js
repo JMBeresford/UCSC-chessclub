@@ -3,106 +3,147 @@ const eloGraph = Vue.component('eloGraph', {
   data() {
     return {
       chart: null,
+      allElos: [],
+      dates: [],
+      elos: [],
     };
   },
-  computed: {
+  methods: {
+
+    populateGraph: function (months, elo){
+        // console.log(this.allElosSorted);
+        console.log(months);
+        let monthsdata = [];
+        let elosData =[];
+        Object.values(months).forEach((key) => {
+          console.log(typeof(key.date))
+          let string = key.date.split(" ");
+          console.log(string);
+
+          monthsdata.push(
+            string[0]          );
+          
+        });
+
+        Object.values(elo).forEach((key) => {
+          elosData.push(
+key.elo          );
+         
+        });
+
+        console.log(Array.from(months));
+         let eloChart = document.getElementById('eloChart').getContext('2d');
+         let linechart = new Chart(eloChart, {
+           type: 'line',
+           data: {
+             labels: Array.from(monthsdata),
+             elements: {
+               points: {
+                 backgroundColor: '#000',
+               },
+             },
+             datasets: [
+               {
+                 label: this.getName(),
+                 data: Array.from(elosData),
+                 borderColor: '#DD8281FF',
+                 backgroundColor: '#DD828133',
+                 fill: 'start',
+               },
+             ],
+           },
+           options: {
+             responsive: true,
+             maintainAspectRatio: false,
+             scales: {
+               x: {
+                 ticks: {
+                   font: {
+                     weight: 'normal',
+                   },
+                 },
+               },
+               y: {
+                 ticks: {
+                   font: {
+                     weight: 'normal',
+                   },
+                 },
+               },
+             },
+             interaction: {
+               intersect: false,
+               mode: 'nearest',
+             },
+             plugins: {
+               title: {
+                 text: 'Elo Vs. Time',
+                 display: true,
+                 color: '#D6EDFF',
+                 font: {
+                   size: 20,
+                 },
+               },
+             },
+           },
+         });
+     
+       },
+
+    
     getName: function () {
       return this.user.username;
     },
+    getMonthsData: function () {
+      let id = 2;
+      axios
+      .all([
+        axios.get('../get/elo?id=' + id),
+      ])
+      .then((responseArr) => {
+        //this will be executed only when all requests are complete
+        Object.values(responseArr[0].data).forEach((key) => {
+          //console.log(responseArr[0].data[key].rating);
+          this.allElos.push({
+            date: key.updated_on,
+            elo:  key.rating,
+           // date:responseArr[0].data[key].updated_on,
+           // elo:responseArr[0].data[key].rating,
+          });
 
-    getData: function () {
-      let wins = 0;
-      let losses = 0;
-      let draws = 0;
-      let that = this;
-      this.games.map((game) => {
-        game.winner === that.user.id
-          ? wins++
-          : game.winner === 0
-          ? draws++
-          : losses++;
-      });
-      return [wins, draws, losses];
+        });
+
+        this.allElos.sort(function(a,b){
+          return new Date(b.date) - new Date(a.date);
+        });
+
+        Object.values(this.allElos).forEach((key) => {
+          this.dates.push({
+            date: key.date,
+          });
+          this.elos.push({
+            elo: key.elo,
+
+          });
+        });
+
+        this.populateGraph(this.dates, this.elos);
+
+
+
+        });
+       // return parsedyourElement;
+      //need to return the date of the "elos " request end pt
+     },
+    getEloData: function () {
+     //need to return something at some time? 
     },
   },
+  created: function () {
+    this.getMonthsData();
 
-  mounted: function () {
-    console.log(Chart.defaults);
-    let months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    let elo = [
-      2100, 1950, 1920, 2000, 2150, 2190, 2300, 2250, 2251, 2300, 2354, 2390,
-    ];
-    let eloChart = document.getElementById('eloChart').getContext('2d');
-    let linechart = new Chart(eloChart, {
-      type: 'line',
-      data: {
-        labels: months,
-        elements: {
-          points: {
-            backgroundColor: '#000',
-          },
-        },
-        datasets: [
-          {
-            label: this.getName,
-            data: elo,
-            borderColor: '#DD8281FF',
-            backgroundColor: '#DD828133',
-            fill: 'start',
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            ticks: {
-              font: {
-                weight: 'normal',
-              },
-            },
-          },
-          y: {
-            ticks: {
-              font: {
-                weight: 'normal',
-              },
-            },
-          },
-        },
-        interaction: {
-          intersect: false,
-          mode: 'nearest',
-        },
-        plugins: {
-          title: {
-            text: 'Elo Vs. Time',
-            display: true,
-            color: '#D6EDFF',
-            font: {
-              size: 20,
-            },
-          },
-        },
-      },
-    });
-
-    console.log(linechart);
   },
+  
   template: `
     <canvas id="eloChart"></canvas>
   `,
