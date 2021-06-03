@@ -176,7 +176,7 @@ def profile_(profile_id):
                 | (db.games["player_white"] == user["id"])
             )
             .select()
-            .as_dict()
+            .as_list()
         )
 
         elos = db(db.ratings.player_id == profile_id).select().as_list()
@@ -413,7 +413,6 @@ def getPfp():
 
     try:
         row = db(db.profile_pictures.player_id == id).select().first()
-        print(row)
         response.status = 200
     except:
         response.status = 500

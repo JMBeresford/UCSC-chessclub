@@ -1038,6 +1038,7 @@ header.header {
 .chatBanner #leftHorse,
 .chatBanner #rightHorse {
   width: clamp(40px, auto, 75px);
+  max-height: 100%;
 }
 .chatBanner h1 {
   font-size: clamp(18px, 1.5vw, 2rem);
