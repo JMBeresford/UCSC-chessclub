@@ -46,8 +46,9 @@ const customchessboard = Vue.component('customchessboard', {
           console.log(err);
         });
     },
-    pullFen: function (e) {
+    handleNewFen: function (e) {
       let message = JSON.parse(e.data);
+      console.log(e);
       if (message.type != 'move' || message.id != this.game.id) {
         return false;
       }
@@ -74,34 +75,42 @@ const customchessboard = Vue.component('customchessboard', {
         });
     },
     handleMove: function (data) {
-      console.log('called');
       this.toMove = data.turn;
       if (!this.free && data.fen != this.fen) {
         this.fen = data.fen;
         this.pushFen();
-        if (this.$refs.chess.game.in_check()) {
-          let message = JSON.stringify({
-            type: 'system',
-            game_id: this.game.id,
-            msg: `${this.toMove} is in check`,
-          });
-          this.ws.send(message);
-        } else {
-          this.check = '';
-        }
+      }
+
+      if (this.$refs.chess.game.in_check()) {
+        let message = JSON.stringify({ type: 'check', color: this.toMove });
+        this.ws.send(message);
+      } else {
+        this.check = '';
       }
 
       this.$refs.chess.board.state.viewOnly = !this.canMove();
     },
     wsOpened: function (e) {
-      console.log('game websocket connection established');
+      console.log('websocket connection established');
       return false;
     },
     wsClosed: function (e) {
-      console.log('game websocket connection closed');
+      console.log('websocket connection CLOSED');
     },
   },
   created: function () {
+    this.playerColor = 'white';
+
+    if (!this.free && this.players.black.id == this.user.id) {
+      this.playerColor = 'black';
+    }
+
+    if (!this.free) {
+      this.fen = this.game.fen;
+    } else {
+      this.fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    }
+
     if (!this.free && !window.WebSocket) {
       if (window.MozWebSocket) {
         window.WebSocket = window.MozWebSocket;
@@ -119,18 +128,6 @@ const customchessboard = Vue.component('customchessboard', {
       this.ws.onclose = this.wsClosed;
       this.ws.onmessage = this.pullFen;
     }
-
-    this.playerColor = 'white';
-
-    if (!this.free && this.players.black.id == this.user.id) {
-      this.playerColor = 'black';
-    }
-
-    if (!this.free) {
-      this.fen = this.game.fen;
-    } else {
-      this.fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-    }
   },
   mounted: function () {
     if (window) {
@@ -144,8 +141,7 @@ const customchessboard = Vue.component('customchessboard', {
   },
   template: `
     <div id="custom-board">
-      <h1 v-if="toMove">{{toMove}} to move</h1>
-      <h1 v-else>Game Over</h1>
+      <h1>{{toMove}} to move</h1>
       <div class="wrapper">
         <chessboard
           ref="chess"

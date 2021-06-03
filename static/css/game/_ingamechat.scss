@@ -7,197 +7,136 @@
 //@use "board";
 
 .chatContainer {
-  // these two lines set up the container to have its children stack vertically
-  // and allow the use of flex utilities
-  display: grid;
-  grid-auto-flow: row;
-  grid-auto-rows: min-content;
-  grid-template-columns: 100%;
-  gap: 0.5em;
-  padding-top: 0.5em;
+    // these two lines set up the container to have its children stack vertically
+    // and allow the use of flex utilities
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: 50px;
+    grid-template-columns: 100%;
+    
+    font-family: "Playfair Display", serif;
 
-  font-family: $sans-serif;
+    // this line ensures that content stays at the bottom of the container
+    // and stacks upwards as messages are added thanks to the flex-direction
+    justify-content: start;
+    align-items: end;
 
-  // this line ensures that content stays at the bottom of the container
-  // and stacks upwards as messages are added thanks to the flex-direction
-  justify-content: start;
-  align-items: end;
-
-  height: 100%;
-  max-height: 100%;
-
-  // position: absolute;
-  // top: 0;
-  // left: 5%;
-  // right: 5%;
-  // bottom: 0;
-
-  background-color: rgba(0, 0, 0, 0);
-
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #8c7e68;
-    border-radius: 5px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: #8c7e68;
-  }
-  &::-webkit-scrollbar-track {
-    background: #f0ebe2;
-    border-radius: 5px;
-  }
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  .spacer {
-    min-height: 50px;
     height: 100%;
-  }
+    max-height: 100%;
+
+    // position: absolute;
+    // top: 0;
+    // left: 5%;
+    // right: 5%;
+    // bottom: 0;
+
+    background-color: rgba(0,0,0,0);
+
+    overflow-y: auto;   
+    overflow-x: hidden;
+
+    .spacer {
+        height: 100%;
+    }
 }
 
 #ingamechat {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-  gap: 1.5rem;
-
-  text-align: center;
-
-  padding: 1rem 1.5rem;
-  width: 100%;
-  grid-template-columns: 100%;
-
-  strong {
-    font-weight: 600;
-  }
-
-  .wrapper {
-    position: relative;
-    flex-grow: 1;
-    min-height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-  }
-
-  .chatMessage {
-    text-align: left;
-    width: 100%;
     height: 100%;
+    justify-content: space-between;
 
-    .whiteMessage,
-    .blackMessage {
-      color: $text-dark;
-      display: flex;
-      font-size: 1rem;
-      font-weight: 400;
-      width: 100%;
-      flex-wrap: wrap;
+    white-space: nowrap;
+    text-align: center; 
+    
+    padding: 1rem 1.5rem;
+    width: 100%;
+    grid-template-columns: 100%;
 
-      p {
-        word-break: break-all;
-        min-width: 1%;
-      }
-
-      p:first-child {
-        font-weight: 500;
-        margin-right: 1rem;
-      }
-    }
-
-    .serverMessage {
-      text-align: center;
-      align-self: center;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      text-transform: capitalize;
-      padding: 0 2rem;
-      gap: 1rem;
-      color: color.adjust($tertiary-bg, $alpha: -0.3);
-      width: 100%;
-
-      &::before,
-      &::after {
-        content: '';
-        height: 1px;
-        width: 100%;
+    .wrapper {
+        position: relative;
+        height: 75%;
+        margin-left: 4%;
         display: flex;
-        background-color: color.adjust($tertiary-bg, $alpha: -0.3);
-      }
+        flex-direction: column;
+        justify-content: center;
     }
-  }
+
+    .chatMessage {
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        .whiteMessage {
+            color: black;
+        }
+        
+        .blackMessage {
+            color: black;
+        }
+        
+        .serverMessage {
+            text-align: center;
+            align-self: center;
+            color: darkgray;
+            width: 100%;
+        }
+    }
 }
 
 .inputWrap {
-  width: 100%;
-  display: grid;
-  border: solid 1px color.adjust($tertiary-bg, $alpha: -0.5);
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 100%;
-  place-items: center;
-  padding: 0 1rem;
-  border-radius: 10px;
-  background-color: white;
+    width: 100%;
+    display: grid;
+    border: solid 2px $tertiary-bg;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 100%;
+    place-items: center;
+    padding: 0 1rem;
+    border-radius: 10px;
+    background-color: white;
 
-  .input {
-    border: none;
-    outline: none;
-    box-shadow: none;
-    padding: 0;
-
-    &:focus,
-    &:active {
-      border: none;
-      outline: none;
-      box-shadow: none;
+    .input {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        
+        &:focus, &:active {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
     }
-  }
-}
-
-#versusText {
-  word-wrap: normal;
-  overflow-wrap: normal;
-  height: auto;
 }
 
 .chatBanner {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    font-family: "Playfair Display", serif;
+    width: 100%;
+    height: 15%;
+    align-items: center;
+    gap: 1.5rem;
 
-  font-family: $sans-serif;
-  width: 100%;
-  height: auto;
-  padding-bottom: 1rem;
-  min-height: 1px;
-  max-width: 100%;
-  align-items: center;
-  gap: 1.5rem;
+    #leftHorse {
+        width: auto;
+        min-width: 75px;
+    };
 
-  #leftHorse,
-  #rightHorse {
-    width: clamp(40px, auto, 75px);
-  }
+    #rightHorse {
+        width: auto;
+        min-width: 75px;
+    };
 
-  h1 {
-    font-size: clamp(18px, 1.5vw, 2rem);
-  }
+    h1 {
+        font-size: 1.5rem;
+        margin-top: 4%;
+        margin-bottom: -4%; // make underline closer (bad solution)
+    }
 
-  &::after {
-    content: '';
-    height: 1px;
-    background-color: color.adjust($tertiary-bg, $alpha: -0.5);
-
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+    hr {
+        background-color: gray;
+    }
 }

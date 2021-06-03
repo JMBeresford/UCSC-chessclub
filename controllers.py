@@ -140,8 +140,6 @@ def profile():
         .as_list()
     )
 
-    elos = db(db.ratings.player_id == user["id"]).select().as_list()
-
     row = db(db.profile_pictures.player_id == user["id"]).select().first()
     pfp = row["image_name"]
 
@@ -151,7 +149,6 @@ def profile():
         isMe=True,
         pfp=pfp,
         matchHistory=match_history,
-        elos=elos,
     )
 
 
@@ -179,16 +176,12 @@ def profile_(profile_id):
             .as_dict()
         )
 
-        elos = db(db.ratings.player_id == profile_id).select().as_list()
-
         row = db(db.profile_pictures.player_id == profile_id).select().first()
         pfp = row["image_name"]
     except AttributeError:
         redirect(URL("index"))
 
-    return dict(
-        user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=pfp, elos=elos
-    )
+    return dict(user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=pfp)
 
 
 @action("game/<id:int>")

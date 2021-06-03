@@ -25,7 +25,7 @@ const homemenu = Vue.component('homemenu', {
       me: Object,
       challenging: false,
       selectedUserId: 0,
-      selectedUserName: '',
+      selectedUserName: "",
       selectedUserWins: 0,
       selectedUserLosses: 0,
       selectedUserDraws: 0,
@@ -44,7 +44,7 @@ const homemenu = Vue.component('homemenu', {
     cancelChallenge: function () {
       this.challenging = false;
     },
-    getChallange: function () {
+    getChallange: function() {
       return this.challenging;
     },
     challenge: function (id) {
@@ -117,46 +117,50 @@ const homemenu = Vue.component('homemenu', {
       //  window.location = `../profile/${id}/`;
       //}
       //this.selectedUser =
-      console.log('Selected user ', id);
-      this.selectedUserName = this.users[id].username;
+      console.log("Selected user ", id);
+      this.selectedUserName= this.users[id].username;
 
-      this.selectedUserWins = 0;
-      this.selectedUserLosses = 0;
-      this.selectedUserDraws = 0;
-      this.selectedUserWinRate = 0;
-      this.selectedUserId = id;
+      this.selectedUserWins= 0;
+      this.selectedUserLosses= 0;
+      this.selectedUserDraws= 0;
+      this.selectedUserWinRate= 0;
+      this.selectedUserId= id;
 
-      let myUniqueGames = new Set();
+       let myUniqueGames= new Set();
       Object.keys(this.games).forEach((key) => {
         //myUniqueGames.add(this.games[key].id);
-        if (
-          (this.games[key].player_white == this.me.id &&
-            this.games[key].player_black == id) ||
-          (this.games[key].player_black == this.me.id &&
-            this.games[key].player_white == id)
-        ) {
-          myUniqueGames.add({
-            id: this.games[key].id,
-            player_white: this.games[key].player_white,
-            player_black: this.games[key].player_black,
-            winner: this.games[key].winner,
-          });
+        if((this.games[key].player_white == this.me.id && this.games[key].player_black == id) ||
+        (this.games[key].player_black == this.me.id && this.games[key].player_white == id) )
+        {
+            myUniqueGames.add(
+            {
+                "id": this.games[key].id,
+                "player_white": this.games[key].player_white,
+                "player_black": this.games[key].player_black,
+                "winner": this.games[key].winner
+            });
         }
         //myUniqueGames.add(this.games[key].player_white);
+
       });
       myUniqueGames = Array.from(myUniqueGames);
 
-      for (let i = 0; i < myUniqueGames.length; i++) {
-        if (myUniqueGames[i].winner == this.me.id) {
-          this.selectedUserWins++;
-        } else if (myUniqueGames[i].winner == id) {
-          this.selectedUserLosses++;
-        } else {
-          this.selectedUserDraws++;
+      for(let i = 0; i < myUniqueGames.length; i++)
+      {
+        if(myUniqueGames[i].winner == this.me.id)
+        {
+            this.selectedUserWins++;
+        }
+        else if(myUniqueGames[i].winner == id)
+        {
+            this.selectedUserLosses++;
+        }
+        else
+        {
+            this.selectedUserDraws++;
         }
       }
-      this.selectedUserWinRate =
-        (this.selectedUserWins / myUniqueGames.length) * 100;
+      this.selectedUserWinRate = this.selectedUserWins/myUniqueGames.length*100;
     },
     getWinrate: function (wins, losses, draws) {
       if (wins + losses + draws === 0) {
@@ -171,7 +175,7 @@ const homemenu = Vue.component('homemenu', {
       console.log('Challenge', id);
     },
   },
-  created: function () {
+  created:function () {
     this.games = JSON.parse(this.gamedata);
     this.users = JSON.parse(this.userdata);
     this.me = JSON.parse(this.user);
@@ -187,9 +191,10 @@ const homemenu = Vue.component('homemenu', {
         <img src="svg/pieces/wn.svg" alt="white knight image">
       </div>
       <p class="menuLink underline_animate" @click="find_challenge()"  >Challenge Someone</p>
-      <a class="menuLink underline_animate disabled" href="../match/computer">Challenge Computer</a>
-      <a class="menuLink underline_animate" href="../profile?mhist=True">Current Matches</a>
-      <a class="menuLink underline_animate" href="../freeboard">Free Board</a>
+      <!--a class="menuLink underline_animate disabled" href="../match/computer">Challenge Computer</a-->
+      <p class="menuLink underline_animate" @click="cancelChallenge()">Challenge Computer</p>
+      <p class="menuLink underline_animate" href="../profile?mhist=True">Current Matches</p>
+      <p class="menuLink underline_animate" href="../freeboard">Free Board!!!</p>
     </div>
     <div class="backdrop" v-if="challenging">
     <div class="block">

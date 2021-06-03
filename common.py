@@ -35,7 +35,7 @@ for item in settings.LOGGERS:
 # #######################################################
 # connect to db
 # #######################################################
-if os.environ.get("GAE_ENV") or os.environ.get("GAE_INSTANCE"):
+if os.environ.get("GAE_ENV"):
     db = DAL(
         settings.CLOUD_DB_URI,
         pool_size=settings.CLOUD_DB_POOL_SIZE,
