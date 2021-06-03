@@ -54,11 +54,15 @@ const ingamechat = Vue.component('ingamechat', {
     handleMessage: function (e) {
       let message = JSON.parse(e.data);
 
-      if (message.type != 'chat' || message.game_id != this.game.id) {
+      if (message.game_id != this.game.id) {
         return false;
       }
 
-      this.addMessage(message.id, message.msg);
+      if (message.type == 'chat') {
+        this.addMessage(message.id, message.msg);
+      } else if (message.type == 'system') {
+        this.addMessage(0, message.msg);
+      }
     },
     wsOpened: function (e) {
       console.log('chat websocket connection established');

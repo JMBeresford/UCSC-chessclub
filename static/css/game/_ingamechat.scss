@@ -116,9 +116,10 @@
       white-space: nowrap;
       display: flex;
       align-items: center;
+      text-transform: capitalize;
       padding: 0 2rem;
       gap: 1rem;
-      color: color.adjust($tertiary-bg, $alpha: -0.5);
+      color: color.adjust($tertiary-bg, $alpha: -0.3);
       width: 100%;
 
       &::before,
@@ -127,7 +128,7 @@
         height: 1px;
         width: 100%;
         display: flex;
-        background-color: color.adjust($tertiary-bg, $alpha: -0.5);
+        background-color: color.adjust($tertiary-bg, $alpha: -0.3);
       }
     }
   }

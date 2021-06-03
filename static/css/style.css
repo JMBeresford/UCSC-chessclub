@@ -978,9 +978,10 @@ header.header {
   white-space: nowrap;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
   padding: 0 2rem;
   gap: 1rem;
-  color: rgba(140, 126, 104, 0.5);
+  color: rgba(140, 126, 104, 0.7);
   width: 100%;
 }
 #ingamechat .chatMessage .serverMessage::before, #ingamechat .chatMessage .serverMessage::after {
@@ -988,7 +989,7 @@ header.header {
   height: 1px;
   width: 100%;
   display: flex;
-  background-color: rgba(140, 126, 104, 0.5);
+  background-color: rgba(140, 126, 104, 0.7);
 }
 
 .inputWrap {
