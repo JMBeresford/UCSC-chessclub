@@ -162,7 +162,12 @@ def profile_(profile_id):
         if profile_id == auth.get_user()["id"]:
             redirect(URL("profile"))
 
-        user = db.auth_user(profile_id).as_dict()
+        user = (
+            db(db.auth_user.id == profile_id)
+            .select(db.auth_user.id, db.auth_user.username, db.auth_user.email)
+            .first()
+            .as_dict()
+        )
         try:
             user["status"] = (
                 db(db.statuses["player_id"] == user["id"]).select().first()["status"]
