@@ -19,7 +19,7 @@ APP_FOLDER = os.path.dirname(__file__)
 APP_NAME = os.path.split(APP_FOLDER)[-1]
 # DB_FOLDER:    Sets the place where migration files will be created
 #               and is the store location for SQLite databases
-if not os.environ.get("GAE_ENV"):
+if not os.environ.get("GAE_INSTANCE"):
     DB_FOLDER = required_folder(APP_FOLDER, "databases")
     DB_URI = "sqlite://storage.db"
     DB_POOL_SIZE = 1
@@ -27,7 +27,7 @@ if not os.environ.get("GAE_ENV"):
     DB_FAKE_MIGRATE = False  # maybe?
 
 # G Cloud db
-if os.environ.get("GAE_ENV"):
+if os.environ.get("GAE_ENV") or os.environ.get("GAE_INSTANCE"):
     CLOUD_DB_URI = f"google:MySQLdb://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}"
     CLOUD_DB_POOL_SIZE = 1
     CLOUD_DB_MIGRATE = False
