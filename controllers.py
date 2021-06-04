@@ -362,12 +362,12 @@ def newgame():
     data = request.json
 
     try:
-        db.games.insert(
+        game_id = db.games.insert(
             player_white=data["player_white"],
             player_black=data["player_black"],
         )
         response.status = 200
-        return dict()
+        return dict(game_id=game_id)
     except Exception as e:
         print(e)
         response.status = 500
