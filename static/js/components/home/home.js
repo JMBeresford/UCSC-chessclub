@@ -47,10 +47,6 @@ const homemenu = Vue.component('homemenu', {
     getChallange: function () {
       return this.challenging;
     },
-    challenge: function (id) {
-      // post request for new match to be created, response will be signed url
-      // to redirect to
-    },
     calcWins: function (id) {
       let wins = 0;
       let losses = 0;
@@ -169,6 +165,35 @@ const homemenu = Vue.component('homemenu', {
     },
     challenge: function (id) {
       console.log('Challenge', id);
+      let player1;
+      let player2;
+      if(Math.random()>0.5)
+      {
+        player1 = id;
+        player2 = this.getUser.id;
+      }
+      else
+      {
+        player1 = this.getUser.id;
+        player2 = id;
+      }
+      console.log(player1);
+      console.log(player2);
+      axios.post(`../post/newgame`,
+            {
+                player_white: player1,
+                player_black: player2
+            }).then(function (response) {
+
+            console.log(response.data);
+            let str1 = "game/";
+            let str2 = str1.concat(response.data.game_id);
+            str1 = window.location.href;
+            str1 = str1.replace("home", str2);
+            window.location.href = str1;
+            //console.log(window.location.href);
+            //window.location.replace(str2);
+        });
     },
   },
   created: function () {

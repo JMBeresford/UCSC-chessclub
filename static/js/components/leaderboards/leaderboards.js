@@ -104,6 +104,35 @@ const leaderboards = Vue.component('leaderboards', {
     },
     challenge: function (id) {
       console.log('Challenge', id);
+      let player1;
+      let player2;
+      if(Math.random()>0.5)
+      {
+        player1 = id;
+        player2 = this.user.id;
+      }
+      else
+      {
+        player1 = this.user.id;
+        player2 = id;
+      }
+      console.log(player1);
+      console.log(player2);
+      axios.post(`../post/newgame`,
+            {
+                player_white: player1,
+                player_black: player2
+            }).then(function (response) {
+
+            console.log(response.data);
+            let str1 = "game/";
+            let str2 = str1.concat(response.data.game_id);
+            str1 = window.location.href;
+            str1 = str1.replace("leaderboards", str2);
+            window.location.href = str1;
+            //console.log(window.location.href);
+            //window.location.replace(str2);
+        });
     },
   },
   created: function () {
@@ -134,7 +163,7 @@ const leaderboards = Vue.component('leaderboards', {
             <th></th>
           </thead>
           <tbody>
-            <tr v-for="(entry, i) in sortedList" :key="i">
+            <tr v-for="(entry, i) in sortedList" :key="entry.id">
               <td></td
               <td>
                 <div class="td rank">
@@ -177,7 +206,7 @@ const leaderboards = Vue.component('leaderboards', {
               </td>
               <td>
                 <div class="td buttontd">
-                  <button class="btn" @click="challenge(entry.id)">
+                  <button class="btn" @click.prevent="challenge(entry.id)">
                     Challenge
                   </button>
                 </div>
