@@ -8,12 +8,6 @@ This file is provided as an example:
 import os
 from py4web.core import required_folder
 
-# try import private settings
-try:
-    from .private.secrets import *
-except (ImportError, ModuleNotFoundError):
-    pass
-
 # db settings
 APP_FOLDER = os.path.dirname(__file__)
 APP_NAME = os.path.split(APP_FOLDER)[-1]
@@ -69,6 +63,8 @@ REDIS_SERVER = "localhost:6379"
 LOGGERS = [
     "warning:stdout"
 ]  # syntax "severity:filename" filename can be stderr or stdout
+
+OAUTH2GOOGLE_CLIENT_ID = None
 
 # single sign on Okta (will be used if provided. Please also add your tenant
 # name to py4web/utils/auth_plugins/oauth2okta.py. You can replace the XXX
