@@ -3,6 +3,7 @@ const leaderboards = Vue.component('leaderboards', {
     players: Array,
     gamedata: String,
     elodata: String,
+    user: Object,
   },
   data: function () {
     return {

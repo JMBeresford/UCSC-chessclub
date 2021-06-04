@@ -105,7 +105,7 @@ def home():
 
 
 @action("leaderboards")
-@action.uses(db, auth, "leaderboards.html")
+@action.uses(db, auth, auth.user, "leaderboards.html")
 def leaderboards():
     games = db(db.games).select().as_dict()
     ratings = db(db.ratings).select().as_dict()
@@ -115,6 +115,7 @@ def leaderboards():
         "zoominto": False,
         "games": json.dumps(games),
         "ratings": json.dumps(ratings),
+        "user": json.dumps(auth.get_user()),
     }
 
 
@@ -360,7 +361,6 @@ def populategames():
 @action.uses(db, auth, auth.user)
 def newgame():
     data = request.json
-    print(data)
 
     try:
         game_id = db.games.insert(
