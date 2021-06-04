@@ -360,6 +360,7 @@ def populategames():
 @action.uses(db, auth, auth.user)
 def newgame():
     data = request.json
+    print(data)
 
     try:
         game_id = db.games.insert(
