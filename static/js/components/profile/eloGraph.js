@@ -12,13 +12,13 @@ const eloGraph = Vue.component('eloGraph', {
 
     populateGraph: function (months, elo){
         // console.log(this.allElosSorted);
-        console.log(months);
+        //console.log(months);
         let monthsdata = [];
         let elosData =[];
         Object.values(months).forEach((key) => {
-          console.log(typeof(key.date))
+        //  console.log(typeof(key.date))
           let string = key.date.split(" ");
-          console.log(string);
+        //  console.log(string);
 
           monthsdata.push(
             string[0]          );
@@ -31,7 +31,7 @@ key.elo          );
          
         });
 
-        console.log(Array.from(months));
+      // console.log(Array.from(months));
          let eloChart = document.getElementById('eloChart').getContext('2d');
          let linechart = new Chart(eloChart, {
            type: 'line',
@@ -95,7 +95,7 @@ key.elo          );
       return this.user.username;
     },
     getMonthsData: function () {
-      let id = 2;
+      let id = this.user.id;
       axios
       .all([
         axios.get('../get/elo?id=' + id),
@@ -103,7 +103,8 @@ key.elo          );
       .then((responseArr) => {
         //this will be executed only when all requests are complete
         Object.values(responseArr[0].data).forEach((key) => {
-          //console.log(responseArr[0].data[key].rating);
+        //  console.log(responseArr[0].data[key].date);
+        console.log(key);
           this.allElos.push({
             date: key.updated_on,
             elo:  key.rating,
