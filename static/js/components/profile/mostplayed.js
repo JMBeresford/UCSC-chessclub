@@ -25,7 +25,14 @@ const mostplayed = Vue.component('mostplayed', {
         this.games[key].player_white == id ||
         this.games[key].player_black == id
       ) {
-        if(this.games[key].winner === id)
+        if(this.games[key].winner ===  null)
+          {
+
+
+          }
+          else{       
+            
+            if(this.games[key].winner === id)
         {
           let loser  = "";
           if(this.games[key].player_white == id)
@@ -106,7 +113,9 @@ const mostplayed = Vue.component('mostplayed', {
             losses++;
           //put into hashtbl.
         }
-      } else {
+      }}
+      
+      else {
         console.log('Not counting');
       }
     });

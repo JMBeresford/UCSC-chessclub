@@ -27,7 +27,8 @@ const eloGraph = Vue.component('eloGraph', {
 
         Object.values(elo).forEach((key) => {
           elosData.push(
-key.elo          );
+key.elo          
+);
          
         });
 
@@ -45,7 +46,7 @@ key.elo          );
              datasets: [
                {
                  label: this.getName(),
-                 data: Array.from(elosData),
+                 data: Array.from(elosData).reverse(),
                  borderColor: '#DD8281FF',
                  backgroundColor: '#DD828133',
                  fill: 'start',

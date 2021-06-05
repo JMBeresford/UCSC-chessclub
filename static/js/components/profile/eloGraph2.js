@@ -18,12 +18,20 @@ const eloGraph2 = Vue.component('eloGraph2', {
           this.games[key].player_white == that.user.id ||
           this.games[key].player_black == that.user.id
         ) {
+          if(this.games[key].winner ===  null)
+          {
+
+
+          }
+          else{
+
+          
           this.games[key].winner === that.user.id
             ? wins++
             : this.games[key].winner === 0
             ? draws++
             : losses++;
-        } else {
+        }} else {
           console.log('Not counting');
         }
       });
