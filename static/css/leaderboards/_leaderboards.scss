@@ -82,17 +82,6 @@
     font-weight: 500;
     padding: 0.75rem 0;
     color: $text-light;
-
-    &:first-child {
-      width: 10px;
-      border-radius: 10px 0 0 0;
-      padding-left: 3rem;
-    }
-
-    &:last-child {
-      min-width: 10px;
-      border-radius: 0 10px 0 0;
-    }
   }
 
   tbody {
@@ -111,15 +100,6 @@
       background-color: $secondary-bg;
     }
 
-    tr:last-child {
-      td:first-child {
-        border-radius: 0 0 0 10px;
-      }
-      td:last-child {
-        border-radius: 0 0 10px 0;
-      }
-    }
-
     .rank {
       font-weight: 600;
     }
@@ -132,8 +112,12 @@
       cursor: pointer;
       transition: background-color ease 0.2s;
 
-      &:hover {
+      &:not(.disabled):hover {
         background-color: color.adjust($accent-dark, $lightness: 10);
+      }
+
+      &.disabled {
+        display: none;
       }
     }
 

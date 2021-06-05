@@ -20,6 +20,22 @@ const leaderboards = Vue.component('leaderboards', {
     },
   },
   methods: {
+    canChallenge: function (id) {
+      if (this.user.id == id) {
+        return false;
+      }
+
+      for (let game of Object.values(this.games)) {
+        if (game.winner) {
+          continue;
+        }
+        if (game.player_white == id || game.player_black == id) {
+          return false;
+        }
+      }
+
+      return true;
+    },
     calcWins: function (id) {
       let wins = 0;
       let losses = 0;
@@ -68,10 +84,17 @@ const leaderboards = Vue.component('leaderboards', {
             let winsID = arrWinsLossDraws[0];
             let losessID = arrWinsLossDraws[1];
             let drawsID = arrWinsLossDraws[2];
+            let elo = 0;
+
+            for (let obj of Object.values(responseArr[1].data)) {
+              if (obj.rating > elo) {
+                elo = obj.rating;
+              }
+            }
             this.allScores.push({
               id: id,
               name: Object.values(responseArr[0].data)[0].username,
-              elo: Object.values(responseArr[1].data)[0].rating,
+              elo: elo,
               pfp: responseArr[2].data,
               wins: winsID,
               losses: losessID,
@@ -103,35 +126,31 @@ const leaderboards = Vue.component('leaderboards', {
       );
     },
     challenge: function (id) {
-      console.log('Challenge', id);
       let player1;
       let player2;
-      if(Math.random()>0.5)
-      {
+      if (Math.random() > 0.5) {
         player1 = id;
         player2 = this.user.id;
-      }
-      else
-      {
+      } else {
         player1 = this.user.id;
         player2 = id;
       }
       console.log(player1);
       console.log(player2);
-      axios.post(`../post/newgame`,
-            {
-                player_white: player1,
-                player_black: player2
-            }).then(function (response) {
-
-            console.log(response.data);
-            let str1 = "game/";
-            let str2 = str1.concat(response.data.game_id);
-            str1 = window.location.href;
-            str1 = str1.replace("leaderboards", str2);
-            window.location.href = str1;
-            //console.log(window.location.href);
-            //window.location.replace(str2);
+      axios
+        .post(`../post/newgame`, {
+          player_white: player1,
+          player_black: player2,
+        })
+        .then(function (response) {
+          console.log(response.data);
+          let str1 = 'game/';
+          let str2 = str1.concat(response.data.game_id);
+          str1 = window.location.href;
+          str1 = str1.replace('leaderboards', str2);
+          window.location.href = str1;
+          //console.log(window.location.href);
+          //window.location.replace(str2);
         });
     },
   },
@@ -206,7 +225,7 @@ const leaderboards = Vue.component('leaderboards', {
               </td>
               <td>
                 <div class="td buttontd">
-                  <button class="btn" @click.prevent="challenge(entry.id)">
+                  <button v-if="canChallenge(entry.id)" class="btn" @click.prevent="challenge(entry.id)">
                     Challenge
                   </button>
                 </div>

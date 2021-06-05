@@ -12,6 +12,11 @@
   [[ else: ]]
   <profile user="[[=user]]" games="[[=games]]" isme pfp="[[ =pfp ]]"></profile>
   [[ pass ]] [[ else: ]]
-  <profile user="[[=user]]" games="[[=games]]" pfp="[[ =pfp ]]"></profile>
+  <profile
+    user="[[=user]]"
+    :me="[[ =me ]]"
+    games="[[=games]]"
+    pfp="[[ =pfp ]]"
+  ></profile>
   [[ pass ]]
 </div>

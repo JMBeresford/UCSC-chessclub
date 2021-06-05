@@ -3,6 +3,7 @@ const profile = Vue.component('profile', {
     user: String,
     games: String,
     isme: Boolean,
+    me: Object,
     matchhistory: Boolean,
     pfp: String,
   },
@@ -35,6 +36,53 @@ const profile = Vue.component('profile', {
   methods: {
     toggleView: function () {
       this.showCharts = !this.showCharts;
+    },
+    canChallenge: function () {
+      if (this.isme) {
+        return false;
+      }
+
+      for (let game of Object.values(this.games)) {
+        if (game.winner) {
+          continue;
+        }
+        if (
+          game.player_white == this.getUser.id ||
+          game.player_black == this.getUser.id
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+    challenge: function () {
+      let player1;
+      let player2;
+      if (Math.random() > 0.5) {
+        player1 = this.me.id;
+        player2 = this.getUser.id;
+      } else {
+        player1 = this.getUser.id;
+        player2 = this.me.id;
+      }
+      console.log(player1);
+      console.log(player2);
+      axios
+        .post(`../post/newgame`, {
+          player_white: player1,
+          player_black: player2,
+        })
+        .then(function (response) {
+          console.log(response.data);
+          let str1 = 'game/';
+          let str2 = str1.concat(response.data.game_id);
+          str1 = window.location.href;
+          str1 = str1.replace('leaderboards', str2);
+          window.location.href = str1;
+          //console.log(window.location.href);
+          //window.location.replace(str2);
+        });
     },
     handleInputExit: function (e) {
       if (e.type !== 'keyup' && e.target.classList.contains('statusedit')) {
@@ -90,7 +138,7 @@ const profile = Vue.component('profile', {
                     </div>
                     <div class="buttons">
                         <button @click="this.toggleView" :class="{stats: !showCharts}">{{showCharts ? "Match History" : "User Stats"}}</button>
-                        <button v-if="!isme">Challenge</button>
+                        <button @click="challenge()" v-if="canChallenge()">Challenge</button>
                     </div>
                 </div>
             </div>

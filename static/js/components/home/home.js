@@ -68,7 +68,6 @@ const homemenu = Vue.component('homemenu', {
       });
       return [wins, losses, draws];
     },
-
     populatePlayers: function () {
       console.log(this.users);
       //use a set to remove duplicats when calculating all users. Need to determine if this is OK when debugging.
@@ -80,9 +79,6 @@ const homemenu = Vue.component('homemenu', {
       for (var i = 0; i < myUniquePlayers.length; i++) {
         //id to get metadata of, from elos table, ie, only rank a player if they have a default elo value.
         let id = myUniquePlayers[i];
-        let userName = '';
-        let that = this;
-        let obj;
         axios
           .all([
             axios.get('../get/user?id=' + id),
@@ -151,8 +147,13 @@ const homemenu = Vue.component('homemenu', {
           this.selectedUserDraws++;
         }
       }
-      this.selectedUserWinRate =
-        (this.selectedUserWins / myUniqueGames.length) * 100;
+      this.selectedUserWinRate = (
+        (this.selectedUserWins / myUniqueGames.length) *
+        100
+      ).toFixed(0);
+      if (this.selectedUserWinRate === 'NaN') {
+        this.selectedUserWinRate = 0;
+      }
     },
     getWinrate: function (wins, losses, draws) {
       if (wins + losses + draws === 0) {
@@ -163,36 +164,45 @@ const homemenu = Vue.component('homemenu', {
         (parseInt(wins) + parseInt(losses) + parseInt(draws))
       );
     },
+    canChallenge: function (id) {
+      for (let game of Object.values(this.games)) {
+        if (game.winner) {
+          continue;
+        }
+        if (game.player_white == id || game.player_black == id) {
+          return false;
+        }
+      }
+
+      return true;
+    },
     challenge: function (id) {
       console.log('Challenge', id);
       let player1;
       let player2;
-      if(Math.random()>0.5)
-      {
+      if (Math.random() > 0.5) {
         player1 = id;
         player2 = this.getUser.id;
-      }
-      else
-      {
+      } else {
         player1 = this.getUser.id;
         player2 = id;
       }
       console.log(player1);
       console.log(player2);
-      axios.post(`../post/newgame`,
-            {
-                player_white: player1,
-                player_black: player2
-            }).then(function (response) {
-
-            console.log(response.data);
-            let str1 = "game/";
-            let str2 = str1.concat(response.data.game_id);
-            str1 = window.location.href;
-            str1 = str1.replace("home", str2);
-            window.location.href = str1;
-            //console.log(window.location.href);
-            //window.location.replace(str2);
+      axios
+        .post(`../post/newgame`, {
+          player_white: player1,
+          player_black: player2,
+        })
+        .then(function (response) {
+          console.log(response.data);
+          let str1 = 'game/';
+          let str2 = str1.concat(response.data.game_id);
+          str1 = window.location.href;
+          str1 = str1.replace('home', str2);
+          window.location.href = str1;
+          //console.log(window.location.href);
+          //window.location.replace(str2);
         });
     },
   },
@@ -202,10 +212,11 @@ const homemenu = Vue.component('homemenu', {
     this.me = JSON.parse(this.user);
     this.elos = JSON.parse(this.elodata);
     this.populatePlayers();
+    this.selectedUserId = -1;
   },
   template: `
   <main>
-    <div class="menu-items" v-if="!challenging" text-align: center>
+    <div class="menu-items" text-align: center>
       <div  class="banner">
         <img id="bn" src="svg/pieces/bn.svg" alt="black knight image">
         <h1>Hello, {{ getUser.username }}!</h1>
@@ -216,57 +227,39 @@ const homemenu = Vue.component('homemenu', {
       <a class="menuLink underline_animate" href="../profile?mhist=True">Current Matches</a>
       <a class="menuLink underline_animate" href="../freeboard">Free Board</a>
     </div>
-    <div class="backdrop" v-if="challenging">
-    <div class="block">
+    <div class="backdrop" v-if="challenging" @click.self="() => challenging = false">
       <div class="box" id="challenge-modal-box">
         <div class="block">
-          <span id ="x-span" @click="cancelChallenge()">x</span>
+          <span id ="x-span" @click="cancelChallenge()"><i class="fa fa-close"></i></span>
           <!--h2 class="title is-2 has-text-centered">Choose an Opponent</h2-->
-          <h2 class="modal-title">Choose an Opponent</h2>
+          <h1 class="modal-title">Choose an Opponent</h1>
         </div>
-        <div class="columns">
-          <div class="column is-half" id ="challenge-modal-column1">
+        <div class="halves">
+          <div id ="challenge-modal-column1">
             <div class="block" id="challenge-modal-container">
               <div class="wrap">
-                <table>
-                  <tbody>
-                    <tr v-for="(entry, i) in sortedList" :key="i">
-                      <td>
-                        <div @click='goToProfile(entry.id)' class="td user">
-                          <div class="imgwrap">
-                            <img class="pfp" :src="'img/pfp/' + entry.pfp">
-                          </div>
-                          <p>{{ entry.name }}</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="opponent" v-for="(entry, i) in sortedList" :class="{selected: selectedUserId == entry.id}" :key="entry.id">
+                  <div @click='goToProfile(entry.id)' v-if="canChallenge(entry.id)" class="td user">
+                    <div class="imgwrap">
+                      <img class="pfp" :src="'img/pfp/' + entry.pfp">
+                    </div>
+                    <p>{{ entry.name }}</p>
+                  </div>
+                </div>
               </div>
             </div>
 		  </div>
-          <div class="column is-half">
-            <div class="block" id="challenge-modal-container">
-              <div class="block">
-                <h4 class="subtitle is-4 has-text-weight-semibold">History vs {{selectedUserName}}</h4>
-              </div>
-              <div class="block">
-                <h5 class="subtitle is-5 has-text-centered">Wins: {{selectedUserWins}}</h5>
-                <h5 class="subtitle is-5 has-text-centered">Losses: {{selectedUserLosses}}</h5>
-                <h5 class="subtitle is-5 has-text-centered">Draws: {{selectedUserDraws}}</h5>
-                <h5 class="subtitle is-5 has-text-centered">Win-rate: {{selectedUserWinRate}} %</h5>
-              </div>
-              <div class="columns">
-                <div class="column">
-                  <button class="button is-medium" id = "challenge-modal-button" @click="challenge(selectedUserId)">Challenge</button>
-                </div>
-                <div class="column">
-                  <button class="button is-medium" id = "challenge-modal-button" @click="cancel_challenge()">Cancel</button>
-                </div>
-              </div>
+          <div v-if="selectedUserId != -1" class="right">
+            <h4 class="is-4 has-text-weight-semibold">History vs {{selectedUserName}}</h4>
+            <h5>Wins: {{selectedUserWins}}</h5>
+            <h5>Losses: {{selectedUserLosses}}</h5>
+            <h5>Draws: {{selectedUserDraws}}</h5>
+            <h5>Win-rate: {{selectedUserWinRate}} %</h5>
+            <div class="buttons">
+              <button class="button is-medium" id = "challenge-modal-button" @click="challenge(selectedUserId)">Challenge</button>
+              <button class="button is-medium" id = "challenge-modal-button" @click="cancel_challenge()">Cancel</button>
             </div>
           </div>
-        </div>
 	  </div>
     </div>
     </div>

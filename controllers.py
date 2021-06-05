@@ -185,6 +185,8 @@ def profile_(profile_id):
             .as_list()
         )
 
+        me = auth.get_user()
+
         elos = db(db.ratings.player_id == profile_id).select().as_list()
 
         row = db(db.profile_pictures.player_id == profile_id).select().first()
@@ -193,7 +195,12 @@ def profile_(profile_id):
         redirect(URL("index"))
 
     return dict(
-        user=json.dumps(user), games=json.dumps(games), isMe=False, pfp=pfp, elos=elos
+        user=json.dumps(user),
+        games=json.dumps(games),
+        isMe=False,
+        pfp=pfp,
+        elos=elos,
+        me=json.dumps(me),
     )
 
 
@@ -249,99 +256,74 @@ def populategames():
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
-            "game_over": True,
             "winner": 1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
-            "game_over": True,
             "winner": 2,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
-            "game_over": True,
             "winner": 1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
         {
             "player_white": 1,
             "player_black": 2,
             "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-            "game_over": False,
-            "winner": -1,
         },
     ]
 

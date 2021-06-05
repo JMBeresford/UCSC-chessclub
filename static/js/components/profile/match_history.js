@@ -133,20 +133,15 @@ const match_history = Vue.component('match_history', {
                     </td>
                     <td>
                         <div class="td">
-                            <p v-if="game.winner == -1">In Progress</p>
+                            <p v-if="!game.winner">In Progress</p>
                             <p v-else-if="game.winner == 0">Draw</p>
                             <p v-else-if="game.winner == game.opponent.id">Loss</p>
                             <p v-else>Won</p>
                         </div>
                     </td>
                     <td>
-                        <div v-if="game.winner == -1" class="td buttontd">
+                        <div v-if="!game.winner" class="td buttontd">
                             <button class="btn" @click='goToGame(game.id)'>
-                                Go
-                            </button>
-                        </div>
-                        <div v-else class="td buttontd">
-                            <button class="btn completed"">
                                 Go
                             </button>
                         </div>
