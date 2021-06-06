@@ -86,15 +86,22 @@ const leaderboards = Vue.component('leaderboards', {
             let drawsID = arrWinsLossDraws[2];
             let elo = 0;
 
-            for (let obj of Object.values(responseArr[1].data)) {
-              if (obj.rating > elo) {
-                elo = obj.rating;
-              }
-            }
+            let eloHistoryPlayerWhite= [];
+            Object.values(responseArr[1].data).forEach((key) => {
+                eloHistoryPlayerWhite.push({
+                  date: key.updated_on,
+                  elo:  key.rating,
+                });
+              });
+            
+
+           eloHistoryPlayerWhite.sort(function(a,b){
+                return new Date(b.date) - new Date(a.date);
+              });
             this.allScores.push({
               id: id,
               name: Object.values(responseArr[0].data)[0].username,
-              elo: elo,
+              elo: eloHistoryPlayerWhite[0].elo,
               pfp: responseArr[2].data,
               wins: winsID,
               losses: losessID,
