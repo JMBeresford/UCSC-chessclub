@@ -150,11 +150,12 @@
     display: flex;
     position: absolute;
     width: 100%;
-    height: clamp(400px, 60vh, 600px);
+    height: auto;
     justify-content: space-between;
+    height: 60vh;
     margin-top: 3rem;
     font-weight: bold;
-    align-items: stretch;
+    align-items: center;
 
     > div {
       width: 57%;

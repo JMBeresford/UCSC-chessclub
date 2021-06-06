@@ -5,7 +5,7 @@
   place-items: center;
 }
 #freeboard .wrap {
-  width: 60%;
+  width: clamp(400px, 60%, 800px);
 }
 
 #home {
