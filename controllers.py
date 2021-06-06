@@ -357,6 +357,24 @@ def newgame():
         return "There was an error"
 
 
+@action("post/gameover", method=["POST"])
+@action.uses(db, auth, auth.user)
+def gameover():
+    data = request.json
+    print(data)
+
+    game = db.games(data["game_id"])
+
+    game.winner = data["winner_id"]
+
+    db.ratings.insert(player_id=game["player_white"], rating=data["white_rating"])
+    db.ratings.insert(player_id=game["player_black"], rating=data["black_rating"])
+
+    game.update_record()
+
+    return dict()
+
+
 @action("initelo/<id:int>")
 @action.uses(db)
 def initelo(id):

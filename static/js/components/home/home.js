@@ -227,7 +227,7 @@ const homemenu = Vue.component('homemenu', {
       <a class="menuLink underline_animate" href="../profile?mhist=True">Current Matches</a>
       <a class="menuLink underline_animate" href="../freeboard">Free Board</a>
     </div>
-    <div class="backdrop" v-if="challenging" @click.self="() => challenging = false">
+    <div class="backdrop" v-show="challenging" transition="fade" @click.self="() => challenging = false">
       <div class="box" id="challenge-modal-box">
         <div class="block">
           <span id ="x-span" @click="cancelChallenge()"><i class="fa fa-close"></i></span>
@@ -256,8 +256,8 @@ const homemenu = Vue.component('homemenu', {
             <h5>Draws: {{selectedUserDraws}}</h5>
             <h5>Win-rate: {{selectedUserWinRate}} %</h5>
             <div class="buttons">
-              <button class="button is-medium" id = "challenge-modal-button" @click="challenge(selectedUserId)">Challenge</button>
-              <button class="button is-medium" id = "challenge-modal-button" @click="cancel_challenge()">Cancel</button>
+              <button class="button" @click="challenge(selectedUserId)">Challenge</button>
+              <button class="button" @click="cancel_challenge()">Cancel</button>
             </div>
           </div>
 	  </div>

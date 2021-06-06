@@ -6,32 +6,16 @@ const match_history = Vue.component('match_history', {
     };
   },
   computed: {
-    sortedList: function () {
-      let result = [];
-      let current_games = [];
-      let old_games = [];
-
-      // console.log("SORT");
-
-      this.all_games.forEach((game) => {
-        if (game.winner == -1) {
-          current_games.push(game);
+    sortedGames: function () {
+      return this.all_games.sort((a, b) => {
+        if (b.winner === null) {
+          return 1;
         } else {
-          old_games.push(game);
+          let d1 = new Date(b.date);
+          let d2 = new Date(a.date);
+          return d1 - d2;
         }
       });
-
-      old_games.sort((a, b) => (a.date > b.date ? 1 : -1));
-
-      current_games.forEach((game) => {
-        result.push(game);
-      });
-
-      old_games.forEach((game) => {
-        result.push(game);
-      });
-
-      return result;
     },
   },
   methods: {
@@ -47,7 +31,6 @@ const match_history = Vue.component('match_history', {
     },
     populateGames: function () {
       this.games.forEach((game) => {
-        // console.log(game);
         let opponent =
           game.player_black != this.user.id
             ? game.player_black
@@ -69,8 +52,6 @@ const match_history = Vue.component('match_history', {
             });
           });
       });
-
-      console.log('DONE');
     },
     goToProfile: function (id) {
       if (window) {
@@ -115,7 +96,7 @@ const match_history = Vue.component('match_history', {
                 </th>
             </thead>
             <tbody>
-                <tr v-for="game in sortedList.slice(0,10)">
+                <tr v-for="game in sortedGames">
                     <td>
                         <div @click='goToProfile(game.opponent.id)' class="td user">
                             <div class="imgwrap">

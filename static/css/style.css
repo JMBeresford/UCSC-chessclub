@@ -256,15 +256,23 @@ header.header {
   display: none;
 }
 #home .backdrop {
+  display: grid;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  display: grid;
   place-items: center;
   z-index: 50;
+  transition: all 0.4s ease-in-out;
+}
+#home .fade-transition {
+  transition: all 0.4s ease-in-out;
+}
+#home .fade-enter,
+#home .fade-leave {
+  opacity: 0;
 }
 #home .modal-title {
   margin: 0 4rem;
@@ -454,7 +462,7 @@ header.header {
   font-weight: 600;
 }
 
-#challenge-modal-container button {
+.buttons button {
   padding: 0.5rem 0.75rem;
   border: none;
   background-color: #37454f;
@@ -463,8 +471,9 @@ header.header {
   transition: background-color ease 0.2s;
 }
 
-#challenge-modal-container button:hover {
+.buttons button:hover {
   background-color: #4c5f6d;
+  color: #fff9f0;
 }
 
 #challenge-modal-container td:first-child {
@@ -718,16 +727,38 @@ header.header {
 
 #mostplayed {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   height: 100%;
+  justify-content: space-between;
   align-items: center;
+  color: #D6EDFF;
 }
-
-#mostplayed > div {
-  background-color: red;
+#mostplayed::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(214, 237, 255, 0.2);
+}
+#mostplayed .imgwrap {
+  background-color: #c3d3df;
+  border-radius: 50%;
+  margin: 0.5rem 0;
   width: 75px;
   height: 75px;
-  border-radius: 50%;
+  padding: 0.75rem;
+  border: 2px solid #333;
+}
+#mostplayed div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 300;
+}
+#mostplayed div .top {
+  font-weight: 500;
 }
 
 #profile {
@@ -876,6 +907,7 @@ header.header {
   height: auto;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 #profile .match-history {
   display: flex;

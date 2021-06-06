@@ -42,7 +42,7 @@ const profile = Vue.component('profile', {
         return false;
       }
 
-      for (let game of Object.values(this.games)) {
+      for (let game of this.getGames) {
         if (game.winner) {
           continue;
         }
@@ -66,20 +66,14 @@ const profile = Vue.component('profile', {
         player1 = this.getUser.id;
         player2 = this.me.id;
       }
-      console.log(player1);
-      console.log(player2);
       axios
         .post(`../post/newgame`, {
           player_white: player1,
           player_black: player2,
         })
         .then(function (response) {
-          console.log(response.data);
-          let str1 = 'game/';
-          let str2 = str1.concat(response.data.game_id);
-          str1 = window.location.href;
-          str1 = str1.replace('leaderboards', str2);
-          window.location.href = str1;
+          let str1 = `../game/${response.data.game_id}`;
+          window.location = str1;
           //console.log(window.location.href);
           //window.location.replace(str2);
         });

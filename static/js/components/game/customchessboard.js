@@ -14,7 +14,9 @@ const customchessboard = Vue.component('customchessboard', {
       ws: WebSocket,
     };
   },
-  beforeDestroyed: function (){ this.ws.close},
+  beforeDestroyed: function () {
+    this.ws.close;
+  },
   computed: {},
   methods: {
     isSpectator: function () {
@@ -75,85 +77,111 @@ const customchessboard = Vue.component('customchessboard', {
         });
     },
     handleMove: function (data) {
-      console.log(this.$refs.chess.game.in_checkmate());
       this.toMove = data.turn;
-      if (!this.free && data.fen != this.fen) {
+      if (!this.free && this.fen != data.fen) {
         this.fen = data.fen;
         this.pushFen();
-        if(this.$refs.chess.game.in_checkmate() )
-        {
+        if (this.$refs.chess.game.in_checkmate()) {
           let white_user = this.players.white.id;
           let black_user = this.players.black.id;
           let winner;
           axios
-          .all([
-            axios.get('../get/elo?id=' + white_user),
-            axios.get('../get/elo?id=' + black_user),
-
-          ])
-          .then((responseArr) => {
-            let eloHistoryPlayerWhite = [];
-            let eloHistoryPlayerBlack= [];
-            Object.values(responseArr[0].data).forEach((key) => {
-                eloHistoryPlayerWhite.push({
-                  date: key.updated_on,
-                  elo:  key.rating,
-                });
-              });
+            .all([
+              axios.get('../get/elo?id=' + white_user),
+              axios.get('../get/elo?id=' + black_user),
+            ])
+            .then((responseArr) => {
+              let eloHistoryPlayerWhite = [];
+              let eloHistoryPlayerBlack = [];
               Object.values(responseArr[0].data).forEach((key) => {
                 eloHistoryPlayerWhite.push({
                   date: key.updated_on,
-                  elo:  key.rating,
+                  elo: key.rating,
                 });
               });
-              eloHistoryPlayerWhite.sort(function(a,b){
+              Object.values(responseArr[1].data).forEach((key) => {
+                eloHistoryPlayerBlack.push({
+                  date: key.updated_on,
+                  elo: key.rating,
+                });
+              });
+              eloHistoryPlayerWhite.sort(function (a, b) {
                 return new Date(b.date) - new Date(a.date);
               });
-              eloHistoryPlayerBlack.sort(function(a,b){
+              eloHistoryPlayerBlack.sort(function (a, b) {
                 return new Date(b.date) - new Date(a.date);
               });
               let mostUptoDateEloWhite = eloHistoryPlayerWhite[0].elo;
               let mostUptoDateEloBlack = eloHistoryPlayerBlack[0].elo;
               let newEloforBlack = 0;
               let newEloforWhite = 0;
-              if(this.$refs.chess.board.state.turnColor == "white" )
-              {
+              if (this.$refs.chess.board.state.turnColor == 'white') {
                 winner = black_user;
-                var eloProbWhite = 1.0 * 1.0 / (1 + 1.0 * 
-                pow(10, 1.0 * (mostUptoDateEloWhite - mostUptoDateEloBlack) / 400));
-                var eloProbBlack = 1.0 * 1.0 / (1 + 1.0 * 
-                  pow(10, 1.0 * (mostUptoDateEloBlack- mostUptoDateEloWhite) / 400));
-               // var newEloforBlack;
+                var eloProbWhite =
+                  1.0 /
+                  (1 +
+                    1.0 *
+                      Math.pow(
+                        10,
+                        (1.0 * (mostUptoDateEloWhite - mostUptoDateEloBlack)) /
+                          400
+                      ));
+                var eloProbBlack =
+                  (1.0 * 1.0) /
+                  (1 +
+                    1.0 *
+                      Math.pow(
+                        10,
+                        (1.0 * (mostUptoDateEloBlack - mostUptoDateEloWhite)) /
+                          400
+                      ));
+                // var newEloforBlack;
                 newEloforBlack = mostUptoDateEloBlack + 30 * (1 - eloProbWhite);
-               // var newEloforWhite;
+                // var newEloforWhite;
                 newEloforWhite = mostUptoDateEloWhite + 30 * (0 - eloProbBlack);
-              }
-              else{
+              } else {
                 winner = white_user;
-                var eloProbWhite = 1.0 * 1.0 / (1 + 1.0 * 
-                  pow(10, 1.0 * (mostUptoDateEloWhite - mostUptoDateEloBlack) / 400));
-                  var eloProbBlack = 1.0 * 1.0 / (1 + 1.0 * 
-                    pow(10, 1.0 * (mostUptoDateEloBlack- mostUptoDateEloWhite) / 400));
+                var eloProbWhite =
+                  (1.0 * 1.0) /
+                  (1 +
+                    1.0 *
+                      Math.pow(
+                        10,
+                        (1.0 * (mostUptoDateEloWhite - mostUptoDateEloBlack)) /
+                          400
+                      ));
+                var eloProbBlack =
+                  (1.0 * 1.0) /
+                  (1 +
+                    1.0 *
+                      Math.pow(
+                        10,
+                        (1.0 * (mostUptoDateEloBlack - mostUptoDateEloWhite)) /
+                          400
+                      ));
 
-                 // var newEloforWhite;
-                  newEloforWhite = mostUptoDateEloWhite + 30 * (1 - eloProbBlack);
-                 // var newEloforBlack;
-                  newEloforBlack = mostUptoDateEloBlack + 30 * (0 - eloProbWhite);
-               }
+                // var newEloforWhite;
+                newEloforWhite = mostUptoDateEloWhite + 30 * (1 - eloProbBlack);
+                // var newEloforBlack;
+                newEloforBlack = mostUptoDateEloBlack + 30 * (0 - eloProbWhite);
+              }
 
-         axios.post('../post/gameover', {
-              game_id: this.game.id,
-              white_rating: newEloforWhite,
-              black_Rating:newEloforBlack,
-              winner_id: winner,
-           })
-          .then(function (response) {
-            console.log("Response Doesn't matter, maybe status code?");
-          });
-
-          });
+              axios
+                .post('../post/gameover', {
+                  game_id: this.game.id,
+                  white_rating: newEloforWhite,
+                  black_rating: newEloforBlack,
+                  winner_id: winner,
+                })
+                .then(function (response) {
+                  console.log("Response Doesn't matter, maybe status code?");
+                });
+            });
         }
-        if (this.$refs.chess.game.in_check()) {
+        if (
+          this.$refs.chess.game.in_check() &&
+          !this.$refs.chess.game.in_checkmate()
+        ) {
           let message = JSON.stringify({
             type: 'system',
             game_id: this.game.id,
@@ -163,17 +191,16 @@ const customchessboard = Vue.component('customchessboard', {
         } else {
           this.check = '';
         }
-      
       }
       this.$refs.chess.board.state.viewOnly = !this.canMove();
     },
     wsOpened: function (e) {
       console.log('game websocket connection established');
-    //  return false;
+      //  return false;
     },
     wsClosed: function (e) {
       console.log('game websocket connection closed');
-     // return false;
+      // return false;
     },
   },
   created: function () {
@@ -193,7 +220,9 @@ const customchessboard = Vue.component('customchessboard', {
       this.ws.onopen = this.wsOpened;
       this.ws.onclose = this.wsClosed;
       this.ws.onmessage = this.pullFen;
-      this.ws.onerror = (err) => {console.log(err)};
+      this.ws.onerror = (err) => {
+        console.log(err);
+      };
     }
 
     this.playerColor = 'white';

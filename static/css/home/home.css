@@ -68,15 +68,23 @@
   display: none;
 }
 #home .backdrop {
+  display: grid;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  display: grid;
   place-items: center;
   z-index: 50;
+  transition: all 0.4s ease-in-out;
+}
+#home .fade-transition {
+  transition: all 0.4s ease-in-out;
+}
+#home .fade-enter,
+#home .fade-leave {
+  opacity: 0;
 }
 #home .modal-title {
   margin: 0 4rem;
@@ -266,7 +274,7 @@
   font-weight: 600;
 }
 
-#challenge-modal-container button {
+.buttons button {
   padding: 0.5rem 0.75rem;
   border: none;
   background-color: #37454f;
@@ -275,8 +283,9 @@
   transition: background-color ease 0.2s;
 }
 
-#challenge-modal-container button:hover {
+.buttons button:hover {
   background-color: #4c5f6d;
+  color: #fff9f0;
 }
 
 #challenge-modal-container td:first-child {
