@@ -21,14 +21,15 @@ const leaderboards = Vue.component('leaderboards', {
   },
   methods: {
     canChallenge: function (id) {
-      if (this.user.id == id) {
+      if (this.user.id === id) {
         return false;
       }
 
       for (let game of Object.values(this.games)) {
-        if (game.winner) {
+        if (game.winner !== null) {
           continue;
         }
+
         if (game.player_white == id || game.player_black == id) {
           return false;
         }
@@ -86,18 +87,17 @@ const leaderboards = Vue.component('leaderboards', {
             let drawsID = arrWinsLossDraws[2];
             let elo = 0;
 
-            let eloHistoryPlayerWhite= [];
+            let eloHistoryPlayerWhite = [];
             Object.values(responseArr[1].data).forEach((key) => {
-                eloHistoryPlayerWhite.push({
-                  date: key.updated_on,
-                  elo:  key.rating,
-                });
+              eloHistoryPlayerWhite.push({
+                date: key.updated_on,
+                elo: key.rating,
               });
-            
+            });
 
-           eloHistoryPlayerWhite.sort(function(a,b){
-                return new Date(b.date) - new Date(a.date);
-              });
+            eloHistoryPlayerWhite.sort(function (a, b) {
+              return new Date(b.date) - new Date(a.date);
+            });
             this.allScores.push({
               id: id,
               name: Object.values(responseArr[0].data)[0].username,
