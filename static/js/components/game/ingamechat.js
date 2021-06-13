@@ -55,7 +55,7 @@ const ingamechat = Vue.component('ingamechat', {
       let message = JSON.parse(e.data);
 
       if (message.game_id != this.game.id) {
-        return false;
+        return;
       }
 
       if (message.type == 'chat') {
@@ -66,11 +66,22 @@ const ingamechat = Vue.component('ingamechat', {
     },
     wsOpened: function (e) {
       console.log('chat websocket connection established');
-      return false;
     },
     wsClosed: function (e) {
-      console.log('chat websocket connection closed');
-      return false;
+      console.log('game websocket connection closed, attempting to re-connect.');
+      
+      this.ws = new WebSocket(
+        (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
+          window.location.host +
+          `/websocket/${this.game.id}`
+      );
+
+      this.ws.onopen = this.wsOpened;
+      this.ws.onclose = this.wsClosed;
+      this.ws.onmessage = this.pullFen;
+      this.ws.onerror = (err) => {
+        console.log(err);
+      };
     },
   },
   mounted: function () {},
@@ -82,7 +93,7 @@ const ingamechat = Vue.component('ingamechat', {
     this.ws = new WebSocket(
       (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
         window.location.host +
-        `/chessclub/websocket/${this.game.id}`
+        `/websocket/${this.game.id}`
     );
 
     this.ws.onopen = this.wsOpened;

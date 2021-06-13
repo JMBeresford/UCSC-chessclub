@@ -52,7 +52,7 @@ const customchessboard = Vue.component('customchessboard', {
     pullFen: function (e) {
       let message = JSON.parse(e.data);
       if (message.type != 'move' || message.id != this.game.id) {
-        return false;
+        return;
       }
 
       axios
@@ -196,11 +196,22 @@ const customchessboard = Vue.component('customchessboard', {
     },
     wsOpened: function (e) {
       console.log('game websocket connection established');
-      //  return false;
     },
     wsClosed: function (e) {
-      console.log('game websocket connection closed');
-      // return false;
+      console.log('game websocket connection closed, attempting to re-connect.');
+      
+      this.ws = new WebSocket(
+        (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
+          window.location.host +
+          `/websocket/${this.game.id}`
+      );
+
+      this.ws.onopen = this.wsOpened;
+      this.ws.onclose = this.wsClosed;
+      this.ws.onmessage = this.pullFen;
+      this.ws.onerror = (err) => {
+        console.log(err);
+      };
     },
   },
   created: function () {
@@ -214,7 +225,7 @@ const customchessboard = Vue.component('customchessboard', {
       this.ws = new WebSocket(
         (window.location.protocol === 'https:' ? 'wss://' : 'ws://') +
           window.location.host +
-          `/chessclub/websocket/${this.game.id}`
+          `/websocket/${this.game.id}`
       );
 
       this.ws.onopen = this.wsOpened;

@@ -70,11 +70,6 @@ LOGGERS = [
     "warning:stdout"
 ]  # syntax "severity:filename" filename can be stderr or stdout
 
-try:
-    if OAUTH2GOOGLE_CLIENT_ID:
-        pass
-except:
-    OAUTH2GOOGLE_CLIENT_ID = None
 
 # single sign on Okta (will be used if provided. Please also add your tenant
 # name to py4web/utils/auth_plugins/oauth2okta.py. You can replace the XXX

@@ -58,7 +58,7 @@ Vue.component('signin', {
       <div class="field">
         <div class="control btns">
           <button @click.prevent="submit" class="button primary">Sign In</button>
-          <a class="button is-outlined" :href="oauth2google">
+          <a v-if='false' class="button is-outlined" disabled :href="oauth2google">
             <img style="width: 20px; margin-right: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png">
             Sign In With Google
           </a>

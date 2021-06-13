@@ -41,6 +41,7 @@ db.define_table(
             "winner",
             "integer",
             "reference auth_user",
+            default=None
         ),
         Field("date", default=get_time),
     ],

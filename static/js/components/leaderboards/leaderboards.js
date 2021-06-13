@@ -26,11 +26,7 @@ const leaderboards = Vue.component('leaderboards', {
       }
 
       for (let game of Object.values(this.games)) {
-        if (game.winner !== null) {
-          continue;
-        }
-
-        if (game.player_white == id || game.player_black == id) {
+        if (game.winner !== null && (game.player_white === id || game.player_black === id)) {
           return false;
         }
       }
@@ -44,16 +40,15 @@ const leaderboards = Vue.component('leaderboards', {
       Object.keys(this.games).forEach((key) => {
         //only count wins, losses, draws if the player was involved in the game.
         if (
+          this.games[key].winner !== null && (
           this.games[key].player_white == id ||
-          this.games[key].player_black == id
+          this.games[key].player_black == id)
         ) {
           this.games[key].winner === id
             ? wins++
             : this.games[key].winner === 0
             ? draws++
             : losses++;
-        } else {
-          console.log('Not counting');
         }
       });
       return [wins, losses, draws];
@@ -110,11 +105,7 @@ const leaderboards = Vue.component('leaderboards', {
             });
           })
           .catch((err) => {
-            if (err.response.status === 500) {
-              axios.get(`../setrandompfp/${id}`).then(() => {
-                i--;
-              });
-            }
+            console.log(err);
           });
       }
     },
@@ -142,8 +133,7 @@ const leaderboards = Vue.component('leaderboards', {
         player1 = this.user.id;
         player2 = id;
       }
-      console.log(player1);
-      console.log(player2);
+      
       axios
         .post(`../post/newgame`, {
           player_white: player1,
@@ -178,20 +168,17 @@ const leaderboards = Vue.component('leaderboards', {
       <div class="wrap">
         <table>
           <thead>
-            <th></th>
-            <th>Rank</th>
+            <th style="padding-left: 2rem;">Rank</th>
             <th colspan="2">User</th>
             <th>Elo</th>
             <th>Wins</th>
             <th>Losses</th>
             <th>Draws</th>
             <th>Win Rate</th>
-            <th></th>
           </thead>
           <tbody>
             <tr v-for="(entry, i) in sortedList" :key="entry.id">
-              <td></td
-              <td>
+              <td style="padding-left: 2rem;">
                 <div class="td rank">
                   <p>{{ ++i }}</p>
                 </div>
@@ -228,13 +215,6 @@ const leaderboards = Vue.component('leaderboards', {
               <td>
                 <div class="td">
                 <p>{{ entry.winrate }}%</p>
-                </div>
-              </td>
-              <td>
-                <div class="td buttontd">
-                  <button v-if="canChallenge(entry.id)" class="btn" @click.prevent="challenge(entry.id)">
-                    Challenge
-                  </button>
                 </div>
               </td>
             </tr>
