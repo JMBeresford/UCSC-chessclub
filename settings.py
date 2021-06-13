@@ -20,8 +20,8 @@ APP_NAME = os.path.split(APP_FOLDER)[-1]
 # DB_FOLDER:    Sets the place where migration files will be created
 #               and is the store location for SQLite databases
 if not os.environ.get("GAE_INSTANCE"):
-    DB_FOLDER = required_folder(APP_FOLDER, "databases")
-    DB_URI = "sqlite://storage.db"
+    DB_FOLDER = os.path.join(APP_FOLDER, 'databases')
+    DB_URI = f"postgres://{DB_USER}:{DB_PASSWORD}@{DB_CONNECTION}"
     DB_POOL_SIZE = 1
     DB_MIGRATE = True
     DB_FAKE_MIGRATE = False  # maybe?
@@ -69,6 +69,12 @@ REDIS_SERVER = "localhost:6379"
 LOGGERS = [
     "warning:stdout"
 ]  # syntax "severity:filename" filename can be stderr or stdout
+
+try:
+    if OAUTH2GOOGLE_CLIENT_ID:
+        pass
+except:
+    OAUTH2GOOGLE_CLIENT_ID = None
 
 # single sign on Okta (will be used if provided. Please also add your tenant
 # name to py4web/utils/auth_plugins/oauth2okta.py. You can replace the XXX
