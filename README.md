@@ -1,5 +1,5 @@
 # Chess Club
-### A digital chess application for users to play against the friends in a controlled, local environment.
+### A digital chess application for users to play against colleagues in a controlled, local environment.
 
 [Project Design Document](https://docs.google.com/document/d/1ZTdou8GcfjnSwbaHYGpdr7wLTNhY2PdwEAnkHvlRxDw/edit?usp=sharing)
 
