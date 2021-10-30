@@ -10,6 +10,6 @@ A standard chess **Elo rating system** will be used to rate players relative to 
 The current design prototype will always be available [here](https://xd.adobe.com/view/c69d7aa0-3008-43f1-ae82-ca3a8763aeab-93ce/).
 Note that this is very WIP, and much of the design is incomplete and/or tentative.
 
-Throughout the development process, builds will be updated and can be previewed [here](https://volcaus.pythonanywhere.com/chessapp)
+Throughout the development process, builds will be updated and can be previewed (not fully-functional) [here](https://volcaus.pythonanywhere.com/chessapp)
 
 That repo can be imported to [py4web](https://github.com/web2py/py4web) and used as an app as is.
